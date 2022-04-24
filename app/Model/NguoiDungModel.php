@@ -78,7 +78,7 @@ class NguoiDungModel
     public static function update($user_name, $role, $lastname, $firstname, $cmnd, $birthday, $sex, $address, $email, $phone_number)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
-        $query = $database->prepare("UPDATE nguoi_dung SET user_name='".$user_name."', ma_vai_tro=".$role.", ho_lot='".$lastname."', ten='".$firstname."', cmnd='".$cmnd."' , ngay_sinh='".$birthday."', phai='".$sex."', dia_chi='".$address."', email='".$email."', so_dien_thoai= '".$phone_number."' WHERE user_name='".$user_name."'");
+        $query = $database->prepare("UPDATE nguoi_dung SET user_name='" . $user_name . "', ma_vai_tro=" . $role . ", ho_lot='" . $lastname . "', ten='" . $firstname . "', cmnd='" . $cmnd . "' , ngay_sinh='" . $birthday . "', phai='" . $sex . "', dia_chi='" . $address . "', email='" . $email . "', so_dien_thoai= '" . $phone_number . "' WHERE user_name='" . $user_name . "'");
         return $query->execute();
     }
     public static function delete($ma_nguoi_dung)
@@ -108,6 +108,9 @@ class NguoiDungModel
             'data' => $result
         ];
         return $response;
+    }
+    public static function getListA()
+    {
     }
     public static function getAll()
     {
