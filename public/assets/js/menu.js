@@ -12,6 +12,7 @@ $(document).ready(function() {
         }
     );
     $.post(
+
         `http://localhost/emss/auth/checkLogin`,
         function(response) {
             console.log(response);
