@@ -17,7 +17,7 @@ class AuthController extends Controller
         parent::__construct();
     }
 
-    public function login()
+    public function login() 
     {
         Auth::checkNotAuthentication();
         return $this->View->render('auth/login');

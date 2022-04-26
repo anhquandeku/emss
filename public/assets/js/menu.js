@@ -1,7 +1,7 @@
-$("document").ready(function () {
+$(document).ready(function() {
     $.post(
-        `http://localhost/ooad-emss/emss/quyen/getChiTietQuyen`,
-        function (response) {
+        `http://localhost/emss/quyen/getChiTietQuyen`,
+        function(response) {
             if (response.thanhcong) {
                 let quyens = response.data;
                 quyens.forEach((data) => {
@@ -12,8 +12,8 @@ $("document").ready(function () {
         }
     );
     $.post(
-        `http://localhost/ooad-emss/emss/auth/checkLogin`,
-        function (response) {
+        `http://localhost/emss/auth/checkLogin`,
+        function(response) {
             console.log(response);
             if (response.thanhcong) {
                 let id = "#dangnhap";

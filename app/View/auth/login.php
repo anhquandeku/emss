@@ -96,7 +96,7 @@ use App\Core\Redirect;
             function checkLogin() {
                 $("form[name='login-form']").submit(function(e) {
                     e.preventDefault();
-                    var ajax = $.post('http://localhost/ooad-emss/emss/auth/loginPost', {
+                    var ajax = $.post('http://localhost/emss/auth/loginPost', {
                         user_name: $('#user_name').val(),
                         password: $('#password').val()
                     })
@@ -111,7 +111,7 @@ use App\Core\Redirect;
                             backgroundColor: "#FF6A6A",
                         }).showToast();
                         } else {
-                            window.location.href="http://localhost/ooad-emss/emss/";  
+                            window.location.href="http://localhost/emss/";  
                         }
                     });
                     ajax.fail(function(data) {

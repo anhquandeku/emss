@@ -270,7 +270,7 @@ View::$activeItem = 'quyen';
         $(function() {
 
             //kietm tra quyen
-            $.post(`http://localhost/ooad-emss/emss/quyen/getChucNang`, function(response) {
+            $.post(`http://localhost/emss/quyen/getChucNang`, function(response) {
                 chucnangs = response.data;
                 chucnangs.forEach(data => {
                     let viewopt = '<li class="d-inline-block me-0 mb-1 w-50">\

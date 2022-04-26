@@ -173,7 +173,7 @@ View::$activeItem = 'dashboard';
             })
 
             function getAddressAjax() {
-                $.get(`http://localhost/ooad-emss/emss/diadiem/getAddressHome?rowsPerPage=10&page=${currentPage}&search=${search}&search2=${search2}`,
+                $.get(`http://localhost/emss/diadiem/getAddressHome?rowsPerPage=10&page=${currentPage}&search=${search}&search2=${search2}`,
                     function(response) {
                         const table1 = $('#table1 > tbody');
                         table1.empty();
