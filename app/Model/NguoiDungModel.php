@@ -109,8 +109,33 @@ class NguoiDungModel
         ];
         return $response;
     }
-    public static function getListA()
+    public static function getListAdvanted($current_page, $row_per_page, $keyword)
     {
+        $limit = $row_per_page;
+        $offset = ($current_page - 1) * $row_per_page;
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $condition = "(ho_lot LIKE '%".$keyword."%' OR ten LIKE '%".$keyword."%' OR cmnd LIKE '%".$keyword."%' OR so_dien_thoai LIKE '%".$keyword."%' OR ma_vai_tro IN (SELECT ma_vai_tro FROM vai_tro WHERE ten_vai_tro LIKE '%".$keyword."%'))";
+        if($keyword===""){
+            $sql = "SELECT * FROM nguoi_dung WHERE trang_thai = 1 ORDER BY ten LIMIT " . $offset . ", " . $limit;
+            $sql_ = "SELECT COUNT(*) AS SL FROM nguoi_dung WHERE trang_thai =1";
+        }else{
+            $sql = "SELECT * FROM nguoi_dung WHERE trang_thai = 1 AND ".$condition." ORDER BY ten LIMIT " . $offset . ", " . $limit;
+            $sql_ = "SELECT COUNT(*) AS SL FROM nguoi_dung WHERE trang_thai =1 AND ".$condition;
+        }
+        $query = $database->prepare($sql);
+        $query->execute();
+        $result = new stdClass;
+        if ($data = $query->fetchAll(PDO::FETCH_ASSOC)) {
+            $result = $data;
+        }
+        $query = $database->prepare($sql_);
+        $query->execute();
+        $totalRow = $query->fetch(PDO::FETCH_COLUMN);
+        $response = [
+            'totalPage' => ceil(intval($totalRow) / $row_per_page),
+            'data' => $result
+        ];
+        return $response;
     }
     public static function getAll()
     {

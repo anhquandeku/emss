@@ -56,7 +56,7 @@ View::$activeItem = 'user';
                         <h6>Tìm Kiếm</h6>
                         <div id="search-user-form" name="search-user-form">
                             <div class="form-group position-relative has-icon-right">
-                                <input id="serch-user-text" type="text" class="form-control" placeholder="Tìm kiếm"
+                                <input id="search-user-text" type="text" class="form-control" placeholder="Tìm kiếm"
                                     value="">
                                 <div class="form-control-icon">
                                     <i class="bi bi-search"></i>
@@ -532,11 +532,15 @@ View::$activeItem = 'user';
     <script src="<?= View::assets('js/address.js') ?>"></script>
     <script>
     $(document).ready(function() {
-        getList(1);
+        getList(1,"");
         $('#open-add-user-btn').click(function() {
             $('#add-user-modal').modal('show');
         })
-
+        $('#search-user-text').keyup(function(){
+            text = $('#search-user-text').val();
+            $('#content').html("")
+            getList(1,text);
+        })
         /**Xóa tài khoản
          * 
          */
@@ -753,20 +757,21 @@ View::$activeItem = 'user';
     })
     /** Các hàm */
     /** Lấy danh sách người dùng */
-    function getList(current_page) {
+    function getList(current_page,text) {
         $('#content').empty();
         var role = $.ajax({
-            url: 'http://localhost/ooad-emss/emss/phanquyen/getListRole',
+            url: 'http://localhost/emss/phanquyen/getListRole',
             type: 'POST'
         });
 
         var list = $.ajax({
-            url: 'http://localhost/ooad-emss/emss/nguoidung/getList?current_page=' + current_page +
-                '&row_per_page=5',
+            url: 'http://localhost/emss/nguoidung/getList?current_page=' + current_page +
+                '&row_per_page=5&key_word='+text,
             type: 'get',
         });
         $.when(role, list).done(function(data_rel, data) {
             var row = 1;
+            $('#content').html("");
             data[0]['data'].forEach(function(element, index) {
                 var code = '<tr class="table-info">\
                                         <td class="d-none check"><input type="checkbox" value="' + element[
@@ -809,7 +814,7 @@ View::$activeItem = 'user';
                     '">' + i + '</button>\</li>');
             $('.page-link').click(function() {
                 let current_page_ = ($(this).attr('id'));
-                getList($(this).attr('id'));
+                getList($(this).attr('id'),"");
             });
             $('.btn-del').click(function() {
                 $('.check').removeClass('d-none');
