@@ -108,7 +108,7 @@ View::$activeItem = 'patient';
 
             <!-- MODAL ADD -->
             <div class="modal fade text-left" id="add-benhnhan-modal" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">Thêm bệnh nhân</h4>
@@ -117,24 +117,105 @@ View::$activeItem = 'patient';
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form name="add-benhnhan-form" action="/" method="POST">
-                                <div class="modal-body">
-                                    <label for="holot">Họ lót:</label>
-                                    <div class="form-group">
-                                        <input type="text" id="holot" name="holot" placeholder="Họ lót"
-                                            class="form-control">
+                            <form name="add-form" method="post">
+                                <div class="row">
+                                    <div class="form-group row col-6">
+                                        <label for="lastname" class="col-sm-4 col-form-label">Họ lót:</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="lastname" name="lastname"
+                                                placeholder="Họ lót">
+                                        </div>
                                     </div>
-                                    <label for="ten">Tên:</label>
-                                    <div class="form-group">
-                                        <input type="text" id="ten" name="ten" placeholder="Tên" class="form-control">
+                                    <div class="form-group row col-6">
+                                        <label for="firstname" class="col-sm-4 col-form-label">Tên:</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="firstname" name="firstname"
+                                                placeholder="Tên">
+                                        </div>
                                     </div>
-                                    <label for="phai">Phái:</label><br>
-                                    <fieldset class="form-group">
-                                        <select class="form-select" name="phai" id="phai" style="margin-right: 15px;">
-                                            <option>Nam</option>
-                                            <option>Nữ</option>
-                                        </select>
-                                    </fieldset>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group row col-6">
+                                        <label for="cmnd" class="col-sm-4 col-form-label">CMND:</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="cmnd" name="cmnd"
+                                                placeholder="CMND">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row col-6">
+                                        <label for="firstname" class="col-sm-4 col-form-label">Ngày sinh:</label>
+                                        <div class="col-sm-8">
+                                            <input type="date" class="form-control" id="birthday" name="birthday"
+                                                placeholder="Tên">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row col-6">
+                                        <label for="sex" class="col-sm-4 col-form-label">Giới tính:</label>
+                                        <div class="col-sm-8 row">
+                                            <div class="col-6">
+                                                <input type="radio" name="sex" id="male" value="Nam" checked=checked>
+                                                <label class="form-check-label col-form-label" for="male"> Nam
+                                                </label>
+                                            </div>
+                                            <div class="col-6">
+                                                <input class="" type="radio" name="sex" valune="Nữ" id="female">
+                                                <label class="form-check-label col-form-label" for="female"> Nữ
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row col-6">
+                                        <label for="phone_number" class="col-sm-4 col-form-label">SĐT:</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="phone_number"
+                                                name="phone_number" placeholder="Số điện thoại">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" from-group row" style="padding-right: 1.5em; padding-left:0em" ;>
+                                    <label for="address" class="col-2 col-form-label ">Địa chỉ:</label>
+                                    <div class="col-10 row form-group">
+                                        <div class="col-4">
+                                            <select class="form-control" name="province" id="tinh">
+                                                <option value='-1'>Chọn TP/Tỉnh</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-4">
+                                            <select class="form-control" name="district" id="huyen">
+                                                <option value='-1'>Chọn Quận/Huyện</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-4">
+                                            <select class="form-control" name="ward" id="xa">
+                                                <option value='-1'>Chọn Phường/Xã</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row form-group" ;>
+                                    <label for="" class="col-2 col-form-label"> </label>
+                                    <div class="col-10 row">
+                                        <div class="col-6 row">
+                                            <input type="text" class="form-control" id="village" name="village"
+                                                placeholder="Thôn/Ấp">
+                                        </div>
+                                        <div class="col-6">
+                                            <input type="text" class="form-control" id="home" name="home"
+                                                placeholder="Số nhà">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+
+                                </div>
+                                <div class="row">
+                                    <div class="form-group row col-6">
+                                        <label for="email" class="col-4 col-form-label"> Email:</label>
+                                        <div class="col-8">
+                                            <input type="text" class="form-control" id="email" name="email"
+                                                placeholder="Email">
+                                        </div>
+                                    </div>
                                 </div>
                         </div>
                         <div class="modal-footer">
@@ -211,10 +292,42 @@ View::$activeItem = 'patient';
     <script src="<?= View::assets('js/changepass.js') ?>"></script>
     <script src="<?= View::assets('js/menu.js') ?>"></script>
     <script src="<?= View::assets('js/api.js') ?>"></script>
+    <script src="<?= View::assets('js/address.js') ?>"></script>
     <script>
     let currentPage = 1;
     $(function() {
         getBenhNhanAjax();
+
+        var role_ = $.ajax({
+            url: 'http://localhost/emss/phanquyen/getListRole',
+            type: 'POST'
+        });
+
+        var address = $.xResponse();
+        address.forEach(function(element, index) {
+            $('#tinh').append('<option class="tinh" value="' + index + '">' + element['name'] +
+                '</option>');
+        })
+        $('#tinh').change(function() {
+            $('#huyen').empty();
+            $('#huyen').append('<option value="-1"> Chọn Quận/Huyện</option>')
+            $('#xa').empty();
+            $('#xa').append('<option value="-1"> Chọn Phường/Xã </option>')
+            var districs = address[$('#tinh').val()]['districts'];
+            districs.forEach(function(element, index) {
+                $('#huyen').append('<option class="huyen" value="' + index + '">' + element[
+                    'name'] + '</option>')
+            })
+            $('#huyen').change(function() {
+                $('#xa').empty();
+                $('#xa').append('<option value="-1"> Chọn Phường/Xã </option>')
+                var wards = districs[$('#huyen').val()]['wards'];
+                wards.forEach(function(element, index) {
+                    $('#xa').append('<option  class="xa" value="' + index + '">' +
+                        element['name'] + '</option>')
+                })
+            })
+        });
 
     });
 

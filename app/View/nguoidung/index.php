@@ -532,14 +532,14 @@ View::$activeItem = 'user';
     <script src="<?= View::assets('js/address.js') ?>"></script>
     <script>
     $(document).ready(function() {
-        getList(1,"");
+        getList(1, "");
         $('#open-add-user-btn').click(function() {
             $('#add-user-modal').modal('show');
         })
-        $('#search-user-text').keyup(function(){
+        $('#search-user-text').keyup(function() {
             text = $('#search-user-text').val();
             $('#content').html("")
-            getList(1,text);
+            getList(1, text);
         })
         /**Xóa tài khoản
          * 
@@ -588,7 +588,7 @@ View::$activeItem = 'user';
         });
         //Biến ajax quyền
         var role_ = $.ajax({
-            url: 'http://localhost/ooad-emss/emss/phanquyen/getListRole',
+            url: 'http://localhost/emss/phanquyen/getListRole',
             type: 'POST'
         });
         //Xem chi tiết
@@ -757,7 +757,7 @@ View::$activeItem = 'user';
     })
     /** Các hàm */
     /** Lấy danh sách người dùng */
-    function getList(current_page,text) {
+    function getList(current_page, text) {
         $('#content').empty();
         var role = $.ajax({
             url: 'http://localhost/emss/phanquyen/getListRole',
@@ -766,7 +766,7 @@ View::$activeItem = 'user';
 
         var list = $.ajax({
             url: 'http://localhost/emss/nguoidung/getList?current_page=' + current_page +
-                '&row_per_page=5&key_word='+text,
+                '&row_per_page=5&key_word=' + text,
             type: 'get',
         });
         $.when(role, list).done(function(data_rel, data) {
@@ -814,7 +814,7 @@ View::$activeItem = 'user';
                     '">' + i + '</button>\</li>');
             $('.page-link').click(function() {
                 let current_page_ = ($(this).attr('id'));
-                getList($(this).attr('id'),"");
+                getList($(this).attr('id'), "");
             });
             $('.btn-del').click(function() {
                 $('.check').removeClass('d-none');
