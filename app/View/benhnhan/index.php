@@ -105,10 +105,83 @@ View::$activeItem = 'patient';
                     </section>
                 </div>
             </div>
+
+            <!-- MODAL ADD -->
+            <div class="modal fade text-left" id="add-benhnhan-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Thêm bệnh nhân</h4>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <i data-feather="x"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form name="add-benhnhan-form" action="/" method="POST">
+                                <div class="modal-body">
+                                    <label for="holot">Họ lót:</label>
+                                    <div class="form-group">
+                                        <input type="text" id="holot" name="holot" placeholder="Họ lót"
+                                            class="form-control">
+                                    </div>
+                                    <label for="ten">Tên:</label>
+                                    <div class="form-group">
+                                        <input type="text" id="ten" name="ten" placeholder="Tên" class="form-control">
+                                    </div>
+                                    <label for="phai">Phái:</label><br>
+                                    <fieldset class="form-group">
+                                        <select class="form-select" name="phai" id="phai" style="margin-right: 15px;">
+                                            <option>Nam</option>
+                                            <option>Nữ</option>
+                                        </select>
+                                    </fieldset>
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Đóng</span>
+                            </button>
+                            <button type="submit" class="btn btn-primary ml-1">
+                                <i class="bx bx-check d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Thêm</span>
+                            </button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Thong bao -->
+            <div class="modal fade text-left" id="question-plane-modal" tabindex="-1" role="dialog"
+                aria-labelledby="myModalLabel110" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-success">
+                            <h5 class="modal-title white" id="myModalLabel110">
+                            </h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <i data-feather="x"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="question-model">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Đóng</span>
+                            </button>
+                            <button type="button" class="btn btn-success ml-1" data-bs-dismiss="modal">
+                                <i class="bx bx-check d-block d-sm-none"></i>
+                                <span id="thuchien" class="d-none d-sm-block">Thực hiện</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- FOOTER -->
             <?php View::partial('footer')  ?>
         </div>
-    </div>
     </div>
     <script src="<?= View::assets('vendors/toastify/toastify.js') ?>"></script>
     <script src="<?= View::assets('vendors/perfect-scrollbar/perfect-scrollbar.min.js') ?>"></script>
@@ -132,7 +205,7 @@ View::$activeItem = 'patient';
     }
 
     function getBenhNhanAjax() {
-        $.get(`http://localhost/ooad-emss/emss/nguoidung/getList?row_per_page=10&current_page=${currentPage}`,
+        $.get(`http://localhost/emss/nguoidung/getList?row_per_page=10&current_page=${currentPage}`,
             function(response) {
                 const table1 = $('#table1 > tbody');
                 table1.empty();
@@ -215,6 +288,10 @@ View::$activeItem = 'patient';
 
             });
     }
+
+    $("#open-add-benhnhan-btn").click(function() {
+        $("#add-benhnhan-modal").modal('toggle')
+    });
     </script>
 </body>
 

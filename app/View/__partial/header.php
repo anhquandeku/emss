@@ -10,7 +10,9 @@ use App\Core\View;
             <a href="#" class="burger-btn d-block">
                 <i class="bi bi-justify fs-3"></i>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -25,7 +27,7 @@ use App\Core\View;
                             </div>
                             <div class="user-img d-flex align-items-center">
                                 <div class="avatar avatar-md">
-                                    <img src="<?= View::assets('images/faces/avatar-01.jpg') ?>" />
+                                    <img src="<?= View::assets('images/faces/anhquan.jpg') ?>" />
                                 </div>
                             </div>
                         </div>
@@ -35,13 +37,15 @@ use App\Core\View;
                             <h6 class="dropdown-header"><?= Cookie::get('user_email') ?></h6>
                         </li>
                         <li>
-                            <button class="btn-changepass"><a id='open-change-pass-btn' class="dropdown-item"><i class="icon-mid bi bi-key me-2"></i> Đổi mật khẩu</a></button>
+                            <button class="btn-changepass"><a id='open-change-pass-btn' class="dropdown-item"><i
+                                        class="icon-mid bi bi-key me-2"></i> Đổi mật khẩu</a></button>
                         </li>
                         <li>
                             <hr class="dropdown-divider" />
                         </li>
                         <li id="logout">
-                            <a class="dropdown-item" href="<?= View::getAction('AuthController', 'logout')  ?>"><i class="icon-mid bi bi-box-arrow-left me-2"></i>
+                            <a class="dropdown-item" href="<?= View::getAction('AuthController', 'logout')  ?>"><i
+                                    class="icon-mid bi bi-box-arrow-left me-2"></i>
                                 Đăng Xuất</a>
                         </li>
                     </ul>
