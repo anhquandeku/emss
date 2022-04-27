@@ -84,7 +84,7 @@ View::$activeItem = 'patient';
                                     <table class="table mb-0 table-danger" id="table1">
                                         <thead>
                                             <tr>
-                                                <th>Chọn</th>
+                                                <th class="d-none check">Chọn</th>
                                                 <th>Họ Lót</th>
                                                 <th>Tên</th>
                                                 <th>Phái</th>
@@ -152,6 +152,25 @@ View::$activeItem = 'patient';
                 </div>
             </div>
 
+            <!-- The Modal Delete -->
+            <div class="modal" id="modal-confirm-delete">
+                <div class="modal-dialog modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger">
+                            <h4 class="modal-title text-light">Xác nhận</h4>
+                        </div>
+                        <div class="modal-body" id="modal-content-delete">
+                            Xác nhận xóa bệnh nhân?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" id="btn-delete-benhnhan-confirm"
+                                data-bs-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Modal Thong bao -->
             <div class="modal fade text-left" id="question-plane-modal" tabindex="-1" role="dialog"
                 aria-labelledby="myModalLabel110" aria-hidden="true">
@@ -204,21 +223,31 @@ View::$activeItem = 'patient';
         getBenhNhanAjax();
     }
 
+    $('#cars-search').change(function() {
+        currentPage = 1;
+        getBenhNhanAjax();
+    });
+
+    $("#search-benhnhan-form").keyup(debounce(function() {
+        currentPage = 1;
+        getBenhNhanAjax();
+    }, 200));
+
     function getBenhNhanAjax() {
-        $.get(`http://localhost/emss/nguoidung/getList?row_per_page=10&current_page=${currentPage}`,
+        let search = $('#cars-search option').filter(':selected').val();
+        console.log('/' + search + "/");
+        $.get(`http://localhost/emss/benhnhan/getList?row_per_page=10&current_page=${currentPage}&search=${$("#search-benhnhan-text").val()}&search2=${search}`,
             function(response) {
                 const table1 = $('#table1 > tbody');
                 table1.empty();
                 checkedRows = [];
                 $row = 0;
                 response.data.forEach(data => {
-                    if (data.ma_vai_tro == 4) {
-                        if ($row % 2 == 0) {
-                            table1.append(`
+                    if ($row % 2 == 0) {
+                        table1.append(`
                         <tr class="table-light">
-                            <td><div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_nguoi_dung}"/>
-                                </div>
+                            <td class="d-none check">
+                                <input type="checkbox" value="' + ${data.ma_nguoi_dung} + '" class="form-check-input del-check shadow-none ' + ${data.ma_nguoi_dung} + '">
                             </td>
                             <td>${data.ho_lot}</td>
                             <td>${data.ten}</td>
@@ -237,13 +266,11 @@ View::$activeItem = 'patient';
                                 </button>
                             </td>
                         </tr>`);
-                        } else {
-                            table1.append(`
+                    } else {
+                        table1.append(`
                         <tr class="table-info">
-                            <td>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_nguoi_dung}"/>
-                                </div>
+                            <td class="d-none check">
+                                <input type="checkbox" value="' + ${data.ma_nguoi_dung} + '" class="form-check-input del-check shadow-none ' + ${data.ma_nguoi_dung} + '">
                             </td>
                             <td>${data.ho_lot}</td>
                             <td>${data.ten}</td>
@@ -262,9 +289,8 @@ View::$activeItem = 'patient';
                                 </button>
                             </td>
                         </tr>`);
-                        }
-                        $row += 1;
                     }
+                    $row += 1;
                 });
 
                 const pagination = $('#pagination');
@@ -291,6 +317,49 @@ View::$activeItem = 'patient';
 
     $("#open-add-benhnhan-btn").click(function() {
         $("#add-benhnhan-modal").modal('toggle')
+    });
+
+    $('#btn-delete-benhnhan').click(function() {
+        $('.check').toggleClass('d-none');
+        var str = "";
+        $('input.del-check:checked').each(function(index, element) {
+            str += $(this).val() + '-';
+        })
+        str = str.slice(0, str.length - 1);
+        if (str != "") {
+            $('#modal-confirm-delete').modal('show');
+            $('#btn-delete-benhnhan-confirm').click(function() {
+                $.ajax({
+                    url: 'http://localhost/emss/nguoidung/delete',
+                    data: {
+                        list_user: str
+                    },
+                    type: 'POST',
+                }).done(function(data) {
+                    if (data) {
+                        Toastify({
+                            text: "Xóa Thất Bại",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                        getBenhNhanAjax();
+                    } else {
+                        Toastify({
+                            text: "Xóa thành công",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#00CC33",
+                        }).showToast();
+                        getBenhNhanAjax();
+                    }
+                })
+            })
+        }
     });
     </script>
 </body>

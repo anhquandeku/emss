@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Core\Auth;
 use App\Core\Controller;
 use App\Model\BenhNhanModel;
+use App\Core\Request;
 
 class BenhNhanController extends Controller
 {
@@ -26,8 +27,14 @@ class BenhNhanController extends Controller
     public function add()
     {
     }
-    public function getList()
-    {
+    public function getList(){
+        Auth::checkAuthentication();
+        $search = Request::get('search');
+        $search2 = Request::get('search2');
+        $current_page = Request::get('current_page');
+        $row_per_page = Request::get('row_per_page');
+        $data = BenhNhanModel::getAllPagination($search, $search2, $current_page, $row_per_page);
+        $this->View->renderJSON($data);
     }
     public function update()
     {
