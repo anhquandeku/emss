@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Core\Auth;
 use App\Core\Controller;
 use App\Model\BenhNhanModel;
+use App\Model\NguoiDungModel;
 use App\Core\Request;
 
 class BenhNhanController extends Controller
@@ -39,8 +40,15 @@ class BenhNhanController extends Controller
     public function update()
     {
     }
-    public function delete()
-    {
+    public function delete(){
+        Auth::checkAuthentication();
+       // Auth::ktraquyen("CN02");
+        $ma_nguoi_dung = Request::post('ma_nguoi_dung');
+        $kq= NguoiDungModel::delete($ma_nguoi_dung);
+        $response = [
+            'thanhcong' => $kq
+        ];
+        $this->View->renderJSON($response);  
     }
     public function getAll(){
         Auth::checkAuthentication();

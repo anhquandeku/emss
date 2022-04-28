@@ -825,7 +825,7 @@ View::$activeItem = 'user';
             $('.btn-view').click(function() {
                 $('#modal-detail').modal('show');
                 $.ajax({
-                    url: 'http://localhost/ooad-emss/emss/nguoidung/getOneByID',
+                    url: 'http://localhost/emss/nguoidung/getOneByID',
                     data: {
                         ma_nguoi_dung: $(this).attr('id'),
                     },

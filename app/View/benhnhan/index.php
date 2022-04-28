@@ -253,7 +253,7 @@ View::$activeItem = 'patient';
             </div>
 
             <!-- Modal Thong bao -->
-            <div class="modal fade text-left" id="question-plane-modal" tabindex="-1" role="dialog"
+            <div class="modal fade text-left" id="question-benhnhan-modal" tabindex="-1" role="dialog"
                 aria-labelledby="myModalLabel110" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                     <div class="modal-content">
@@ -369,10 +369,7 @@ View::$activeItem = 'patient';
                             <td>${data.so_dien_thoai}</td>
                             <td>
                                 <button onclick="viewRow('${data.ma_nguoi_dung}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                                <button onclick="repairRow('${data.ma_nguoi_dung}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-tools"></i>
+                                    <i class="bi bi-file-earmark-person view"></i>
                                 </button>
                                 <button onclick="deleteRow('${data.ma_nguoi_dung}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
                                     <i class="bi bi-trash-fill"></i>
@@ -391,11 +388,8 @@ View::$activeItem = 'patient';
                             <td>${data.cmnd}</td>
                             <td>${data.so_dien_thoai}</td>
                             <td>
-                                <button onclick="viewRow('${data.ma_nguoi_dung}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                                <button onclick="repairRow('${data.ma_nguoi_dung}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-tools"></i>
+                            <button onclick="viewRow('${data.ma_nguoi_dung}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-file-earmark-person view"></i>
                                 </button>
                                 <button onclick="deleteRow('${data.ma_nguoi_dung}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
                                     <i class="bi bi-trash-fill"></i>
@@ -474,6 +468,41 @@ View::$activeItem = 'patient';
             })
         }
     });
+
+    function deleteRow(params) {
+        let data = {
+            ma_nguoi_dung: params
+        };
+        $("#myModalLabel110").text("Xóa bệnh nhân");
+        $("#question-model").text("Bạn có chắc chắn muốn xóa bệnh nhân này không");
+        $("#question-benhnhan-modal").modal('toggle');
+        $('#thuchien').off('click');
+        $("#thuchien").click(function() {
+            $.post(`http://localhost/emss/benhnhan/delete`, data, function(response) {
+                if (response.thanhcong) {
+                    Toastify({
+                        text: "Xóa Thành Công",
+                        duration: 1000,
+                        close: true,
+                        gravity: "top",
+                        position: "center",
+                        backgroundColor: "#4fbe87",
+                    }).showToast();
+                    currentPage = 1;
+                    getBenhNhanAjax();
+                } else {
+                    Toastify({
+                        text: "Xóa Thất Bại",
+                        duration: 1000,
+                        close: true,
+                        gravity: "top",
+                        position: "center",
+                        backgroundColor: "#FF6A6A",
+                    }).showToast();
+                }
+            });
+        });
+    }
     </script>
 </body>
 
