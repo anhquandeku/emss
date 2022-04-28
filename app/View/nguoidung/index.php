@@ -673,7 +673,7 @@ View::$activeItem = 'user';
                     $('#btn-add-user').click(function() {
                         var ajax =
                             $.post(
-                                'http://localhost/ooad-emss/emss/nguoidung/add', {
+                                'http://localhost/emss/nguoidung/add', {
                                     lastname: $('#lastname').val(),
                                     firstname: $('#firstname').val(),
                                     cmnd: $('#cmnd').val(),
@@ -699,7 +699,7 @@ View::$activeItem = 'user';
                                         backgroundColor: "#00CC33",
                                     }).showToast();
                                     window.location.href =
-                                        'http://localhost/ooad-emss/emss/nguoidung/index'
+                                        'http://localhost/emss/nguoidung/index'
                                     getList(1);
                                 } else {
                                     Toastify({

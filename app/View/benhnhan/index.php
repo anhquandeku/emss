@@ -117,7 +117,7 @@ View::$activeItem = 'patient';
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form name="add-form" method="post">
+                            <form name="add-benhnhan-form" method="post">
                                 <div class="row">
                                     <div class="form-group row col-6">
                                         <label for="lastname" class="col-sm-4 col-form-label">Họ lót:</label>
@@ -328,6 +328,96 @@ View::$activeItem = 'patient';
                 })
             })
         });
+
+        $("form[name='add-benhnhan-form']").validate({
+            rules: {
+                lastname: {
+                    required: true,
+                },
+                firstname: {
+                    required: true,
+                },
+                cmnd: {
+                    required: true,
+                    minlength: 9,
+                },
+                birthday: {
+                    required: true,
+                },
+                phone_number: {
+                    required: true,
+                    number: true,
+                },
+                province: {
+                    min: 0
+                },
+                district: {
+                    min: 0
+                },
+                ward: {
+                    min: 0
+                },
+                email: {
+                    email: true,
+                    required: true
+                },
+            },
+            //Tạo massages:
+            messages: {
+                lastname: "Vui lòng nhập họ lót",
+                firstname: "Vui lòng nhập tên",
+                cmnd: {
+                    required: "Vui lòng nhập số chứng minh nhân dân",
+                    minlength: "Định dạng CMND không hợp lệ",
+                },
+                birthday: "Vui lòng chọn ngày sinh",
+                phone_number: {
+                    required: "Vui lòng nhập số điện thoại",
+                    number: "Vui lòng nhập đúng định dạng"
+                },
+                province: "Vui lòng chọn tỉnh/thành phố",
+                district: "Vui lòng chọn huyện/quận",
+                ward: "Vui lòng chọn xã/phường",
+                email: {
+                    email: "Vui lòng nhập đúng định dạng",
+                    required: "Vui lòng nhập email"
+                },
+            },
+            submitHandler: function(form, event) {
+                event.preventDefault();
+                // lấy dữ liệu từ form
+                const data = Object.fromEntries(new FormData(form).entries());
+                console.log(data);
+                $.post(`http://localhost/emss/nguoidung/add`, data, function(
+                    response) {
+                    $("#add-benhnhan-modal").modal('toggle')
+                    if (response.thanhcong) {
+                        currentPage = 1;
+                        getBenhNhanAjax();
+                        Toastify({
+                            text: "Thêm Thành Công",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#4fbe87",
+                        }).showToast();
+                    } else {
+                        Toastify({
+                            text: "Thêm Thất Bại",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }
+                });
+                $('#sohieu').val("");
+                $('#ghethuong').val("");
+                $('#thuonggia').val("");
+            }
+        })
 
     });
 
