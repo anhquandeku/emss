@@ -84,10 +84,9 @@ View::$activeItem = 'object';
                                     <table class="table mb-0 table-danger" id="table1">
                                         <thead>
                                             <tr>
-                                                <th>Chọn</th>
                                                 <th>Họ Lót</th>
                                                 <th>Tên</th>
-                                                <th>Phái</th>
+                                                <th>Đối tượng</th>
                                                 <th>CMND</th>
                                                 <th>Số điện thoại</th>
                                                 <th>Tác Vụ</th>
@@ -123,7 +122,6 @@ View::$activeItem = 'object';
     let currentPage = 1;
     $(function() {
         getDTCLAjax();
-
     });
 
     function changePage(newPage) {
@@ -132,7 +130,7 @@ View::$activeItem = 'object';
     }
 
     function getDTCLAjax() {
-        $.get(`http://localhost/ooad-emss/emss/nguoidung/getList?row_per_page=10&current_page=${currentPage}`,
+        $.get(`http://localhost/emss/nguoidung/getList?row_per_page=10&current_page=${currentPage}&key_word=''`,
             function(response) {
                 const table1 = $('#table1 > tbody');
                 table1.empty();
