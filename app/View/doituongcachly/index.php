@@ -14,8 +14,7 @@ View::$activeItem = 'object';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>EMSS</title>
     <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="<?= View::assets('css/bootstrap.css') ?>" />
     <link rel="stylesheet" href="<?= View::assets('vendors/toastify/toastify.css') ?>" />
     <link rel="stylesheet" href="<?= View::assets('vendors/perfect-scrollbar/perfect-scrollbar.css') ?>" />
@@ -39,8 +38,7 @@ View::$activeItem = 'object';
                         <h6>Tìm Kiếm</h6>
                         <div id="search-benhnhan-form" name="search-benhnhan-form">
                             <div class="form-group position-relative has-icon-right">
-                                <input id="search-benhnhan-text" type="text" class="form-control" placeholder="Tìm kiếm"
-                                    value="">
+                                <input id="search-benhnhan-text" type="text" class="form-control" placeholder="Tìm kiếm" value="">
                                 <div class="form-control-icon">
                                     <i class="bi bi-search"></i>
                                 </div>
@@ -51,16 +49,17 @@ View::$activeItem = 'object';
                         <div class="row">
                             <div class="col-12 col-md-8 order-md-1 order-last">
                                 <label>
-                                    <h3>Danh sách đối tượng cách ly</h3>
+                                    <h3>DANH SÁCH ĐỐI TƯỢNG CÁCH LY</h3>
                                 </label>
+                                <br>
                                 <label>
-                                    <h5 style="margin-left: 50px; margin-right: 10px;"> Lọc Theo:</h5>
+                                    <h5 style="margin-right: 10px;"> Lọc Theo:</h5>
                                 </label>
-                                <select class="btn btn btn-primary" name="search-cbb" id="cars-search">
+                                <select class="btn btn btn-primary btn-sm" name="search-cbb" id="cars-search">
                                     <option value="">Tất Cả</option>
                                     <option value="ho">Họ Lót</option>
                                     <option value="ten">Tên</option>
-                                    <option value="phai">Phái</option>
+                                    <option value="F">Đối tượng</option>
                                     <option value="cmnd">CMND</option>
                                     <option value="sdt">Số điện thoại</option>
                                 </select>
@@ -77,6 +76,7 @@ View::$activeItem = 'object';
                             </div>
                         </div>
                     </div>
+                    <br>
                     <section class="section">
                         <div class="card">
                             <div class="card-body">
@@ -119,100 +119,54 @@ View::$activeItem = 'object';
     <script src="<?= View::assets('js/menu.js') ?>"></script>
     <script src="<?= View::assets('js/api.js') ?>"></script>
     <script>
-    let currentPage = 1;
-    $(function() {
-        getDTCLAjax();
-    });
+        
+        /**Hàm chính */
+        $(function() {
+            getList(1,"","");
+        });
 
-    function changePage(newPage) {
-        currentPage = newPage;
-        getDTCLAjax();
-    }
+        /**Các sự kiện */
+        $('#search-benhnhan-text').keyup(function(){
+            getList(1,$('#search-benhnhan-text').val(), $('#cars-search').val());
+        })
+        $('#cars-search').change(function(){
+            getList(1,$('#search-benhnhan-text').val(), $('#cars-search').val());
+        })
 
-    function getDTCLAjax() {
-        $.get(`http://localhost/emss/nguoidung/getList?row_per_page=10&current_page=${currentPage}&key_word=''`,
-            function(response) {
-                const table1 = $('#table1 > tbody');
-                table1.empty();
-                checkedRows = [];
-                $row = 0;
-                response.data.forEach(data => {
-                    if (data.ma_vai_tro == 5) {
-                        if ($row % 2 == 0) {
-                            table1.append(`
-                        <tr class="table-light">
-                            <td><div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_nguoi_dung}"/>
-                                </div>
-                            </td>
-                            <td>${data.ho_lot}</td>
-                            <td>${data.ten}</td>
-                            <td>${data.phai}</td>
-                            <td>${data.cmnd}</td>
-                            <td>${data.so_dien_thoai}</td>
+        /**Các hàm */
+        function getList(current_page, text, column) {
+            $.ajax({
+                url: `http://localhost/emss/doituongcachly/getList?current_page=${current_page}&row_per_page=5&keyword=${text}&column=${column}`,
+                type: 'get'
+            }).done(function(data) {
+                const content = $('#table1 > tbody');
+                content.empty();
+                var row = 0;
+                data.data.forEach(function(element, index) {
+                    var mark = 'table-info';
+                    if (row % 2 == 0) {
+                        mark = 'table-light';
+                    }
+                    var html = `<tr class="${mark}">
+                            <td>${element.ho_lot}</td>
+                            <td>${element.ten}</td>
+                            <td>F${element.F}</td>
+                            <td>${element.cmnd}</td>
+                            <td>${element.so_dien_thoai}</td>
                             <td>
                                 <button onclick="viewRow('${data.ma_nguoi_dung}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
-                                </button>
-                                <button onclick="repairRow('${data.ma_nguoi_dung}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-tools"></i>
                                 </button>
                                 <button onclick="deleteRow('${data.ma_nguoi_dung}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
                                     <i class="bi bi-trash-fill"></i>
                                 </button>
                             </td>
-                        </tr>`);
-                        } else {
-                            table1.append(`
-                        <tr class="table-info">
-                            <td>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.ma_nguoi_dung}"/>
-                                </div>
-                            </td>
-                            <td>${data.ho_lot}</td>
-                            <td>${data.ten}</td>
-                            <td>${data.phai}</td>
-                            <td>${data.cmnd}</td>
-                            <td>${data.so_dien_thoai}</td>
-                            <td>
-                                <button onclick="viewRow('${data.ma_nguoi_dung}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                                <button onclick="repairRow('${data.ma_nguoi_dung}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-tools"></i>
-                                </button>
-                                <button onclick="deleteRow('${data.ma_nguoi_dung}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button>
-                            </td>
-                        </tr>`);
-                        }
-                        $row += 1;
-                    }
-                });
-
-                const pagination = $('#pagination');
-                pagination.empty();
-                if (response.totalPage > 1) {
-                    for (let i = 1; i <= response.totalPage; i++) {
-                        if (i == currentPage) {
-                            pagination.append(`
-                        <li class="page-item active">
-                            <button class="page-link" onClick='changePage(${i})'>${i}</button>
-                        </li>`)
-                        } else {
-                            pagination.append(`
-                        <li class="page-item">
-                            <button class="page-link" onClick='changePage(${i})'>${i}</button>
-                        </li>`)
-                        }
-
-                    }
-                }
-
-            });
-    }
+                        </tr>`
+                    content.append(html);
+                    row++;
+                })
+            })
+        }
     </script>
 </body>
 

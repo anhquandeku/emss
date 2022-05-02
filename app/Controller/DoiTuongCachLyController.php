@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Core\Auth;
 use App\Core\Controller;
+use App\Core\Request;
+use App\Model\DTCLModel;
 
 class DoiTuongCachLyController extends Controller
 {
@@ -26,6 +28,13 @@ class DoiTuongCachLyController extends Controller
     }
     public function getList()
     {
+        Auth::checkAuthentication();
+        $keyword = Request::get('keyword');
+        $current_page = Request::get('current_page');
+        $row_per_page = Request::get('row_per_page');
+        $column = Request::get('column');
+        $data = DTCLModel::getAllPagination($keyword,$column,$current_page,$row_per_page);
+        $this->View->renderJSON($data);
     }
     public function update()
     {

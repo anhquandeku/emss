@@ -737,7 +737,7 @@ View::$activeItem = 'user';
                     '&row_per_page=5&key_word=' + text,
                 type: 'get',
             });
-            $.when(role, list).done(function(data_rel, data) {
+            $.when(role, list).done(function(data_rel, data) {  
                 var row = 1;
                 const table1 = $('#table1 > tbody');
                 table1.empty();
