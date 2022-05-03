@@ -49,7 +49,7 @@ View::$activeItem = 'object';
                         <div class="row">
                             <div class="col-12 col-md-8 order-md-1 order-last">
                                 <label>
-                                    <h3>DANH SÁCH ĐỐI TƯỢNG CÁCH LY</h3>
+                                    <h3>Danh sách đối tượng cách ly</h3>
                                 </label>
                                 <br>
                                 <label>
@@ -96,8 +96,7 @@ View::$activeItem = 'object';
                                         </tbody>
                                     </table>
                                     <nav class="mt-5">
-                                        <ul id="pagination" class="pagination justify-content-center">
-                                        </ul>
+                                        <ul id="pagination" class="pagination justify-content-center"> </ul>
                                     </nav>
                                 </div>
                             </div>
@@ -119,24 +118,27 @@ View::$activeItem = 'object';
     <script src="<?= View::assets('js/menu.js') ?>"></script>
     <script src="<?= View::assets('js/api.js') ?>"></script>
     <script>
-        
         /**Hàm chính */
         $(function() {
-            getList(1,"","");
+            getList(1, "", "");
         });
 
         /**Các sự kiện */
-        $('#search-benhnhan-text').keyup(function(){
-            getList(1,$('#search-benhnhan-text').val(), $('#cars-search').val());
+        $('#search-benhnhan-text').keyup(function() {
+            getList(1, $('#search-benhnhan-text').val(), $('#cars-search').val());
         })
-        $('#cars-search').change(function(){
-            getList(1,$('#search-benhnhan-text').val(), $('#cars-search').val());
+        $('#cars-search').change(function() {
+            getList(1, $('#search-benhnhan-text').val(), $('#cars-search').val());
         })
 
         /**Các hàm */
+        function changePage(newPage) {
+            getList(newPage, $('#search-benhnhan-text').val(), $('#cars-search').val());
+        }
+
         function getList(current_page, text, column) {
             $.ajax({
-                url: `http://localhost/emss/doituongcachly/getList?current_page=${current_page}&row_per_page=5&keyword=${text}&column=${column}`,
+                url: `http://localhost/emss/doituongcachly/getList?current_page=${current_page}&row_per_page=1&keyword=${text}&column=${column}`,
                 type: 'get'
             }).done(function(data) {
                 const content = $('#table1 > tbody');
@@ -154,9 +156,9 @@ View::$activeItem = 'object';
                             <td>${element.cmnd}</td>
                             <td>${element.so_dien_thoai}</td>
                             <td>
-                                <button onclick="viewRow('${data.ma_nguoi_dung}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-                                    <i class="bi bi-eye"></i>
-                                </button>
+                                <a href = "<?= View::url('doituongcachly/detail?id=${element.ma_nguoi_dung}') ?>">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;"><i class="bi bi-eye"></i></button>
+                                </a>
                                 <button onclick="deleteRow('${data.ma_nguoi_dung}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
                                     <i class="bi bi-trash-fill"></i>
                                 </button>
@@ -165,6 +167,12 @@ View::$activeItem = 'object';
                     content.append(html);
                     row++;
                 })
+                let i = 1;
+                $('#pagination').empty();
+                for (i = 1; i <= data.totalPage; i++)
+                    if (i == current_page) {
+                        $('#pagination').append(`<li class="page-item active">\<button class="page-link" onclick="changePage(${i})" id="'${i}'">${i}</button>\</li>`);
+                    } else $('#pagination').append(`<li class="page-item">\<button class="page-link" onclick="changePage(${i})" id="'${i}'">${i}</button>\</li>`);
             })
         }
     </script>

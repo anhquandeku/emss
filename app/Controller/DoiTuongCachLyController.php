@@ -20,8 +20,12 @@ class DoiTuongCachLyController extends Controller
     {
         $this->View->render('doituongcachly/index');
     }
-    public function getOneByID()
+    public function detail()
     {
+        $this->View->render('doituongcachly/detail');
+    }
+    public function getOneByID()
+    {   
     }
     public function add()
     {
@@ -36,6 +40,7 @@ class DoiTuongCachLyController extends Controller
         $data = DTCLModel::getAllPagination($keyword,$column,$current_page,$row_per_page);
         $this->View->renderJSON($data);
     }
+
     public function update()
     {
     }
