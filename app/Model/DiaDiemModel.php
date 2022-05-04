@@ -255,10 +255,7 @@ class DiaDIemModel
         $sql = "SELECT * FROM dia_diem WHERE trang_thai = 1";
         $query = $database->prepare($sql);
         $query->execute();
-        $data = array();
-        if ($data = $query->fetchAll(PDO::FETCH_ASSOC)) {
-            return $data;
-        }
+        $data =  $query->fetchAll();
         return $data;
     }
 }

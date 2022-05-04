@@ -73,10 +73,8 @@ class BenhNhanModel{
         $sql = "SELECT ma_benh_nhan, ma_benh_vien, ho_lot, ten FROM benh_nhan, nguoi_dung WHERE nguoi_dung.ma_nguoi_dung = benh_nhan.ma_benh_nhan";
         $query = $database->prepare($sql);
         $query->execute();  
-        if ($data = $query->fetchAll(PDO::FETCH_ASSOC)) {
-            return $data;
-        }
-        return null;
+        $data = $query->fetchAll();
+        return $data;
     }
     
 }

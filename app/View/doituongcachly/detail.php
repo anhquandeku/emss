@@ -3,7 +3,6 @@
 use App\Core\View;
 
 View::$activeItem = 'object';
-echo $data;
 
 ?>
 
@@ -23,34 +22,42 @@ echo $data;
     <link rel="stylesheet" href="<?= View::assets('css/app.css') ?>" />
     <link rel="shortcut icon" href="<?= View::assets('images/logo/logo_.png') ?>" type="image/x-icon" />
     <link rel="stylesheet" href="<?= View::assets('css/quan.css') ?>" />
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js" type="text/javascript"></script>
     <style>
         .personal {
-            /*border: 1.5px solid;*/
+            border: 1.5px solid;
             width: 80%;
             margin-left: auto;
             margin-right: auto;
+            display: none;
         }
 
         .personal img {
             width: 100%;
+            height: 100%;
             background-size: cover;
         }
-        .d-none{
-            transition: 2s;
-        }
-        #person{
+
+        #person {
             width: 100%;
             border-collapse: collapse;
+            height: 100%;
         }
-        table{
+
+        table {
             border-collapse: collapse;
         }
-        #person td{
-            border: 1px solid;
+
+        #person td {
+            border-color: black;
+            border-width: 1px;
             width: 50%;
+            padding-left: 1em;
         }
-        #person tr{
+
+        #person tr {
             border-spacing: 0;
+            border: none;
         }
     </style>
 </head>
@@ -82,7 +89,7 @@ echo $data;
                                         <i class="bi bi-plus"></i> Thêm
                                     </button>
                                     <button id='view-dtcl' class="btn btn-primary">
-                                    <i class="bi bi-chevron-double-down"></i> Xem
+                                        <i class="bi bi-chevron-double-down"></i> Xem
                                     </button>
                                 </div>
                             </div>
@@ -91,10 +98,10 @@ echo $data;
                     <section class="section">
                         <div class="card personal">
                             <div class="card-body row">
-                                <div class="col-4">
+                                <div class="col-3">
                                     <img src=<?= View::assets('images\ava_nam.jpg') ?>>
                                 </div>
-                                <div class="col-8">
+                                <div class="col-9">
                                     <table id="person">
                                         <tr>
                                             <td>Họ và tên</td>
@@ -149,6 +156,67 @@ echo $data;
                     </section>
                 </div>
             </div>
+            <!-- MODAL ADD -->
+            <div class="modal fade text-left" id="add-dtcl-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Thêm Hồ Sơ</h4>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <i data-feather="x"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form name="form-detail-add" id="form-detail-add" method="post">
+                                <div class="row">
+                                    <div class="form-group row col-6">
+                                        <label for="begindate" class="col-sm-4 col-form-label">Ngày bắt đầu</label>
+                                        <div class="col-sm-8">
+                                            <input type="date" class="form-control" id="beginday" name="beginday">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row col-6">
+                                        <label for="object" class="col-sm-4 col-form-label">Đối tượng:</label>
+                                        <div class="col-8">
+                                            <select class="form-control" name="object" id="object">
+                                                <option value='-1'>Chưa xác định</option>
+                                                <option value='0'>F0</option>
+                                                <option value='1'>F1</option>
+                                                <option value='2'>F2</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row col-6">
+                                        <label for="source" class="col-sm-4 col-form-label">Nguồn lây:</label>
+                                        <div class="col-8">
+                                            <select class="form-control" name="source" id="source">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row col-6">
+                                        <label for="phone_number" class="col-sm-4 col-form-label">Địa điểm:</label>
+                                        <div class="col-8">
+                                            <select class="form-control" name="local" id="local">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Đóng</span>
+                            </button>
+                            <button type="submit" class="btn btn-primary ml-1">
+                                <i class="bx bx-check d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Thêm</span>
+                            </button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <!-- FOOTER -->
             <?php View::partial('footer')  ?>
         </div>
@@ -164,11 +232,123 @@ echo $data;
     <script src="<?= View::assets('js/menu.js') ?>"></script>
     <script src="<?= View::assets('js/api.js') ?>"></script>
     <script>
-        $(document).ready(function(){
-            $('#view-dtcl').click(function(){
+        $(document).ready(function() {
+            $('#view-dtcl').click(function() {
                 $('.personal').toggleClass('d-none')
             })
+            add();
+            getAdd();
+            getList(1);
+          
+            // Các sự kiện
+            $('#add-dtcl-modal').modal('show');
         })
+        //Lấy ngày hiện tại
+        function getDateTime() {
+            var d = new Date();
+            var yyyy = d.getFullYear();
+            var mm = d.getMonth() + 1;
+            var dd = d.getDate();
+            return yyyy + '-' + (mm < 10 ? '0' + mm.toString() : mm) + '-' + (dd < 10 ? '0' + mm.toString() : dd);
+
+        }
+        //Hàm thay đổi trang
+        function changePage(newPage) {
+            getList(newPage, $('#search-benhnhan-text').val(), $('#cars-search').val());
+        }
+
+        //Hàm thêm
+        function add() {
+            $("form[name='form-detail-add']").validate({
+                rules: {
+                    beginday: {
+                        require: true,
+                        min: getDateTime()
+                    },
+                    object: {
+                        min: 1
+                    }
+                },
+                messages: {
+                    beginday: {
+                        require: "Trường này là bắt buộc",
+                        min: "Thời gian phải sau ngày hiện tại"
+                    },
+                    object: {
+                        min: "Nguuuuu"
+                    }
+                },
+                submitHandler: function(form, event) {
+                   // event.preventDefault();
+                    alert("OK");
+                }
+            });
+        }
+        //Hàm load dữ liệu vào modal thêm
+        function getAdd() {
+
+            var patient = $.ajax({
+                url: 'http://localhost/emss/benhnhan/getAll',
+                type: 'POST',
+            });
+            var location = $.ajax({
+                url: 'http://localhost/emss/diadiem/getList',
+                type: 'POST',
+            });
+            $.when(patient, location).done(function(l_patient, l_location) {
+                const source = $('#source');
+                source.empty();
+                const local = $('#local');
+                local.empty();
+                l_patient[0].forEach(function(element) {
+                    source.append(`<option value='${element['ma_benh_nhan']}'>${element['ma_benh_nhan']} - ${element['ho_lot']} ${element['ten']}</option>`);
+                });
+                l_location[0].forEach(function(element) {
+                    if (element['phan_loai'] == 1) local.append(`<option value='${element['ma_dia_diem']}'>${element['ten_dia_diem']}</option>`);
+                });
+                add();
+            })
+        }
+
+        function getList(current_page) {
+            var _url = location.href;
+            $.ajax({
+                url: _url + `&flag=view&row_per_page=1&current_page=${current_page}`,
+                type: 'get'
+            }).done(function(data) {
+                const content = $('#table1 > tbody');
+                content.empty();
+                var row = 0;
+                data.data.forEach(function(element, index) {
+                    var mark = 'table-info';
+                    if (row % 2 == 0) {
+                        mark = 'table-light';
+                    }
+                    var html = `<tr class="${mark}">
+                            <td>${element.ma_ho_so}</td>
+                            <td>${element.tg_bat_dau}</td>
+                            <td>${element.tg_ket_thuc}</td>
+                            <td>${element.ten_dia_diem}</td>
+                            <td>
+                                <a href = "<?= View::url('doituongcachly/detail?id=${element.ma_nguoi_dung}') ?>">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;"><i class="bi bi-eye"></i></button>
+                                </a>
+                                <button onclick="deleteRow('${data.ma_nguoi_dung}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>`
+                    content.append(html);
+                    row++;
+                })
+                let i = 1;
+                $('#pagination').empty();
+                for (i = 1; i <= data.totalPage; i++)
+                    if (i == current_page) {
+                        $('#pagination').append(`<li class="page-item active">\<button class="page-link" onclick="changePage(${i})" id="'${i}'">${i}</button>\</li>`);
+                    } else $('#pagination').append(`<li class="page-item">\<button class="page-link" onclick="changePage(${i})" id="'${i}'">${i}</button>\</li>`);
+            })
+        }
     </script>
 </body>
 
