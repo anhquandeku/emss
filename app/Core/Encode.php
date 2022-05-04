@@ -3,7 +3,7 @@ namespace App\Core;
 
 class Encode
 {
-    public static function Euclide($num, $a){
+    public function Euclide($num, $a){
         $n=$num;
         $x2=1; $x1=0; $y2=0; $y1=1;
         while($a>0){
@@ -21,18 +21,21 @@ class Encode
         return $num+$y2;
     }
 
-    public static function encodeAES($data){
+    public function EncryptionAES($data){
         
     }
 
-    public static function decryptionAES($data){
+    public function DecryptionAES($data){
         
     }
-    public static function encodeRSA($data){
-        
+    public function EncryptionRSA($data, $p, $q, $b){
+        $n=$p*$q;
+        $_n=($p-1)*($q-1);
+        $a=$this->Euclide($_n,$b);
+
     }
 
-    public static function decryptionRSA($data){
+    public function DecryptionRSA($data){
         
     }
 }
