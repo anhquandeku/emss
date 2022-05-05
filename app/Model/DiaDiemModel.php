@@ -11,14 +11,10 @@ class DiaDIemModel
     public static function getOneByID($id)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
-
-        $query = $database->prepare("SELECT * FROM dia_diem WHERE ma_dia_diem = :id LIMIT 1");
+        $query = $database->prepare("SELECT * FROM dia_diem WHERE ma_dia_diem = :id AND trang_thai =1 LIMIT 1");
         $query->execute([':id' => $id]);
-
-        if ($row = $query->fetch()) {
-            return $row;
-        }
-        return null;
+        $data = $query->fetchAll();
+        return $data;
     }
 
     public static function create($ten, $tinh, $huyen, $xa, $thon, $sonha, $loai, $succhua, $trong)

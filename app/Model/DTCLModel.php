@@ -66,7 +66,7 @@ class DTCLModel
         ];
         return $response;
     }
-    public static function getDetailDTCL($userID,$row_per_page,$current_page)
+    public static function getDetailDTCL($userID, $row_per_page, $current_page)
     {
         $limit = $row_per_page;
         $offset = ($current_page - 1) * $row_per_page;
@@ -97,5 +97,38 @@ class DTCLModel
             'data' => $data,
         ];
         return $response;
+    }
+    public static function add($ma_doi_tuong, $ma_dia_diem, $tg_bat_dau, $tg_ket_thuc, $f, $nguon_lay)
+    {
+
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = "INSERT INTO ho_so_cach_ly(ma_doi_tuong, ma_dia_diem, tg_bat_dau, tg_ket_thuc, F, nguon_lay, trang_thai) 
+                VALUES (:madoituong, :madiadiem, :tgbd, :tgkt, :f, :nguonlay, 1)";
+        $query = $database->prepare($sql);
+        $query->execute([':madoituong' => $ma_doi_tuong, ':madiadiem' => $ma_dia_diem, ':tgbd' => $tg_bat_dau, ':tgkt' => $tg_ket_thuc, ':f' => $f, ':nguonlay' => $nguon_lay]);
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+        return false;
+    }
+    public static function delete($ma_ho_so)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("UPDATE ho_so_cach_ly SET trang_thai=0 WHERE ma_ho_so = :ma_ho_so");
+        $query->execute([':ma_ho_so' => $ma_ho_so]);
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+        return false;
+    }
+    public static function getOneByID($ma_ho_so)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("SELECT * FROM ho_so_cach_ly WHERE ma_ho_so = :ma_ho_so AND trang_thai = 1");
+        $query->execute([':ma_ho_so' => $ma_ho_so]);
+        $data = $query->fetchAll();
+        return $data;
     }
 }

@@ -30,18 +30,44 @@ class DoiTuongCachLyController extends Controller
             $row_per_page = Request::get('row_per_page');
             $userID = Request::get('id');
             $data = DTCLModel::getDetailDTCL($userID, $row_per_page, $current_page);
-            foreach($data['data'] as $value){
-                $value->ten_dia_diem = DiaDIemModel::getOneByID($value->ma_dia_diem)->ten_dia_diem;
+            foreach ($data['data'] as $value) {
+                $value->ten_dia_diem = DiaDIemModel::getOneByID($value->ma_dia_diem)[0]->ten_dia_diem;
             }
             $this->View->renderJSON($data);
+        } else
+        if ($flag === 'getid') {
+            $id = Request::get('id');
+            $_data = [
+                'id' => $id,
+            ];
+            $this->View->renderJSON($_data);
         }
         if ($flag == null)  $this->View->render('doituongcachly/detail');
     }
     public function getOneByID()
     {
+        Auth::checkAuthentication();
+        $id=Request::post('id');
+        $data = DTCLModel::getOneByID($id);
+        $this->View->renderJSON($data);
     }
     public function add()
     {
+        Auth::checkAuthentication();
+        $ma_doi_tuong = Request::post('ma_doi_tuong');
+        $ma_dia_diem = Request::post('ma_dia_diem');
+        $tg_bat_dau = Request::post('tg_bat_dau');
+        $tg_ket_thuc = Request::post('tg_ket_thuc');
+        $f = Request::post('f');
+        $nguon_lay = Request::post('nguon_lay');
+        $data = DTCLModel::add($ma_doi_tuong, $ma_dia_diem, $tg_bat_dau, $tg_ket_thuc, $f, $nguon_lay);
+        if ($data == true) $data = [
+            'thanhcong' => true,
+        ];
+        else $data = [
+            'thanhcong' => false,
+        ];
+        $this->View->renderJSON($data);
     }
     public function getList()
     {
@@ -59,5 +85,21 @@ class DoiTuongCachLyController extends Controller
     }
     public function delete()
     {
+        Auth::checkAuthentication();
+        $list = Request::post('list');
+        $list_id = explode('-', $list);
+        foreach ($list_id as $value) {
+            $data = DTCLModel::delete($value);
+            if ($data = false) {
+                $data = [
+                    'thanhcong' => false,
+                ];
+                $this->View->renderJSON($data);
+            }
+        }
+        $data = [
+            'thanhcong' => true,
+        ];
+        $this->View->renderJSON($data);
     }
 }

@@ -23,23 +23,7 @@ class DiaDiemController extends Controller
         Auth::checkAuthentication();
         $id = Request::post('id');
         $kq = DiaDiemModel::getOneByID($id);
-        $response = ['thanhcong' => false];
-        if ($kq == null) {
-            $response['thanhcong'] = false;
-        } else {
-            $response['ma_dia_diem'] = $kq->ma_dia_diem;
-            $response['ten_dia_diem'] = $kq->ten_dia_diem;
-            $response['tp_tinh'] = $kq->tp_tinh;
-            $response['quan_huyen'] = $kq->quan_huyen;
-            $response['phuong_xa'] = $kq->phuong_xa;
-            $response['ap_thon'] = $kq->ap_thon;
-            $response['so_nha'] = $kq->so_nha;
-            $response['phan_loai'] = $kq->phan_loai;
-            $response['suc_chua'] = $kq->suc_chua;
-            $response['so_luong_trong'] = $kq->so_luong_trong;
-            $response['thanhcong'] = true;
-        }
-        $this->View->renderJSON($response);
+        $this->View->renderJSON($kq);
     }
     
     public function add(){

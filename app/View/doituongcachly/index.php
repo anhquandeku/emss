@@ -138,7 +138,7 @@ View::$activeItem = 'object';
 
         function getList(current_page, text, column) {
             $.ajax({
-                url: `http://localhost/emss/doituongcachly/getList?current_page=${current_page}&row_per_page=1&keyword=${text}&column=${column}`,
+                url: `http://localhost/emss/doituongcachly/getList?current_page=${current_page}&row_per_page=5&keyword=${text}&column=${column}`,
                 type: 'get'
             }).done(function(data) {
                 const content = $('#table1 > tbody');

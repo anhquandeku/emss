@@ -59,6 +59,28 @@ View::$activeItem = 'object';
             border-spacing: 0;
             border: none;
         }
+
+        #table-file {
+            border-collapse: collapse;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+        }
+
+        #table-file td {
+            height: 2em;
+            border-width: 1.5px;
+            border-color: #6699FF;
+            padding: 1em;
+            color: black;
+        }
+
+        #table-file .title {
+            width: 15%;
+            color: #3366CC;
+            font-weight: 550;
+            background-color: #ddebf8;
+        }
     </style>
 </head>
 
@@ -82,14 +104,14 @@ View::$activeItem = 'object';
                             </div>
                             <div class="col-12 col-md-4 order-md-2 order-first">
                                 <div class=" loat-start float-lg-end mb-3">
-                                    <button id='btn-delete-benhnhan' class="btn btn-danger">
+                                    <button id='btn-delete' class="btn btn-danger">
                                         <i class="bi bi-trash-fill"></i> Xóa
                                     </button>
                                     <button id='open-add-benhnhan-btn' class="btn btn-primary">
                                         <i class="bi bi-plus"></i> Thêm
                                     </button>
                                     <button id='view-dtcl' class="btn btn-primary">
-                                        <i class="bi bi-chevron-double-down"></i> Xem
+                                        <i class="bi bi-chat-square-text"></i> Xem
                                     </button>
                                 </div>
                             </div>
@@ -138,6 +160,7 @@ View::$activeItem = 'object';
                                     <table class="table mb-0 table-danger" id="table1">
                                         <thead>
                                             <tr>
+                                                <th class=" d-none check">Chọn</th>
                                                 <th>Mã hồ sơ</th>
                                                 <th>Thời gian bắt đầu</th>
                                                 <th>Thời gian kết thúc</th>
@@ -167,12 +190,12 @@ View::$activeItem = 'object';
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form name="form-detail-add" id="form-detail-add" method="post">
+                            <form name="form-detail-add" id=" " method="post">
                                 <div class="row">
                                     <div class="form-group row col-6">
                                         <label for="begindate" class="col-sm-4 col-form-label">Ngày bắt đầu</label>
                                         <div class="col-sm-8">
-                                            <input type="date" class="form-control" id="beginday" name="beginday">
+                                            <input type="date" class="form-control" value="2000-01-01" id="beginday" name="beginday">
                                         </div>
                                     </div>
                                     <div class="form-group row col-6">
@@ -217,6 +240,76 @@ View::$activeItem = 'object';
                     </div>
                 </div>
             </div>
+            <!-- MODAL XÁC NHẬN XÓA -->
+            <div class="modal" id="modal-confirm-delete">
+                <div class="modal-dialog modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger">
+                            <h4 class="modal-title text-light">Xác nhận</h4>
+                        </div>
+                        <div class="modal-body" id="modal-content-delete">
+                            Xác nhận xóa bệnh nhân?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-delete-cancel">Close</button>
+                            <button type="button" class="btn btn-danger" id="btn-delete-confirm" data-bs-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- MODAL XEM HỒ SƠ -->
+            <div class="modal fade text-left" id="view-dtcl-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary">
+                            <h4 class="modal-title text-light">Xem hồ sơ cách ly</h4>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <i data-feather="x"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <table id="table-file">
+                                <tr>
+                                    <td class="title">
+                                        Mã hồ sơ
+                                    </td>
+                                    <td id="view-IDhoso">
+                                        01
+                                    </td>
+                                    <td class="title">
+                                        Họ và tên
+                                    </td>
+                                    <td id="view-IDdoituong">
+                                        30
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="title">Thời gian bắt đầu</td>
+                                    <td id="view-tgbd"></td>
+                                    <td class="title">Thời gian kết thúc</td>
+                                    <td id="view-tgkt"></td>
+                                </tr>
+                                <tr>
+                                    <td class="title">Đối tượng</td>
+                                    <td id="view-f"></td>
+                                    <td class="title">Nguồn lây</td>
+                                    <td id="view-nguonlay"></td>
+                                </tr>
+                                <tr>
+                                    <td class="title">Địa chỉ</td>
+                                    <td colspan="3" id="diachi"></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Đóng</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- FOOTER -->
             <?php View::partial('footer')  ?>
         </div>
@@ -236,13 +329,28 @@ View::$activeItem = 'object';
             $('#view-dtcl').click(function() {
                 $('.personal').toggleClass('d-none')
             })
-            add();
-            getAdd();
             getList(1);
-          
             // Các sự kiện
-            $('#add-dtcl-modal').modal('show');
+
+            /**Thêm hồ sơ */
+            $('#open-add-benhnhan-btn').click(function() {
+                getAdd();
+                $('#add-dtcl-modal').modal('show');
+            })
+            /**Xóa hồ sơ */
+            $('#btn-delete').click(function() {
+                $('.check').toggleClass('d-none')
+                str = "";
+                $('input.del-check:checked').each(function(index, element) {
+                    str += $(this).val() + '-';
+                })
+                str = str.slice(0, str.length - 1);
+                if (str != "") {
+                    del(str);
+                }
+            })
         })
+        //Các hàm:
         //Lấy ngày hiện tại
         function getDateTime() {
             var d = new Date();
@@ -256,31 +364,138 @@ View::$activeItem = 'object';
         function changePage(newPage) {
             getList(newPage, $('#search-benhnhan-text').val(), $('#cars-search').val());
         }
+        //Hàm load dữ liệu vào bảng
+        function getList(current_page) {
+            var _url = location.href;
+            $.ajax({
+                url: _url + `&flag=view&row_per_page=5&current_page=${current_page}`,
+                type: 'get'
+            }).done(function(data) {
+                const content = $('#table1 > tbody');
+                content.empty();
+                var row = 0;
+                data.data.forEach(function(element, index) {
+                    var mark = 'table-info';
+                    if (row % 2 == 0) {
+                        mark = 'table-light';
+                    }
+                    var html = `<tr class="${mark}">
+                            <td class="check d-none"><input type="checkbox" value="${element.ma_ho_so}" class="form-check-input del-check shadow-none ${element.ma_ho_so}"></td>
+                            <td>${element.ma_ho_so}</td>
+                            <td>${element.tg_bat_dau}</td>
+                            <td>${element.tg_ket_thuc}</td>
+                            <td>${element.ten_dia_diem}</td>
+                            <td>
+                                <button onclick="loadView(${element.ma_ho_so})"type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button onclick="del(${element.ma_ho_so})" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>`
+                    content.append(html);
+                    row++;
+                })
+                let i = 1;
+                $('#pagination').empty();
+                for (i = 1; i <= data.totalPage; i++)
+                    if (i == current_page) {
+                        $('#pagination').append(`<li class="page-item active">\<button class="page-link" onclick="changePage(${i})" id="'${i}'">${i}</button>\</li>`);
+                    } else $('#pagination').append(`<li class="page-item">\<button class="page-link" onclick="changePage(${i})" id="'${i}'">${i}</button>\</li>`);
+            })
+        }
+        /** XÓA */
+        function del(list_id) {
+            $('#modal-confirm-delete').modal('show');
+            $('#btn-delete-confirm').click(function() {
+                $.ajax({
+                    url: 'http://localhost/emss/doituongcachly/delete',
+                    data: {
+                        list: list_id
+                    },
+                    type: 'POST'
+                }).done(function(response) {
+                    if (response.thanhcong == true) {
+                        Toastify({
+                            text: "Xóa Thành Công",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#4fbe87",
+                        }).showToast();
+                        getList(1);
+                    } else {
+                        Toastify({
+                            text: "Xóa Thất Bại",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }
+                })
+            })
+            $('#btn-delete-cancel').click(function() {
+                $('input.del-check:checked').each(function(index, element) {
+                    $(this).prop('checked', false);
+                })
+            })
+        }
 
-        //Hàm thêm
+        /**THÊM */
         function add() {
             $("form[name='form-detail-add']").validate({
                 rules: {
                     beginday: {
-                        require: true,
-                        min: getDateTime()
+                        min: getDateTime(),
                     },
-                    object: {
-                        min: 1
-                    }
                 },
                 messages: {
                     beginday: {
-                        require: "Trường này là bắt buộc",
-                        min: "Thời gian phải sau ngày hiện tại"
+                        min: "Ngày bắt đầu phải lớn hơn hoặc bằng ngày hiện tại",
                     },
-                    object: {
-                        min: "Nguuuuu"
-                    }
                 },
                 submitHandler: function(form, event) {
-                   // event.preventDefault();
-                    alert("OK");
+                    event.preventDefault();
+                    $.ajax({
+                        url: location.href + `&flag=getid`,
+                        type: 'get'
+                    }).done(function(data) {
+                        $.post('http://localhost/emss/doituongcachly/add', {
+                            ma_doi_tuong: data.id,
+                            ma_dia_diem: $('#local').val(),
+                            tg_bat_dau: $('#beginday').val(),
+                            tg_ket_thuc: '0000-00-00',
+                            f: $('#object').val(),
+                            nguon_lay: $('#source').val()
+                        }, function(response) {
+                            $('#add-dtcl-modal').modal('hide');
+                            if (response.thanhcong == true) {
+                                getList(1);
+                                Toastify({
+                                    text: "Thêm Thành Công",
+                                    duration: 1000,
+                                    close: true,
+                                    gravity: "top",
+                                    position: "center",
+                                    backgroundColor: "#4fbe87",
+                                }).showToast();
+                            } else {
+                                Toastify({
+                                    text: "Thêm Thất Bại",
+                                    duration: 1000,
+                                    close: true,
+                                    gravity: "top",
+                                    position: "center",
+                                    backgroundColor: "#FF6A6A",
+                                }).showToast();
+                            }
+                        })
+                    })
+
                 }
             });
         }
@@ -309,46 +524,57 @@ View::$activeItem = 'object';
                 add();
             })
         }
-
-        function getList(current_page) {
-            var _url = location.href;
+        /**XEM */
+        //Load dữ liệu vào modal xem:
+        function loadView(idHS) {
+            $('#view-dtcl-modal').modal('show');
             $.ajax({
-                url: _url + `&flag=view&row_per_page=1&current_page=${current_page}`,
-                type: 'get'
+                url: 'http://localhost/emss/doituongcachly/getOneByID',
+                data: {
+                    id: idHS,
+                },
+                type: 'POST'
             }).done(function(data) {
-                const content = $('#table1 > tbody');
-                content.empty();
-                var row = 0;
-                data.data.forEach(function(element, index) {
-                    var mark = 'table-info';
-                    if (row % 2 == 0) {
-                        mark = 'table-light';
-                    }
-                    var html = `<tr class="${mark}">
-                            <td>${element.ma_ho_so}</td>
-                            <td>${element.tg_bat_dau}</td>
-                            <td>${element.tg_ket_thuc}</td>
-                            <td>${element.ten_dia_diem}</td>
-                            <td>
-                                <a href = "<?= View::url('doituongcachly/detail?id=${element.ma_nguoi_dung}') ?>">
-                                    <button type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;"><i class="bi bi-eye"></i></button>
-                                </a>
-                                <button onclick="deleteRow('${data.ma_nguoi_dung}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button>
-                            </td>
-                        </tr>`
-                    content.append(html);
-                    row++;
+                $('#view-IDhoso').text(data[0].ma_ho_so);
+                $('#view-tgbd').text(data[0].tg_bat_dau);
+                $('#view-tgkt').text(data[0].tg_ket_thuc);
+                if (data[0].F > -1) $('#view-f').text('F' + data[0].F);
+                else $('#view-f').text("Chưa xác định");
+                $.ajax({
+                    url: 'http://localhost/emss/nguoidung/getOneByID',
+                    data: {
+                        ma_nguoi_dung: data[0].ma_doi_tuong,
+                    },
+                    type: 'POST',
+                }).done(function(data_1) {
+                    $('#view-IDdoituong').text(data_1[0]['ho_lot'] + " " + data_1[0]['ten']);
                 })
-                let i = 1;
-                $('#pagination').empty();
-                for (i = 1; i <= data.totalPage; i++)
-                    if (i == current_page) {
-                        $('#pagination').append(`<li class="page-item active">\<button class="page-link" onclick="changePage(${i})" id="'${i}'">${i}</button>\</li>`);
-                    } else $('#pagination').append(`<li class="page-item">\<button class="page-link" onclick="changePage(${i})" id="'${i}'">${i}</button>\</li>`);
+                $.ajax({
+                    url: 'http://localhost/emss/nguoidung/getOneByID',
+                    data: {
+                        ma_nguoi_dung: data[0].nguon_lay,
+                    },
+                    type: 'POST',
+                }).done(function(data_2) {
+                    $('#view-nguonlay').text(data_2[0]['ho_lot'] + " " + data_2[0]['ten']);
+                })
+                $.ajax({
+                    url: 'http://localhost/emss/diadiem/getOneByID',
+                    data: {
+                        id: data[0].ma_dia_diem
+                    },
+                    type: 'POST',
+                }).done(function(data_3) {
+                    var address = "";
+                    if (data_3[0].so_nha != '') address += data_3[0].so_nha + ' - ';
+                    if (data_3[0].ap_thon != '') address += data_3[0].ap_thon + ' - ';
+                    address += `${data_3[0].phuong_xa} - ${data_3[0].quan_huyen} - ${data_3[0].tp_tinh}`;
+                    $('#diachi').text(data_3[0].ten_dia_diem + " (" + address + ")");
+                })
             })
         }
+        /**SỬA */
+
     </script>
 </body>
 
