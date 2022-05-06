@@ -69,7 +69,7 @@ View::$activeItem = 'object';
                                     <button id='btn-delete-benhnhan' class="btn btn-danger">
                                         <i class="bi bi-trash-fill"></i> Xóa DTCL
                                     </button>
-                                    <button id='open-add-benhnhan-btn' class="btn btn-primary">
+                                    <button id="btn-add-dtcl" class="btn btn-primary">
                                         <i class="bi bi-plus"></i> Thêm DTCL
                                     </button>
                                 </div>
@@ -240,9 +240,11 @@ View::$activeItem = 'object';
         /**Hàm chính */
         $(function() {
             getList(1, "", "");
-            $('#add-modal').modal('show');
-            getListAddress("");
-            validateAdd();
+            $('#btn-add-dtcl').click(function() {
+                $('#add-modal').modal('show');
+                getListAddress("");
+                validateAdd();
+            })
         });
 
         /**Các sự kiện */
@@ -382,11 +384,52 @@ View::$activeItem = 'object';
                 },
                 submitHandler: function(form, event) {
                     event.preventDefault();
+                    doAdd();
                 }
             });
         }
-        function doAdd(){
-            
+
+        function doAdd() {
+            $.post(
+                'http://localhost/emss/nguoidung/add', {
+                    lastname: $('#lastname').val(),
+                    firstname: $('#firstname').val(),
+                    cmnd: $('#cmnd').val(),
+                    birthday: $('#birthday').val(),
+                    sex: $('input[name="sex"]').val(),
+                    phone_number: $('#phone_number').val(),
+                    province: $('.tinh:selected').text(),
+                    district: $('.huyen:selected').text(),
+                    ward: $('.xa:selected').text(),
+                    village: $('#village').val(),
+                    home: $('#home').val(),
+                    email: $('#email').val(),
+                    password: $('#cmnd').val(),
+                    role: 5
+                }).done(function(data) {
+                if (data['thanhcong']) {
+                    Toastify({
+                        text: "Thêm thành công",
+                        duration: 1000,
+                        close: true,
+                        gravity: "top",
+                        position: "center",
+                        backgroundColor: "#00CC33",
+                    }).showToast();
+                    $('#add-modal').modal('hide');
+                    getList(1, "", "");
+                } else {
+                    Toastify({
+                        text: data['error'],
+                        duration: 1000,
+                        close: true,
+                        gravity: "top",
+                        position: "center",
+                        backgroundColor: "#FF6600",
+                    }).showToast();
+                    $('#add-user-modal').modal('show');
+                }
+            })
         }
     </script>
 </body>

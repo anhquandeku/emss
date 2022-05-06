@@ -42,7 +42,9 @@ class NguoiDungController extends Controller
         $home = Request::post('home');
         $email = Request::post('email');
         $password = Request::post('password');
-        $address = $province . "-" . $district . "-" . $ward . "-" . $home . "-" . $village;
+        $address = $province . "-" . $district . "-" . $ward;
+        if($home!='') $address = $address . "-" . $home;
+        if($village!='') $address = $address. "-" . $village;
         $role = Request::post('role');
         $result = NguoiDungModel::add($phone_number, $password, $role, $lastname, $firstname, $cmnd, $birthday, $sex, $address, $email, $phone_number);
         return $this->View->renderJSON($result);
