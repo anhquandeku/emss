@@ -25,11 +25,9 @@ View::$activeItem = 'object';
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js" type="text/javascript"></script>
     <style>
         .personal {
-            border: 1.5px solid;
-            width: 80%;
+            width: 100%;
             margin-left: auto;
             margin-right: auto;
-            display: none;
         }
 
         .personal img {
@@ -38,47 +36,51 @@ View::$activeItem = 'object';
             background-size: cover;
         }
 
-        #person {
-            width: 100%;
-            border-collapse: collapse;
-            height: 100%;
-        }
 
-        table {
-            border-collapse: collapse;
-        }
-
-        #person td {
-            border-color: black;
-            border-width: 1px;
-            width: 50%;
-            padding-left: 1em;
-        }
-
-        #person tr {
-            border-spacing: 0;
-            border: none;
-        }
-
-        #table-file {
+        .table-file {
             border-collapse: collapse;
             width: 100%;
             height: 100%;
             text-align: center;
         }
 
-        #table-file td {
+        .table-file td {
             height: 2em;
             border-width: 1.5px;
             border-color: #6699FF;
-            padding: 1em;
+            padding: 0.75em;
             color: black;
         }
 
-        #table-file .title {
+        .table-file .title {
             width: 15%;
             color: #3366CC;
             font-weight: 550;
+            background-color: #ddebf8;
+        }
+
+        .table-person {
+            border-collapse: collapse;
+            width: 100%;
+            height: 100%;
+        }
+
+        .table-person td {
+            height: 2em;
+            border-width: 1.5px;
+            border-color: #6699FF;
+            padding: 0.5em;
+            width: 35%;
+            padding-left: 1em;
+            color: black;
+        }
+
+        .table-person .title {
+            text-align: center;
+            width: 15%;
+            color: #3366CC;
+            font-weight: 700;
+            padding-left: 0px;
             background-color: #ddebf8;
         }
     </style>
@@ -118,36 +120,31 @@ View::$activeItem = 'object';
                         </div>
                     </div>
                     <section class="section">
-                        <div class="card personal">
-                            <div class="card-body row">
-                                <div class="col-3">
-                                    <img src=<?= View::assets('images\ava_nam.jpg') ?>>
-                                </div>
-                                <div class="col-9">
-                                    <table id="person">
+                        <div class="card personal d-none">
+                            <div class="card-body">
+                                <div>
+                                    <table class="table-person">
                                         <tr>
-                                            <td>Họ và tên</td>
-                                            <td>Phan Thanh Thắng</td>
+                                            <td class="title">Họ và tên</td>
+                                            <td id="person-name"></td>
+                                            <td class="title">Giới tính</td>
+                                            <td id="person-sex"></td>
                                         </tr>
                                         <tr>
-                                            <td>Giới tính</td>
-                                            <td>Nam</td>
+                                            <td class="title">Ngày sinh</td>
+                                            <td id="person-birthday"></td>
+                                            <td class="title">CMND</td>
+                                            <td id="person-card"></td>
                                         </tr>
                                         <tr>
-                                            <td>Ngày sinh</td>
-                                            <td>20/05/2001</td>
+                                            <td class="title">Số điện thoại</td>
+                                            <td id="person-number">Phan Thanh Thắng</td>
+                                            <td class="title">Email</td>
+                                            <td id="person-email"></td>
                                         </tr>
                                         <tr>
-                                            <td>CMND</td>
-                                            <td>Phan Thanh Thắng</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Số điện thoại</td>
-                                            <td>Phan Thanh Thắng</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Địa chỉ</td>
-                                            <td>Phan Thanh Thắng</td>
+                                            <td class="title">Địa chỉ</td>
+                                            <td id="person-address" colspan="3"></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -268,7 +265,7 @@ View::$activeItem = 'object';
                             </button>
                         </div>
                         <div class="modal-body">
-                            <table id="table-file">
+                            <table class="table-file">
                                 <tr>
                                     <td class="title">
                                         Mã hồ sơ
@@ -307,6 +304,67 @@ View::$activeItem = 'object';
                                 <span class="d-none d-sm-block">Đóng</span>
                             </button>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <!-- MODAL SỬA -->
+            <div class="modal fade text-left" id="update-dtcl-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                            <h4 class="modal-title  text-light">Cập Nhật Hồ Sơ</h4>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <i data-feather="x"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form name="form-detail-update" method="post">
+                                <div class="row">
+                                    <div class="form-group row col-6">
+                                        <label for="begindate" class="col-sm-4 col-form-label">Ngày bắt đầu</label>
+                                        <div class="col-sm-8">
+                                            <input type="date" class="form-control" value="2000-01-01" id="update_beginday" name="update_beginday">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row col-6">
+                                        <label for="object" class="col-sm-4 col-form-label">Đối tượng:</label>
+                                        <div class="col-8">
+                                            <select class="form-control" name="update_object" id="update_object">
+                                                <option value='-1'>Chưa xác định</option>
+                                                <option value='0'>F0</option>
+                                                <option value='1'>F1</option>
+                                                <option value='2'>F2</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row col-6">
+                                        <label for="source" class="col-sm-4 col-form-label">Nguồn lây:</label>
+                                        <div class="col-8">
+                                            <select class="form-control" name="update_source" id="update_source">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row col-6">
+                                        <label for="phone_number" class="col-sm-4 col-form-label">Địa điểm:</label>
+                                        <div class="col-8">
+                                            <select class="form-control" name="update_local" id="update_local">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Đóng</span>
+                            </button>
+                            <button type="submit" class="btn btn-primary ml-1">
+                                <i class="bx bx-check d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Cập nhật</span>
+                            </button>
+                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -349,6 +407,7 @@ View::$activeItem = 'object';
                     del(str);
                 }
             })
+            getPerson();
         })
         //Các hàm:
         //Lấy ngày hiện tại
@@ -360,9 +419,37 @@ View::$activeItem = 'object';
             return yyyy + '-' + (mm < 10 ? '0' + mm.toString() : mm) + '-' + (dd < 10 ? '0' + mm.toString() : dd);
 
         }
+
+        function formatDateTime(datetime) {
+            let temp = datetime.split('-');
+            return temp[2] + '-' + temp[1] + '-' + temp[0];
+        }
         //Hàm thay đổi trang
         function changePage(newPage) {
             getList(newPage, $('#search-benhnhan-text').val(), $('#cars-search').val());
+        }
+        //Hàm load thông tin đối tượng
+        function getPerson() {
+            $.ajax({
+                url: location.href + `&flag=getid`,
+                type: 'get',
+            }).done(function(data) {
+                $.ajax({
+                    url: 'http://localhost/emss/nguoidung/getOneByID',
+                    data: {
+                        ma_nguoi_dung: data.id
+                    }, 
+                    type: 'POST'
+                }).done(function(kq){
+                    $('#person-name').text(kq[0].ho_lot+" "+kq[0].ten);
+                    $('#person-sex').text(kq[0].phai);
+                    $('#person-birthday').text(formatDateTime(kq[0].ngay_sinh));
+                    $('#person-card').text(kq[0].cmnd);
+                    $('#person-number').text(kq[0].so_dien_thoai)
+                    $('#person-address').text(kq[0].dia_chi);
+                    $('#person-email').text(kq[0].email)
+                })
+            })
         }
         //Hàm load dữ liệu vào bảng
         function getList(current_page) {
@@ -382,8 +469,8 @@ View::$activeItem = 'object';
                     var html = `<tr class="${mark}">
                             <td class="check d-none"><input type="checkbox" value="${element.ma_ho_so}" class="form-check-input del-check shadow-none ${element.ma_ho_so}"></td>
                             <td>${element.ma_ho_so}</td>
-                            <td>${element.tg_bat_dau}</td>
-                            <td>${element.tg_ket_thuc}</td>
+                            <td>${formatDateTime(element.tg_bat_dau)}</td>
+                            <td>${formatDateTime(element.tg_ket_thuc)}</td>
                             <td>${element.ten_dia_diem}</td>
                             <td>
                                 <button onclick="loadView(${element.ma_ho_so})"type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
@@ -391,6 +478,9 @@ View::$activeItem = 'object';
                                 </button>
                                 <button onclick="del(${element.ma_ho_so})" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
                                     <i class="bi bi-trash-fill"></i>
+                                </button>
+                                <button onclick="loadUpdate(${element.ma_ho_so})" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-gear"></i>
                                 </button>
                             </td>
                         </tr>`
@@ -536,8 +626,8 @@ View::$activeItem = 'object';
                 type: 'POST'
             }).done(function(data) {
                 $('#view-IDhoso').text(data[0].ma_ho_so);
-                $('#view-tgbd').text(data[0].tg_bat_dau);
-                $('#view-tgkt').text(data[0].tg_ket_thuc);
+                $('#view-tgbd').text(formatDateTime(data[0].tg_bat_dau));
+                $('#view-tgkt').text(formatDateTime(data[0].tg_ket_thuc));
                 if (data[0].F > -1) $('#view-f').text('F' + data[0].F);
                 else $('#view-f').text("Chưa xác định");
                 $.ajax({
@@ -574,7 +664,91 @@ View::$activeItem = 'object';
             })
         }
         /**SỬA */
+        //Cập nhật
+        function update(idHS) {
+            $("form[name='form-detail-update']").validate({
+                rules: {
+                    update_beginday: {
+                        min: getDateTime(),
+                    },
+                },
+                messages: {
+                    update_beginday: {
+                        min: "Ngày bắt đầu phải lớn hơn hoặc bằng ngày hiện tại",
+                    },
+                },
+                submitHandler: function(form, event) {
+                    event.preventDefault();
+                    $.post('http://localhost/emss/doituongcachly/update', {
+                        ma_ho_so: idHS,
+                        ma_dia_diem: $('#update_local').val(),
+                        tg_bat_dau: $('#update_beginday').val(),
+                        f: $('#update_object').val(),
+                        nguon_lay: $('#update_source').val()
+                    }, function(response) {
+                        $('#update-dtcl-modal').modal('hide');
+                        if (response.thanhcong == true) {
+                            getList(1);
+                            Toastify({
+                                text: "Cập Nhật Thành Công",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#4fbe87",
+                            }).showToast();
+                        } else {
+                            Toastify({
+                                text: "Cập Nhật Thất Bại",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#FF6A6A",
+                            }).showToast();
+                        }
+                    })
 
+
+                }
+            });
+        }
+        //Hàm load dữ liệu vào modal sửa
+        function loadUpdate(idHS) {
+            $('#update-dtcl-modal').modal('show');
+            var file = $.ajax({
+                url: 'http://localhost/emss/doituongcachly/getOneByID',
+                data: {
+                    id: idHS,
+                },
+                type: 'POST',
+            });
+            var patient = $.ajax({
+                url: 'http://localhost/emss/benhnhan/getAll',
+                type: 'POST',
+            });
+            var location = $.ajax({
+                url: 'http://localhost/emss/diadiem/getList',
+                type: 'POST',
+            });
+            $.when(patient, location, file).done(function(l_patient, l_location, _file) {
+                const source = $('#update_source');
+                source.empty();
+                const local = $('#update_local');
+                local.empty();
+                l_patient[0].forEach(function(element) {
+                    source.append(`<option value='${element['ma_benh_nhan']}'>${element['ma_benh_nhan']} - ${element['ho_lot']} ${element['ten']}</option>`);
+                });
+                l_location[0].forEach(function(element) {
+                    if (element['phan_loai'] == 1) local.append(`<option value='${element['ma_dia_diem']}'>${element['ten_dia_diem']}</option>`);
+                });
+                $('#update_beginday').val(_file[0][0].tg_bat_dau);
+                if (_file[0][0].F > -1) $('#update_object').val(_file[0][0].F);
+                source.val(_file[0][0].nguon_lay);
+                local.val(_file[0][0].ma_dia_diem);
+            })
+            update(idHS);
+        }
     </script>
 </body>
 

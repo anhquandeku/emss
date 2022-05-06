@@ -131,4 +131,15 @@ class DTCLModel
         $data = $query->fetchAll();
         return $data;
     }
+    public static function update($ma_ho_so, $ma_dia_diem, $tg_bat_dau, $f, $nguon_lay)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("UPDATE ho_so_cach_ly SET ma_dia_diem = :ma_dia_diem, tg_bat_dau = :tg_bat_dau, f = :f, nguon_lay = :nguon_lay WHERE ma_ho_so = :ma_ho_so");
+        $query->execute([':ma_ho_so' => $ma_ho_so, ':ma_dia_diem' => $ma_dia_diem, ':tg_bat_dau' => $tg_bat_dau, ':f' => $f, ':nguon_lay' => $nguon_lay]);
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+        return false;
+    }
 }

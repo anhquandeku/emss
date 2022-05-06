@@ -23,7 +23,7 @@ class NguoiDungModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $query = $database->prepare("SELECT * FROM nguoi_dung WHERE ma_nguoi_dung = :mnd LIMIT 1");
+        $query = $database->prepare("SELECT * FROM nguoi_dung WHERE ma_nguoi_dung = :mnd AND trang_thai =1 LIMIT 1");
         $query->execute([':mnd' => $ma_nguoi_dung]);
         $data = $query->fetchAll();
         return $data;

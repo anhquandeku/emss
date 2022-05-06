@@ -82,6 +82,17 @@ class DoiTuongCachLyController extends Controller
 
     public function update()
     {
+        Auth::checkAuthentication();
+        $ma_ho_so = Request::post('ma_ho_so');
+        $ma_dia_diem = Request::post('ma_dia_diem');
+        $tg_bat_dau = Request::post('tg_bat_dau');
+        $f = Request::post('f');
+        $nguon_lay = Request::post('nguon_lay');
+        $data = DTCLModel::update($ma_ho_so, $ma_dia_diem, $tg_bat_dau, $f, $nguon_lay);
+        if ($data = false) 
+            $data = ['thanhcong' => false,];
+        else $data = ['thanhcong' => true];
+        $this->View->renderJSON($data);
     }
     public function delete()
     {
