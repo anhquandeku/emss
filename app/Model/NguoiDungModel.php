@@ -16,17 +16,23 @@ class NguoiDungModel
 
         $query = $database->prepare("SELECT * FROM nguoi_dung WHERE user_name = :username LIMIT 1");
         $query->execute([':username' => $username]);
-        $data = $query->fetchAll();
-        return $data;
+
+        if ($row = $query->fetch()) {
+            return $row;
+        }
+        return null;
     }
     public static function getOneByID($ma_nguoi_dung)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $query = $database->prepare("SELECT * FROM nguoi_dung WHERE ma_nguoi_dung = :mnd AND trang_thai =1 LIMIT 1");
+        $query = $database->prepare("SELECT * FROM nguoi_dung WHERE ma_nguoi_dung = :mnd LIMIT 1");
         $query->execute([':mnd' => $ma_nguoi_dung]);
-        $data = $query->fetchAll();
-        return $data;
+
+        if ($row = $query->fetch()) {
+            return $row;
+        }
+        return null;
     }
     public static function add($username, $password, $vaitro, $holot, $ten, $cmnd, $ngaysinh, $phai, $diachi, $email, $sdt)
     {

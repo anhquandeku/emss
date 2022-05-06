@@ -35,7 +35,6 @@ class AuthController extends Controller
         Auth::checkNotAuthentication();
         $user_name = Request::post('user_name');
         $password = Request::post('password');
-       // $user_name = 'admin';
         $result = [
             'thanhcong' => true,
         ];
@@ -48,8 +47,8 @@ class AuthController extends Controller
         } else if($user->trang_thai == 0){
             $result['thanhcong'] = false;
             $result['summary'] = 'Tài khoản đã bị khóa';
+            return $this->View->renderJSON($result);
         }
-
         // Kiểm tra password
         $isValid = password_verify($password, $user->password);
         if (!$isValid) {
