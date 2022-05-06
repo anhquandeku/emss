@@ -132,7 +132,7 @@ View::$activeItem = 'test';
     }
 
     function getTestAjax() {
-        $.get(`http://localhost/ooad-emss/emss/xetnghiem/getList?row_per_page=10&current_page=${currentPage}`,
+        $.get(`http://localhost/emss/xetnghiem/getList?row_per_page=10&current_page=${currentPage}`,
             function(response) {
                 const table1 = $('#table1 > tbody');
                 table1.empty();

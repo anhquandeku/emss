@@ -15,7 +15,8 @@ View::$activeItem = 'quyen';
     <title>ESSM</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet" />
     <link rel="stylesheet" href="<?= View::assets('css/bootstrap.css') ?>" />
 
     <link rel="stylesheet" href="<?= View::assets('vendors/toastify/toastify.css') ?>" />
@@ -40,7 +41,8 @@ View::$activeItem = 'quyen';
                         <h6>Tìm Kiếm</h6>
                         <div id="search-user-form" name="search-user-form">
                             <div class="form-group position-relative has-icon-right">
-                                <input id="serch-user-text" type="text" class="form-control" placeholder="Tìm kiếm" value="">
+                                <input id="serch-user-text" type="text" class="form-control" placeholder="Tìm kiếm"
+                                    value="">
                                 <div class="form-control-icon">
                                     <i class="bi bi-search"></i>
                                 </div>
@@ -152,7 +154,8 @@ View::$activeItem = 'quyen';
                                     <li class="list-group-item">
                                         <div class="form-group">
                                             <label>Mã Quyền:</label>
-                                            <input type="text" class="form-control" id="re-maquyen" name="maquyen" disabled>
+                                            <input type="text" class="form-control" id="re-maquyen" name="maquyen"
+                                                disabled>
                                         </div>
                                     </li>
                                     <li class="list-group-item">
@@ -183,7 +186,8 @@ View::$activeItem = 'quyen';
                     </div>
                 </div>
                 <!-- Modal Thong bao -->
-                <div class="modal fade text-left" id="question-user-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel110" aria-hidden="true">
+                <div class="modal fade text-left" id="question-user-modal" tabindex="-1" role="dialog"
+                    aria-labelledby="myModalLabel110" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header bg-success">
@@ -209,8 +213,10 @@ View::$activeItem = 'quyen';
                     </div>
                 </div>
                 <!-- Modal View -->
-                <div class="modal fade" id="view-mon-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal fade" id="view-mon-modal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
+                        role="document">
                         <div class="modal-content">
 
                             <div class="modal-body">
@@ -263,108 +269,436 @@ View::$activeItem = 'quyen';
     <script src="<?= View::assets('js/changepass.js') ?>"></script>
     <script src="<?= View::assets('js/menu.js') ?>"></script>
     <script>
-        let currentPage = 1
-        let checkedRows = [];
-        let chucnangs;
-        // on ready
-        $(function() {
+    let currentPage = 1
+    let checkedRows = [];
+    let chucnangs;
+    // on ready
+    $(function() {
 
-            //kietm tra quyen
-            $.post(`http://localhost/emss/quyen/getChucNang`, function(response) {
-                chucnangs = response.data;
-                chucnangs.forEach(data => {
-                    let viewopt = '<li class="d-inline-block me-0 mb-1 w-50">\
+        //kietm tra quyen
+        $.post(`http://localhost/emss/quyen/getChucNang`, function(response) {
+            chucnangs = response.data;
+            chucnangs.forEach(data => {
+                let viewopt =
+                    '<li class="d-inline-block me-0 mb-1 w-50">\
                                     <div class="form-check">\
                                         <div class="custom-control custom-checkbox">\
-                                            <input type="checkbox" class="form-check-input form-check-success" name="' + data.MaChucNang + '" id="view-' + data.MaChucNang + '" disabled>\
-                                            <label class="form-check-label" for="customColorCheck3">' + data.TenDoiTuong + '</label>\
+                                            <input type="checkbox" class="form-check-input form-check-success" name="' + data
+                    .MaChucNang + '" id="view-' + data.MaChucNang + '" disabled>\
+                                            <label class="form-check-label" for="customColorCheck3">' + data
+                    .TenDoiTuong + '</label>\
                                         </div>\
                                     </div>\
                                 </li>';
-                    let opt = '<li class="d-inline-block me-0 mb-1 w-50">\
+                let opt =
+                    '<li class="d-inline-block me-0 mb-1 w-50">\
                                     <div class="form-check">\
                                         <div class="custom-control custom-checkbox">\
-                                            <input type="checkbox" class="form-check-input form-check-success"  name="' + data.MaChucNang + '" id="add-' + data.MaChucNang + '" >\
-                                            <label class="form-check-label" for="customColorCheck3">' + data.TenDoiTuong + '</label>\
+                                            <input type="checkbox" class="form-check-input form-check-success"  name="' +
+                    data.MaChucNang + '" id="add-' + data.MaChucNang + '" >\
+                                            <label class="form-check-label" for="customColorCheck3">' + data
+                    .TenDoiTuong + '</label>\
                                         </div>\
                                     </div>\
                                 </li>';
-                    let reopt = '<li class="d-inline-block me-0 mb-1 w-50">\
+                let reopt = '<li class="d-inline-block me-0 mb-1 w-50">\
                                 <div class="form-check">\
                                     <div class="custom-control custom-checkbox">\
-                                        <input type="checkbox" class="form-check-input form-check-success" name="' + data.MaChucNang + '" id="re-' + data.MaChucNang + '" >\
+                                        <input type="checkbox" class="form-check-input form-check-success" name="' +
+                    data.MaChucNang + '" id="re-' + data.MaChucNang + '" >\
                                         <label class="form-check-label" for="customColorCheck3">' + data.TenDoiTuong + '</label>\
                                     </div>\
                                 </div>\
                             </li>';
-                    $("#view-chucnang-list").append(viewopt);
-                    $("#chucnang-list").append(opt);
-                    $("#re-chucnang-list").append(reopt);
+                $("#view-chucnang-list").append(viewopt);
+                $("#chucnang-list").append(opt);
+                $("#re-chucnang-list").append(reopt);
 
-                });
             });
-            layDSQuyenAjax();
+        });
+        layDSQuyenAjax();
 
 
-            // Đặt sự kiện validate cho modal add mon
-            $("form[name='add-mon-form']").validate({
-                rules: {
-                    maquyen: {
-                        required: true,
-                        remote: {
-                            url: "http://localhost/ooad-emss/emss/quyen/checkValidMaQuyen",
-                            type: "POST",
+        // Đặt sự kiện validate cho modal add mon
+        $("form[name='add-mon-form']").validate({
+            rules: {
+                maquyen: {
+                    required: true,
+                    remote: {
+                        url: "http://localhost/emss/quyen/checkValidMaQuyen",
+                        type: "POST",
+                    }
+                },
+                tenquyen: {
+                    required: true,
+                    validateTenMon: true,
+                },
+            },
+            messages: {
+                maquyen: {
+                    required: "Vui lòng nhập mã quyền",
+                },
+                tenquyen: {
+                    required: "Vui lòng nhập tên quyền",
+                    validateTenMon: "Tên quyền chứa các kí tự a-z, 0-9, [space], _, - (từ 2 kí tự trở lên)!"
+                },
+            },
+            submitHandler: function(form, event) {
+                event.preventDefault();
+                // lấy dữ liệu từ form
+                const tam = Object.fromEntries(new FormData(form).entries());
+                chucnangs.forEach(cn => {
+                    if ($('#add-' + cn.MaChucNang).prop("checked")) {
+                        tam[cn.MaChucNang] = 1;
+                    } else {
+                        tam[cn.MaChucNang] = 0;
+                    }
+                });
+                let chitiet = [];
+                Object.keys(tam).forEach(key => {
+                    if (key == 'maquyen' || key == 'tenquyen') {
+                        return;
+                    }
+
+                    let temp = {
+                        MaQuyen: tam['maquyen'],
+                        MaChucNang: key,
+                        TrangThai: tam[key]
+                    }
+                    chitiet.push(temp)
+                })
+                let data = {
+                    maquyen: tam['maquyen'],
+                    tenquyen: tam['tenquyen'],
+                    chitiets: JSON.stringify(chitiet)
+                }
+                $.post(`http://localhost/emss/quyen/addQuyen`, data, function(response) {
+                    if (response.thanhcong) {
+                        currentPage = 1;
+                        layDSQuyenAjax();
+                        Toastify({
+                            text: "Thêm Thành Công",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#4fbe87",
+                        }).showToast();
+                    } else {
+                        Toastify({
+                            text: "Thêm Thất Bại",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }
+
+                    // Đóng modal
+                    $("#add-mon-modal").modal('toggle');
+                });
+                $('#maquyen').val("");
+                $('#tenquyen').val("");
+                chucnangs.forEach(cn => {
+                    $('#add-' + cn.MaChucNang).prop("checked", false);
+                });
+            }
+        })
+
+    });
+
+    $("#open-add-mon-btn").click(function() {
+        $('#mamon').val("");
+        $('#tenmon').val("");
+        $('#tinchi').val("");
+        $("#add-mon-modal").modal('toggle')
+    });
+
+    $("#btn-phancong").click(function() {
+        $("#phancong-modal").modal('toggle');
+        currentPage = 1;
+        layDSGVMonAjax();
+    });
+
+    function changePage(newPage) {
+        currentPage = newPage;
+        layDSQuyenAjax();
+    }
+
+    function changePageSearch(newPage) {
+        currentPage = newPage;
+        layDSQuyenSearch();
+    }
+
+    $("#search-user-form").keyup(debounce(function() {
+        currentPage = 1;
+        layDSQuyenSearch();
+    }, 200));
+
+
+    function layDSQuyenAjax() {
+        $.get(`http://localhost/emss/quyen/getQuyen?rowsPerPage=10&page=${currentPage}`, function(response) {
+            const table1 = $('#table1 > tbody');
+            table1.empty();
+            checkedRows = [];
+            $row = 0;
+            response.data.forEach(data => {
+                if ($row % 2 == 0) {
+
+                    table1.append(`
+                        <tr class="table-light">
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.MaQuyen}">
+                                </div>
+                            </td>
+                            <td>${data.MaQuyen}</td>
+                            <td>${data.TenQuyen}</td>
+                            <td>
+                                <button onclick="viewRow('${data.MaQuyen}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button onclick="repairRow('${data.MaQuyen}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-tools"></i>
+                                </button>
+                                <button onclick="deleteRow('${data.MaQuyen}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>`);
+                } else {
+                    table1.append(`
+                        <tr class="table-info">
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.MaQuyen}">
+                                </div>
+                            </td>
+                            <td>${data.MaQuyen}</td>
+                            <td>${data.TenQuyen}</td>
+                            <td>
+                                <button onclick="viewRow('${data.MaQuyen}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button onclick="repairRow('${data.MaQuyen}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-tools"></i>
+                                </button>
+                                <button onclick="deleteRow('${data.MaQuyen}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>`);
+                }
+                checkedRows.push(data.MaQuyen);
+                $row += 1;
+            });
+
+            const pagination = $('#pagination');
+            // Xóa phân trang cũ
+            pagination.empty();
+            if (response.totalPage > 1) {
+                for (let i = 1; i <= response.totalPage; i++) {
+                    if (i == currentPage) {
+                        pagination.append(`
+                        <li class="page-item active">
+                            <button class="page-link" onClick='changePage(${i})'>${i}</button>
+                        </li>`)
+                    } else {
+                        pagination.append(`
+                        <li class="page-item">
+                            <button class="page-link" onClick='changePage(${i})'>${i}</button>
+                        </li>`)
+                    }
+
+                }
+            }
+
+        });
+    }
+
+    function layDSQuyenSearch() {
+        $.get(`http://localhost/emss/quyen/getQuyen?rowsPerPage=10&page=${currentPage}&search=${$('#serch-user-text').val()}`,
+            function(response) {
+                const table1 = $('#table1 > tbody');
+                table1.empty();
+                checkedRows = [];
+                $row = 0;
+                response.data.forEach(data => {
+                    if ($row % 2 == 0) {
+
+                        table1.append(`
+                        <tr class="table-light">
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.MaQuyen}">
+                                </div>
+                            </td>
+                            <td>${data.MaQuyen}</td>
+                            <td>${data.TenQuyen}</td>
+                            <td>
+                                <button onclick="viewRow('${data.MaQuyen}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button onclick="repairRow('${data.MaQuyen}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-tools"></i>
+                                </button>
+                                <button onclick="deleteRow('${data.MaQuyen}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>`);
+                    } else {
+                        table1.append(`
+                        <tr class="table-info">
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.MaQuyen}">
+                                </div>
+                            </td>
+                            <td>${data.MaQuyen}</td>
+                            <td>${data.TenQuyen}</td>
+                            <td>
+                                <button onclick="viewRow('${data.MaQuyen}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button onclick="repairRow('${data.MaQuyen}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-tools"></i>
+                                </button>
+                                <button onclick="deleteRow('${data.MaQuyen}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>`);
+                    }
+                    checkedRows.push(data.MaQuyen);
+                    $row += 1;
+                });
+
+                const pagination = $('#pagination');
+                // Xóa phân trang cũ
+                pagination.empty();
+                if (response.totalPage > 1) {
+                    for (let i = 1; i <= response.totalPage; i++) {
+                        if (i == currentPage) {
+                            pagination.append(`
+                        <li class="page-item active">
+                            <button class="page-link" onClick='changePageSearch(${i})'>${i}</button>
+                        </li>`)
+                        } else {
+                            pagination.append(`
+                        <li class="page-item">
+                            <button class="page-link" onClick='changePageSearch(${i})'>${i}</button>
+                        </li>`)
                         }
-                    },
-                    tenquyen: {
-                        required: true,
-                        validateTenMon: true,
-                    },
+
+                    }
+                }
+
+
+            });
+    }
+
+    function changePageGVM(newPage) {
+        currentPage = newPage;
+        layDSGVMonAjax()
+    }
+
+
+    function viewRow(params) {
+        let data = {
+            maquyen: params
+        };
+        $.post(`http://localhost/emss/quyen/viewQuyen`, data, function(response) {
+            if (response.thanhcong) {
+                $("#view-maquyen").val(response.MaQuyen);
+                $("#view-tenquyen").val(response.TenQuyen);
+                response.chitiet.forEach(function(cn) {
+                    if (cn.TrangThai == 1) {
+                        $('#view-' + cn.MaChucNang).prop('checked', true);
+                    }
+                });
+            }
+        });
+        $("#view-mon-modal").modal('toggle');
+    }
+
+    function repairRow(params) {
+        let data = {
+            maquyen: params
+        };
+
+        $.post(`http://localhost/emss/quyen/viewQuyen`, data, function(response) {
+            if (response.thanhcong) {
+                $("#re-maquyen").val(response.MaQuyen);
+                $("#re-tenquyen").val(response.TenQuyen);
+                response.chitiet.forEach(function(cn) {
+                    if (cn.TrangThai == 1) {
+                        $('#re-' + cn.MaChucNang).prop('checked', true);
+                    } else {
+                        $('#re-' + cn.MaChucNang).prop('checked', false);
+                    }
+                });
+            }
+        });
+        $("#repair-mon-modal").modal('toggle');
+        //Sua form
+        $("form[name='repair-mon-form']").validate({
+            rules: {
+                tenquyen: {
+                    required: true,
+                    validateTenMon: true,
                 },
-                messages: {
-                    maquyen: {
-                        required: "Vui lòng nhập mã quyền",
-                    },
-                    tenquyen: {
-                        required: "Vui lòng nhập tên quyền",
-                        validateTenMon: "Tên quyền chứa các kí tự a-z, 0-9, [space], _, - (từ 2 kí tự trở lên)!"
-                    },
+            },
+            messages: {
+                tenquyen: {
+                    required: "Vui lòng nhập tên độ khó",
+                    validateTenMon: "Tên quyền chứa các kí tự a-z, 0-9, [space], _, - (từ 2 kí tự trở lên)!",
                 },
-                submitHandler: function(form, event) {
-                    event.preventDefault();
+            },
+            submitHandler: function(form, event) {
+                event.preventDefault();
+                $("#myModalLabel110").text("Phân Quyền");
+                $("#question-model").text("Bạn có chắc chắn muốn sửa quyền này không");
+                $("#question-user-modal").modal('toggle');
+                $('#thuchien').off('click');
+                $("#thuchien").click(function() {
                     // lấy dữ liệu từ form
-                    const tam = Object.fromEntries(new FormData(form).entries());
-                        chucnangs.forEach(cn => {
-                            if ($('#add-' + cn.MaChucNang).prop("checked")) {
-                                tam[cn.MaChucNang] = 1;
-                            } else {
-                                tam[cn.MaChucNang] = 0;
-                            }
-                        });
-                        let chitiet = [];
-                        Object.keys(tam).forEach(key => {
-                            if(key == 'maquyen' || key == 'tenquyen'){
-                                return;
-                            }
 
-                            let temp = {
-                                MaQuyen: tam['maquyen'],
-                                MaChucNang: key,
-                                TrangThai: tam[key]
-                            }
-                            chitiet.push(temp)
-                        })
-                        let data = {
-                            maquyen :tam['maquyen'],
-                            tenquyen :tam['tenquyen'],
-                            chitiets : JSON.stringify(chitiet)
+                    const tam = Object.fromEntries(new FormData(form).entries());
+                    tam['maquyen'] = $('#re-maquyen').val();
+
+                    chucnangs.forEach(cn => {
+                        if ($('#re-' + cn.MaChucNang).prop("checked")) {
+                            tam[cn.MaChucNang] = 1;
+                        } else {
+                            tam[cn.MaChucNang] = 0;
                         }
-                    $.post(`http://localhost/ooad-emss/emss/quyen/addQuyen`, data, function(response) {
+                    });
+                    let chitiet = [];
+                    Object.keys(tam).forEach(key => {
+                        if (key == 'maquyen' || key == 'tenquyen') {
+                            return;
+                        }
+
+                        let temp = {
+                            MaQuyen: tam['maquyen'],
+                            MaChucNang: key,
+                            TrangThai: tam[key]
+                        }
+                        chitiet.push(temp)
+                    })
+                    let data = {
+                        maquyen: tam['maquyen'],
+                        tenquyen: tam['tenquyen'],
+                        chitiets: JSON.stringify(chitiet)
+                    }
+                    $.post(`http://localhost/emss/quyen/repairQuyen`, data, function(response) {
                         if (response.thanhcong) {
                             currentPage = 1;
                             layDSQuyenAjax();
                             Toastify({
-                                text: "Thêm Thành Công",
+                                text: "Sửa Thành Công",
                                 duration: 1000,
                                 close: true,
                                 gravity: "top",
@@ -373,7 +707,7 @@ View::$activeItem = 'quyen';
                             }).showToast();
                         } else {
                             Toastify({
-                                text: "Thêm Thất Bại",
+                                text: "Sửa Thất Bại",
                                 duration: 1000,
                                 close: true,
                                 gravity: "top",
@@ -383,408 +717,88 @@ View::$activeItem = 'quyen';
                         }
 
                         // Đóng modal
-                        $("#add-mon-modal").modal('toggle');
+                        $("#repair-mon-modal").modal('toggle')
                     });
-                    $('#maquyen').val("");
-                    $('#tenquyen').val("");
-                    chucnangs.forEach(cn => {
-                            $('#add-' + cn.MaChucNang).prop("checked",false);
-                    });
-                }
-            })
-
-        });
-
-        $("#open-add-mon-btn").click(function() {
-            $('#mamon').val("");
-            $('#tenmon').val("");
-            $('#tinchi').val("");
-            $("#add-mon-modal").modal('toggle')
-        });
-
-        $("#btn-phancong").click(function() {
-            $("#phancong-modal").modal('toggle');
-            currentPage = 1;
-            layDSGVMonAjax();
-        });
-
-        function changePage(newPage) {
-            currentPage = newPage;
-            layDSQuyenAjax();
-        }
-
-        function changePageSearch(newPage) {
-            currentPage = newPage;
-            layDSQuyenSearch();
-        }
-
-        $("#search-user-form").keyup(debounce(function() {
-            currentPage = 1;
-            layDSQuyenSearch();
-        },200));
-
-
-        function layDSQuyenAjax() {
-            $.get(`http://localhost/ooad-emss/emss/quyen/getQuyen?rowsPerPage=10&page=${currentPage}`, function(response) {
-                const table1 = $('#table1 > tbody');
-                table1.empty();
-                checkedRows = [];
-                $row = 0;
-                response.data.forEach(data => {
-                    if ($row % 2 == 0) {
-
-                        table1.append(`
-                        <tr class="table-light">
-                            <td>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.MaQuyen}">
-                                </div>
-                            </td>
-                            <td>${data.MaQuyen}</td>
-                            <td>${data.TenQuyen}</td>
-                            <td>
-                                <button onclick="viewRow('${data.MaQuyen}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                                <button onclick="repairRow('${data.MaQuyen}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-tools"></i>
-                                </button>
-                                <button onclick="deleteRow('${data.MaQuyen}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button>
-                            </td>
-                        </tr>`);
-                    } else {
-                        table1.append(`
-                        <tr class="table-info">
-                            <td>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.MaQuyen}">
-                                </div>
-                            </td>
-                            <td>${data.MaQuyen}</td>
-                            <td>${data.TenQuyen}</td>
-                            <td>
-                                <button onclick="viewRow('${data.MaQuyen}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                                <button onclick="repairRow('${data.MaQuyen}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-tools"></i>
-                                </button>
-                                <button onclick="deleteRow('${data.MaQuyen}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button>
-                            </td>
-                        </tr>`);
-                    }
-                    checkedRows.push(data.MaQuyen);
-                    $row += 1;
                 });
+            }
+        })
+    }
 
-                const pagination = $('#pagination');
-                // Xóa phân trang cũ
-                pagination.empty();
-                if (response.totalPage > 1) {
-                    for (let i = 1; i <= response.totalPage; i++) {
-                        if (i == currentPage) {
-                            pagination.append(`
-                        <li class="page-item active">
-                            <button class="page-link" onClick='changePage(${i})'>${i}</button>
-                        </li>`)
-                        } else {
-                            pagination.append(`
-                        <li class="page-item">
-                            <button class="page-link" onClick='changePage(${i})'>${i}</button>
-                        </li>`)
-                        }
-
-                    }
-                }
-
-            });
-        }
-
-        function layDSQuyenSearch() {
-            $.get(`http://localhost/ooad-emss/emss/quyen/getQuyen?rowsPerPage=10&page=${currentPage}&search=${$('#serch-user-text').val()}`, function(response) {
-                const table1 = $('#table1 > tbody');
-                table1.empty();
-                checkedRows = [];
-                $row = 0;
-                response.data.forEach(data => {
-                    if ($row % 2 == 0) {
-
-                        table1.append(`
-                        <tr class="table-light">
-                            <td>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.MaQuyen}">
-                                </div>
-                            </td>
-                            <td>${data.MaQuyen}</td>
-                            <td>${data.TenQuyen}</td>
-                            <td>
-                                <button onclick="viewRow('${data.MaQuyen}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                                <button onclick="repairRow('${data.MaQuyen}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-tools"></i>
-                                </button>
-                                <button onclick="deleteRow('${data.MaQuyen}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button>
-                            </td>
-                        </tr>`);
-                    } else {
-                        table1.append(`
-                        <tr class="table-info">
-                            <td>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.MaQuyen}">
-                                </div>
-                            </td>
-                            <td>${data.MaQuyen}</td>
-                            <td>${data.TenQuyen}</td>
-                            <td>
-                                <button onclick="viewRow('${data.MaQuyen}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                                <button onclick="repairRow('${data.MaQuyen}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-tools"></i>
-                                </button>
-                                <button onclick="deleteRow('${data.MaQuyen}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button>
-                            </td>
-                        </tr>`);
-                    }
-                    checkedRows.push(data.MaQuyen);
-                    $row += 1;
-                });
-
-                const pagination = $('#pagination');
-                // Xóa phân trang cũ
-                pagination.empty();
-                if (response.totalPage > 1) {
-                    for (let i = 1; i <= response.totalPage; i++) {
-                        if (i == currentPage) {
-                            pagination.append(`
-                        <li class="page-item active">
-                            <button class="page-link" onClick='changePageSearch(${i})'>${i}</button>
-                        </li>`)
-                        } else {
-                            pagination.append(`
-                        <li class="page-item">
-                            <button class="page-link" onClick='changePageSearch(${i})'>${i}</button>
-                        </li>`)
-                        }
-
-                    }
-                }
-
-
-            });
-        }
-
-        function changePageGVM(newPage) {
-            currentPage = newPage;
-            layDSGVMonAjax()
-        }
-
-
-        function viewRow(params) {
-            let data = {
-                maquyen: params
-            };
-            $.post(`http://localhost/ooad-emss/emss/quyen/viewQuyen`, data, function(response) {
+    function deleteRow(params) {
+        let data = {
+            maquyen: params
+        };
+        $("#myModalLabel110").text("Phân Quyền");
+        $("#question-model").text("Bạn có chắc chắn muốn xóa quyền này không");
+        $("#question-user-modal").modal('toggle');
+        $('#thuchien').off('click');
+        $("#thuchien").click(function() {
+            $.post(`http://localhost/emss/quyen/deleteQuyen`, data, function(response) {
                 if (response.thanhcong) {
-                    $("#view-maquyen").val(response.MaQuyen);
-                    $("#view-tenquyen").val(response.TenQuyen);
-                    response.chitiet.forEach(function(cn) {
-                        if (cn.TrangThai == 1) {
-                            $('#view-' + cn.MaChucNang).prop('checked', true);
-                        }
-                    });
+                    Toastify({
+                        text: "Xóa Thành Công",
+                        duration: 1000,
+                        close: true,
+                        gravity: "top",
+                        position: "center",
+                        backgroundColor: "#4fbe87",
+                    }).showToast();
+                    currentPage = 1;
+                    layDSQuyenAjax();
+                } else {
+                    Toastify({
+                        text: "Xóa Thất Bại",
+                        duration: 1000,
+                        close: true,
+                        gravity: "top",
+                        position: "center",
+                        backgroundColor: "#FF6A6A",
+                    }).showToast();
                 }
-            });
-            $("#view-mon-modal").modal('toggle');
-        }
-
-        function repairRow(params) {
-            let data = {
-                maquyen: params
-            };
-
-            $.post(`http://localhost/ooad-emss/emss/quyen/viewQuyen`, data, function(response) {
-                if (response.thanhcong) {
-                    $("#re-maquyen").val(response.MaQuyen);
-                    $("#re-tenquyen").val(response.TenQuyen);
-                    response.chitiet.forEach(function(cn) {
-                        if (cn.TrangThai == 1) {
-                            $('#re-' + cn.MaChucNang).prop('checked', true);
-                        } else {
-                            $('#re-' + cn.MaChucNang).prop('checked', false);
-                        }
-                    });
-                }
-            });
-            $("#repair-mon-modal").modal('toggle');
-            //Sua form
-            $("form[name='repair-mon-form']").validate({
-                rules: {
-                    tenquyen: {
-                        required: true,
-                        validateTenMon: true,
-                    },
-                },
-                messages: {
-                    tenquyen: {
-                        required: "Vui lòng nhập tên độ khó",
-                        validateTenMon: "Tên quyền chứa các kí tự a-z, 0-9, [space], _, - (từ 2 kí tự trở lên)!",
-                    },
-                },
-                submitHandler: function(form, event) {
-                    event.preventDefault();
-                    $("#myModalLabel110").text("Phân Quyền");
-                    $("#question-model").text("Bạn có chắc chắn muốn sửa quyền này không");
-                    $("#question-user-modal").modal('toggle');
-                    $('#thuchien').off('click');
-                    $("#thuchien").click(function() {
-                        // lấy dữ liệu từ form
-
-                        const tam = Object.fromEntries(new FormData(form).entries());
-                        tam['maquyen'] = $('#re-maquyen').val();
-                        
-                        chucnangs.forEach(cn => {
-                            if ($('#re-' + cn.MaChucNang).prop("checked")) {
-                                tam[cn.MaChucNang] = 1;
-                            } else {
-                                tam[cn.MaChucNang] = 0;
-                            }
-                        });
-                        let chitiet = [];
-                        Object.keys(tam).forEach(key => {
-                            if(key == 'maquyen' || key == 'tenquyen'){
-                                return;
-                            }
-
-                            let temp = {
-                                MaQuyen: tam['maquyen'],
-                                MaChucNang: key,
-                                TrangThai: tam[key]
-                            }
-                            chitiet.push(temp)
-                        })
-                        let data = {
-                            maquyen :tam['maquyen'],
-                            tenquyen :tam['tenquyen'],
-                            chitiets : JSON.stringify(chitiet)
-                        }
-                        $.post(`http://localhost/ooad-emss/emss/quyen/repairQuyen`, data, function(response) {
-                            if (response.thanhcong) {
-                                currentPage = 1;
-                                layDSQuyenAjax();
-                                Toastify({
-                                    text: "Sửa Thành Công",
-                                    duration: 1000,
-                                    close: true,
-                                    gravity: "top",
-                                    position: "center",
-                                    backgroundColor: "#4fbe87",
-                                }).showToast();
-                            } else {
-                                Toastify({
-                                    text: "Sửa Thất Bại",
-                                    duration: 1000,
-                                    close: true,
-                                    gravity: "top",
-                                    position: "center",
-                                    backgroundColor: "#FF6A6A",
-                                }).showToast();
-                            }
-
-                            // Đóng modal
-                            $("#repair-mon-modal").modal('toggle')
-                        });
-                    });
-                }
-            })
-        }
-
-        function deleteRow(params) {
-            let data = {
-                maquyen: params
-            };
-            $("#myModalLabel110").text("Phân Quyền");
-            $("#question-model").text("Bạn có chắc chắn muốn xóa quyền này không");
-            $("#question-user-modal").modal('toggle');
-            $('#thuchien').off('click');
-            $("#thuchien").click(function() {
-                $.post(`http://localhost/ooad-emss/emss/quyen/deleteQuyen`, data, function(response) {
-                    if (response.thanhcong) {
-                        Toastify({
-                            text: "Xóa Thành Công",
-                            duration: 1000,
-                            close: true,
-                            gravity: "top",
-                            position: "center",
-                            backgroundColor: "#4fbe87",
-                        }).showToast();
-                        currentPage = 1;
-                        layDSQuyenAjax();
-                    } else {
-                        Toastify({
-                            text: "Xóa Thất Bại",
-                            duration: 1000,
-                            close: true,
-                            gravity: "top",
-                            position: "center",
-                            backgroundColor: "#FF6A6A",
-                        }).showToast();
-                    }
-                });
-            });
-
-        }
-        $("#btn-delete-mon").click(function() {
-            $("#myModalLabel110").text("Phân Quyền");
-            $("#question-model").text("Bạn có chắc chắn muốn xóa những quyền này không");
-            $("#question-user-modal").modal('toggle');
-            $('#thuchien').off('click');
-            $("#thuchien").click(function() {
-                let datas = []
-                checkedRows.forEach(checkedRow => {
-                    if ($('#' + checkedRow).prop("checked")) {
-                        datas.push(checkedRow);
-                    }
-                });
-                let data = {
-                    maquyens: JSON.stringify(datas)
-                };
-                $.post(`http://localhost/ooad-emss/emss/quyen/deleteQuyens`, data, function(response) {
-                    if (response.thanhcong) {
-                        Toastify({
-                            text: "Xóa Thành Công",
-                            duration: 1000,
-                            close: true,
-                            gravity: "top",
-                            position: "center",
-                            backgroundColor: "#4fbe87",
-                        }).showToast();
-                        currentPage = 1;
-                        layDSQuyenAjax();
-                    } else {
-                        Toastify({
-                            text: "Xóa Thất Bại",
-                            duration: 1000,
-                            close: true,
-                            gravity: "top",
-                            position: "center",
-                            backgroundColor: "#FF6A6A",
-                        }).showToast();
-                    }
-                });
             });
         });
+
+    }
+    $("#btn-delete-mon").click(function() {
+        $("#myModalLabel110").text("Phân Quyền");
+        $("#question-model").text("Bạn có chắc chắn muốn xóa những quyền này không");
+        $("#question-user-modal").modal('toggle');
+        $('#thuchien').off('click');
+        $("#thuchien").click(function() {
+            let datas = []
+            checkedRows.forEach(checkedRow => {
+                if ($('#' + checkedRow).prop("checked")) {
+                    datas.push(checkedRow);
+                }
+            });
+            let data = {
+                maquyens: JSON.stringify(datas)
+            };
+            $.post(`http://localhost/emss/quyen/deleteQuyens`, data, function(response) {
+                if (response.thanhcong) {
+                    Toastify({
+                        text: "Xóa Thành Công",
+                        duration: 1000,
+                        close: true,
+                        gravity: "top",
+                        position: "center",
+                        backgroundColor: "#4fbe87",
+                    }).showToast();
+                    currentPage = 1;
+                    layDSQuyenAjax();
+                } else {
+                    Toastify({
+                        text: "Xóa Thất Bại",
+                        duration: 1000,
+                        close: true,
+                        gravity: "top",
+                        position: "center",
+                        backgroundColor: "#FF6A6A",
+                    }).showToast();
+                }
+            });
+        });
+    });
     </script>
 </body>
 

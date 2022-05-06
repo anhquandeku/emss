@@ -34,13 +34,15 @@ use App\Core\Redirect;
                     <p class="auth-subtitle mb-5">Nhập thông tin của bạn để đăng nhập</p>
                     <form name="login-form" method="post">
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <input id="user_name" type="text" name="user_name" class="form-control form-control-xl" placeholder="Tên đăng nhập">
+                            <input id="user_name" type="text" name="user_name" class="form-control form-control-xl"
+                                placeholder="Tên đăng nhập">
                             <div class="form-control-icon">
                                 <i class="bi bi-person"></i>
                             </div>
                         </div>
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <input id="password" type="password" name="password" class="form-control form-control-xl" placeholder="Mật khẩu">
+                            <input id="password" type="password" name="password" class="form-control form-control-xl"
+                                placeholder="Mật khẩu">
                             <div class="form-control-icon">
                                 <i class="bi bi-shield-lock"></i>
                             </div>
@@ -64,45 +66,45 @@ use App\Core\Redirect;
     <script src="<?= View::assets('vendors/toastify/toastify.js') ?>"></script>
 
     <script>
-        // Cách viết ngắn của $( document ).ready()
-        // Đợi page load xong
-        $(document).ready(function() {
-            // Select form có name = login-form (giống như select bằng js thuần)
-            $("form[name='login-form']").validate({
-                // Định nghĩa rule validate
-                rules: {
-                    user_name: {
-                        required: true,
-                    },
-                    password: {
-                        required: true,
-                        minlength: 8
-                    }
+    // Cách viết ngắn của $( document ).ready()
+    // Đợi page load xong
+    $(document).ready(function() {
+        // Select form có name = login-form (giống như select bằng js thuần)
+        $("form[name='login-form']").validate({
+            // Định nghĩa rule validate
+            rules: {
+                user_name: {
+                    required: true,
                 },
-                messages: {
-                    // Báo lỗi chung cho required và email
-                    user_name: "Vui lòng nhập tên đăng nhập",
-                    // Message báo lỗi cụ thể cho từng trường hợp
-                    password: {
-                        required: "Vui lòng nhập mật khẩu",
-                        minlength: "Mật khẩu của bạn không được ngắn hơn 8 ký tự"
-                    },
-                },
-                submitHandler: function(form) {
-                    checkLogin();
+                password: {
+                    required: true,
+                    minlength: 8
                 }
-            });
+            },
+            messages: {
+                // Báo lỗi chung cho required và email
+                user_name: "Vui lòng nhập tên đăng nhập",
+                // Message báo lỗi cụ thể cho từng trường hợp
+                password: {
+                    required: "Vui lòng nhập mật khẩu",
+                    minlength: "Mật khẩu của bạn không được ngắn hơn 8 ký tự"
+                },
+            },
+            submitHandler: function(form) {
+                checkLogin();
+            }
+        });
 
-            function checkLogin() {
-                $("form[name='login-form']").submit(function(e) {
-                    e.preventDefault();
-                    var ajax = $.post('http://localhost/emss/auth/loginPost', {
-                        user_name: $('#user_name').val(),
-                        password: $('#password').val()
-                    })
-                    ajax.done(function(data) {  
-                        if (!data['thanhcong']) {
-                            Toastify({
+        function checkLogin() {
+            $("form[name='login-form']").submit(function(e) {
+                e.preventDefault();
+                var ajax = $.post('http://localhost/emss/auth/loginPost', {
+                    user_name: $('#user_name').val(),
+                    password: $('#password').val()
+                })
+                ajax.done(function(data) {
+                    if (!data['thanhcong']) {
+                        Toastify({
                             text: data['summary'],
                             duration: 1000,
                             close: true,
@@ -110,16 +112,16 @@ use App\Core\Redirect;
                             position: "center",
                             backgroundColor: "#FF6A6A",
                         }).showToast();
-                        } else {
-                            window.location.href="http://localhost/emss/";  
-                        }
-                    });
-                    ajax.fail(function(data) {
-                        alert("Thất bại");
-                    })
+                    } else {
+                        window.location.href = "http://localhost/emss/";
+                    }
+                });
+                ajax.fail(function(data) {
+                    alert("Thất bại");
                 })
-            }
-        });
+            })
+        }
+    });
     </script>
 </body>
 

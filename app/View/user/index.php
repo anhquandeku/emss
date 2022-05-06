@@ -15,7 +15,8 @@ View::$activeItem = 'user';
     <title>Web Học Tập</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet" />
     <link rel="stylesheet" href="<?= View::assets('css/bootstrap.css') ?>" />
 
     <link rel="stylesheet" href="<?= View::assets('vendors/toastify/toastify.css') ?>" />
@@ -40,7 +41,8 @@ View::$activeItem = 'user';
                         <h6>Tìm Kiếm</h6>
                         <div id="search-user-form" name="search-user-form">
                             <div class="form-group position-relative has-icon-right">
-                                <input id="serch-user-text" type="text" class="form-control" placeholder="Tìm kiếm" value="">
+                                <input id="serch-user-text" type="text" class="form-control" placeholder="Tìm kiếm"
+                                    value="">
                                 <div class="form-control-icon">
                                     <i class="bi bi-search"></i>
                                 </div>
@@ -115,15 +117,18 @@ View::$activeItem = 'user';
                                     <div class="modal-body">
                                         <label for="email">Tên Đăng Nhập: </label>
                                         <div class="form-group">
-                                            <input type="text" id="email" name="email" placeholder="Mã Số" class="form-control">
+                                            <input type="text" id="email" name="email" placeholder="Mã Số"
+                                                class="form-control">
                                         </div>
                                         <label for="fullname">Họ tên: </label>
                                         <div class="form-group">
-                                            <input type="text" id="fullname" name="fullname" placeholder="Họ tên" class="form-control">
+                                            <input type="text" id="fullname" name="fullname" placeholder="Họ tên"
+                                                class="form-control">
                                         </div>
                                         <label for="password">Mật khẩu: </label>
                                         <div class="form-group">
-                                            <input type="password" id="password" name="password" placeholder="Mật khẩu" class="form-control">
+                                            <input type="password" id="password" name="password" placeholder="Mật khẩu"
+                                                class="form-control">
                                         </div>
                                         <label for="cars-quyen">Quyền: </label>
                                         <select class="form-group" name="maquyen" id="cars-quyen">
@@ -162,7 +167,8 @@ View::$activeItem = 'user';
                                     </div>
                                     <label for="re-fullname">Họ tên: </label>
                                     <div class="form-group">
-                                        <input type="text" id="re-fullname" name="fullname" placeholder="Họ tên" class="form-control">
+                                        <input type="text" id="re-fullname" name="fullname" placeholder="Họ tên"
+                                            class="form-control">
                                     </div>
                                     <label for="cars-quyen-sua">Quyền: </label>
                                     <select class="form-group " name="maquyen" id="cars-quyen-sua">
@@ -183,7 +189,8 @@ View::$activeItem = 'user';
                     </div>
                 </div>
                 <!-- Modal Thong bao -->
-                <div class="modal fade text-left" id="question-user-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel110" aria-hidden="true">
+                <div class="modal fade text-left" id="question-user-modal" tabindex="-1" role="dialog"
+                    aria-labelledby="myModalLabel110" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
                             <div class="modal-header bg-success">
@@ -209,8 +216,10 @@ View::$activeItem = 'user';
                     </div>
                 </div>
                 <!-- Modal View -->
-                <div class="modal fade" id="view-user-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal fade" id="view-user-modal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable"
+                        role="document">
                         <div class="modal-content">
 
                             <div class="modal-body">
@@ -262,68 +271,429 @@ View::$activeItem = 'user';
     <script src="<?= View::assets('js/api.js') ?>"></script>
 
     <script>
-        let currentPage = 1
-        let checkedRows = [];
-        let quyens
-        // on ready
-        $(function() {
-            $.post(`http://localhost/ooad-emss/emss/quyen/getQuyens`, function(response) {
-                if (response.thanhcong) {
-                    quyens = response.data;
-                    quyens.forEach(data => {
-                        let opt = '<option value="' + data.MaQuyen + '">' + data.TenQuyen + '</option>';
-                        $("#cars-quyen").append(opt);
-                        $("#cars-search").append(opt);
-                        $("#cars-quyen-sua").append(opt);
-                    });
-                    layDSUserAjax();
+    let currentPage = 1
+    let checkedRows = [];
+    let quyens
+    // on ready
+    $(function() {
+        $.post(`http://localhost/emss/quyen/getQuyens`, function(response) {
+            if (response.thanhcong) {
+                quyens = response.data;
+                quyens.forEach(data => {
+                    let opt = '<option value="' + data.MaQuyen + '">' + data.TenQuyen +
+                        '</option>';
+                    $("#cars-quyen").append(opt);
+                    $("#cars-search").append(opt);
+                    $("#cars-quyen-sua").append(opt);
+                });
+                layDSUserAjax();
+            }
+        });
+        //kietm tra quyen
+
+
+        // Đặt sự kiện validate cho modal add user
+        $("form[name='add-user-form']").validate({
+            rules: {
+                email: {
+                    required: true,
+                    remote: {
+                        url: "http://localhost/emss/user/checkValidEmail",
+                        type: "POST",
+                    }
+                },
+                fullname: {
+                    required: true,
+                    validateName: true,
+                },
+                password: {
+                    required: true,
+                    minlength: 8,
+                },
+            },
+            messages: {
+                email: {
+                    required: "Vui lòng nhập tên đăng nhập",
+                },
+                fullname: {
+                    required: "Vui lòng nhập họ tên",
+                },
+                password: {
+                    required: "Vui lòng nhập mật khẩu",
+                    minlength: "Mật khẩu của bạn không được ngắn hơn 8 ký tự",
+                },
+            },
+            submitHandler: function(form, event) {
+                event.preventDefault();
+                // lấy dữ liệu từ form
+                const data = Object.fromEntries(new FormData(form).entries());
+
+                $.post(`http://localhost/emss/user/addUser`, data, function(response) {
+                    if (response.thanhcong) {
+                        currentPage = 1;
+                        layDSUserAjax();
+                        Toastify({
+                            text: "Thêm Thành Công",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#4fbe87",
+                        }).showToast();
+                    } else {
+                        Toastify({
+                            text: "Thêm Thất Bại",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }
+
+                    // Đóng modal
+                    $("#add-user-modal").modal('toggle')
+                });
+                $('#email').val("");
+                $('#password').val("");
+                $('#maquyen').val("");
+                $('#fullname').val("");
+            }
+        })
+
+    });
+
+    $("#open-add-user-btn").click(function() {
+        $('#email').val("");
+        $('#password').val("");
+        $('#maquyen').val("");
+        $('#fullname').val("");
+        $("#add-user-modal").modal('toggle')
+    });
+
+
+    function changePage(newPage) {
+        currentPage = newPage;
+        layDSUserAjax();
+    }
+
+    function changePageSearchNangCao(newPage, search, search2) {
+        currentPage = newPage;
+        layDSUserSearchNangCao(search, search2);
+    }
+
+    $('#cars-search').change(function() {
+        let search = $('#cars-search option').filter(':selected').val();
+        currentPage = 1;
+        layDSUserSearchNangCao($('#serch-user-text').val(), search);
+    });
+
+    $("#search-user-form").keyup(debounce(function() {
+        let search = $('#cars-search option').filter(':selected').val();
+        currentPage = 1;
+        layDSUserSearchNangCao($('#serch-user-text').val(), search);
+    }, 200));
+
+    function layDSUserAjax() {
+        $.get(`http://localhost/emss/user/getUser?rowsPerPage=10&page=${currentPage}`, function(response) {
+            // Không được gán biến response này ra ngoài function,
+            // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
+            // gán ra ngoài thì code ở ngoài chạy trc khi gọi api xong.
+            //data là danh sách usser
+            //page là trang hiện tại
+            // rowsPerpage là số dòng trên 1 trang
+            // totalPage là tổng số trang
+            const table1 = $('#table1 > tbody');
+            table1.empty();
+            checkedRows = [];
+            $row = 0;
+            response.data.forEach(data => {
+                let disabled = "disabled btn icon icon-left btn-secondary";
+                if (data.YeuCau == 1) {
+                    disabled = "btn btn-primary";
                 }
+                let tenQuyen = "";
+                quyens.forEach(quyen => {
+                    if (quyen.MaQuyen == data.MaQuyen) {
+                        tenQuyen = quyen.TenQuyen;
+                        return true;
+                    }
+                });
+                if ($row % 2 == 0) {
+
+                    table1.append(`
+                        <tr class="table-light">
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.TenDangNhap}">
+                                </div>
+                            </td>
+                            <td>${data.TenDangNhap}</td>
+                            <td>${data.FullName}</td>
+                            <td>${tenQuyen}</td>
+                            <td><button id="reset${data.TenDangNhap}" type="button" onclick="resetPass('${data.TenDangNhap}')" class="${disabled}">Khôi Phục</button></td>
+                            <td>
+                                <button onclick="viewRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button onclick="repairRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-tools"></i>
+                                </button>
+                                <button onclick="deleteRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>`);
+                } else {
+                    table1.append(`
+                        <tr class="table-info">
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.TenDangNhap}">
+                                </div>
+                            </td>
+                            <td>${data.TenDangNhap}</td>
+                            <td>${data.FullName}</td>
+                            <td>${tenQuyen}</td>
+                            <td><button id="reset${data.TenDangNhap}" type="button" onclick="resetPass('${data.TenDangNhap}')" class="${disabled}">Khôi Phục</button></td>
+                            <td>
+                                <button onclick="viewRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button onclick="repairRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-tools"></i>
+                                </button>
+                                <button onclick="deleteRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>`);
+                }
+                checkedRows.push(data.TenDangNhap);
+                $row += 1;
             });
-            //kietm tra quyen
-            
 
-            // Đặt sự kiện validate cho modal add user
-            $("form[name='add-user-form']").validate({
-                rules: {
-                    email: {
-                        required: true,
-                        remote: {
-                            url: "http://localhost/ooad-emss/emss/user/checkValidEmail",
-                            type: "POST",
+            const pagination = $('#pagination');
+            // Xóa phân trang cũ
+            pagination.empty();
+            if (response.totalPage > 1) {
+                for (let i = 1; i <= response.totalPage; i++) {
+                    if (i == currentPage) {
+                        pagination.append(`
+                        <li class="page-item active">
+                            <button class="page-link" onClick='changePage(${i})'>${i}</button>
+                        </li>`)
+                    } else {
+                        pagination.append(`
+                        <li class="page-item">
+                            <button class="page-link" onClick='changePage(${i})'>${i}</button>
+                        </li>`)
+                    }
+
+                }
+            }
+
+        });
+    }
+
+    function layDSUserSearchNangCao(search, search2) {
+        $.get(`http://localhost/emss/user/advancedSearch?rowsPerPage=10&page=${currentPage}&search=${search}&search2=${search2}`,
+            function(response) {
+                // Không được gán biến response này ra ngoài function,
+                // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
+                // gán ra ngoài thì code ở ngoài chạy trc khi gọi api xong.
+                //data là danh sách usser
+                //page là trang hiện tại
+                // rowsPerpage là số dòng trên 1 trang
+                // totalPage là tổng số trang
+                const table1 = $('#table1 > tbody');
+                table1.empty();
+                checkedRows = [];
+                $row = 0;
+                response.data.forEach(data => {
+                    let disabled = "disabled btn icon icon-left btn-secondary";
+                    if (data.YeuCau == 1) {
+                        disabled = "btn btn-primary";
+                    }
+                    let tenQuyen = "";
+                    quyens.forEach(quyen => {
+                        if (quyen.MaQuyen == data.MaQuyen) {
+                            tenQuyen = quyen.TenQuyen;
+                            return true;
                         }
-                    },
-                    fullname: {
-                        required: true,
-                        validateName: true,
-                    },
-                    password: {
-                        required: true,
-                        minlength: 8,
-                    },
-                },
-                messages: {
-                    email: {
-                        required: "Vui lòng nhập tên đăng nhập",
-                    },
-                    fullname: {
-                        required: "Vui lòng nhập họ tên",
-                    },
-                    password: {
-                        required: "Vui lòng nhập mật khẩu",
-                        minlength: "Mật khẩu của bạn không được ngắn hơn 8 ký tự",
-                    },
-                },
-                submitHandler: function(form, event) {
-                    event.preventDefault();
-                    // lấy dữ liệu từ form
-                    const data = Object.fromEntries(new FormData(form).entries());
+                    });
+                    if ($row % 2 == 0) {
 
-                    $.post(`http://localhost/ooad-emss/emss/user/addUser`, data, function(response) {
+                        table1.append(`
+                        <tr class="table-light">
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.TenDangNhap}">
+                                </div>
+                            </td>
+                            <td>${data.TenDangNhap}</td>
+                            <td>${data.FullName}</td>
+                            <td>${tenQuyen}</td>
+                            <td><button id="reset${data.TenDangNhap}" type="button" onclick="resetPass('${data.TenDangNhap}')" class="${disabled}">Khôi Phục</button></td>
+                            <td>
+                                <button onclick="viewRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button onclick="repairRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-tools"></i>
+                                </button>
+                                <button onclick="deleteRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>`);
+                    } else {
+                        table1.append(`
+                        <tr class="table-info">
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.TenDangNhap}">
+                                </div>
+                            </td>
+                            <td>${data.TenDangNhap}</td>
+                            <td>${data.FullName}</td>
+                            <td>${tenQuyen}</td>
+                            <td><button id="reset${data.TenDangNhap}" type="button" onclick="resetPass('${data.TenDangNhap}')" class="${disabled}">Khôi Phục</button></td>
+                            <td>
+                                <button onclick="viewRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button onclick="repairRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-tools"></i>
+                                </button>
+                                <button onclick="deleteRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>`);
+                    }
+                    checkedRows.push(data.TenDangNhap);
+                    $row += 1;
+                });
+
+                const pagination = $('#pagination');
+                // Xóa phân trang cũ
+                pagination.empty();
+                if (response.totalPage > 1) {
+                    for (let i = 1; i <= response.totalPage; i++) {
+                        if (i == currentPage) {
+                            pagination.append(`
+                        <li class="page-item active">
+                            <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
+                        </li>`)
+                        } else {
+                            pagination.append(`
+                        <li class="page-item">
+                            <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
+                        </li>`)
+                        }
+
+                    }
+                }
+
+            });
+    }
+
+    function viewRow(params) {
+        let data = {
+            email: params
+        };
+        $.post(`http://localhost/emss/user/viewUser`, data, function(response) {
+            if (response.thanhcong) {
+                $("#view-hoten").val(response.FullName);
+                $("#view-ms").val(response.TenDangNhap);
+                let tenQuyen = "";
+                quyens.forEach(quyen => {
+                    if (quyen.MaQuyen == response.MaQuyen) {
+                        tenQuyen = quyen.TenQuyen;
+                        return true;
+                    }
+                });
+                $("#view-quyen").val(tenQuyen);
+            }
+        });
+        $("#view-user-modal").modal('toggle');
+    }
+
+    function resetPass(params) {
+        let data = {
+            email: params
+        };
+        $.post(`http://localhost/emss/user/resetPassword`, data, function(response) {
+            if (response.thanhcong) {
+
+                Toastify({
+                    text: "Khôi Phục Thành Công",
+                    duration: 1000,
+                    close: true,
+                    gravity: "top",
+                    position: "center",
+                    backgroundColor: "#4fbe87",
+                }).showToast();
+                $("#reset" + params).removeClass("btn-primary");
+                $("#reset" + params).addClass("disabled icon icon-left btn-secondary");
+            } else {
+                Toastify({
+                    text: "Khôi Phục Thất Bại",
+                    duration: 1000,
+                    close: true,
+                    gravity: "top",
+                    position: "center",
+                    backgroundColor: "#FF6A6A",
+                }).showToast();
+            }
+        });
+    }
+
+    function repairRow(params) {
+        let data = {
+            email: params
+        };
+
+        $.post(`http://localhost/emss/user/viewUser`, data, function(response) {
+            if (response.thanhcong) {
+                $('#re-email').val(response.TenDangNhap);
+                $('#cars-quyen-sua').val(response.MaQuyen).prop('selected', true);
+                $('#re-fullname').val(response.FullName);
+            }
+        });
+        $("#repair-user-modal").modal('toggle');
+        //Sua form
+        $("form[name='repair-user-form']").validate({
+            rules: {
+                fullname: {
+                    required: true,
+                    validateName: true,
+                }
+            },
+            messages: {
+                fullname: {
+                    required: "Vui lòng nhập họ tên",
+                }
+            },
+            submitHandler: function(form, event) {
+                event.preventDefault();
+                $("#myModalLabel110").text("Quản Lý Tài Khoản");
+                $("#question-model").text("Bạn có chắc chắn muốn sửa tài khoản này không");
+                $("#question-user-modal").modal('toggle');
+                $('#thuchien').off('click')
+                $("#thuchien").click(function() {
+                    // lấy dữ liệu từ form
+
+                    const data = Object.fromEntries(new FormData(form).entries());
+                    data['email'] = $('#re-email').val();
+                    $.post(`http://localhost/emss/user/repairUser`, data, function(
+                        response) {
                         if (response.thanhcong) {
                             currentPage = 1;
                             layDSUserAjax();
                             Toastify({
-                                text: "Thêm Thành Công",
+                                text: "Sửa Thành Công",
                                 duration: 1000,
                                 close: true,
                                 gravity: "top",
@@ -332,7 +702,7 @@ View::$activeItem = 'user';
                             }).showToast();
                         } else {
                             Toastify({
-                                text: "Thêm Thất Bại",
+                                text: "Sửa Thất Bại",
                                 duration: 1000,
                                 close: true,
                                 gravity: "top",
@@ -342,293 +712,37 @@ View::$activeItem = 'user';
                         }
 
                         // Đóng modal
-                        $("#add-user-modal").modal('toggle')
+                        $("#repair-user-modal").modal('toggle')
                     });
-                    $('#email').val("");
-                    $('#password').val("");
-                    $('#maquyen').val("");
-                    $('#fullname').val("");
-                }
-            })
-
-        });
-
-        $("#open-add-user-btn").click(function() {
-            $('#email').val("");
-            $('#password').val("");
-            $('#maquyen').val("");
-            $('#fullname').val("");
-            $("#add-user-modal").modal('toggle')
-        });
-
-
-        function changePage(newPage) {
-            currentPage = newPage;
-            layDSUserAjax();
-        }
-
-        function changePageSearchNangCao(newPage, search, search2) {
-            currentPage = newPage;
-            layDSUserSearchNangCao(search, search2);
-        }
-
-        $('#cars-search').change(function() {
-            let search = $('#cars-search option').filter(':selected').val();
-            currentPage = 1;
-            layDSUserSearchNangCao($('#serch-user-text').val(), search);
-        });
-
-        $("#search-user-form").keyup(debounce(function() {
-            let search = $('#cars-search option').filter(':selected').val();
-            currentPage = 1;
-            layDSUserSearchNangCao($('#serch-user-text').val(), search);
-        },200));
-
-        function layDSUserAjax() {
-            $.get(`http://localhost/ooad-emss/emss/user/getUser?rowsPerPage=10&page=${currentPage}`, function(response) {
-                // Không được gán biến response này ra ngoài function,
-                // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
-                // gán ra ngoài thì code ở ngoài chạy trc khi gọi api xong.
-                //data là danh sách usser
-                //page là trang hiện tại
-                // rowsPerpage là số dòng trên 1 trang
-                // totalPage là tổng số trang
-                const table1 = $('#table1 > tbody');
-                table1.empty();
-                checkedRows = [];
-                $row = 0;
-                response.data.forEach(data => {
-                    let disabled = "disabled btn icon icon-left btn-secondary";
-                    if (data.YeuCau == 1) {
-                        disabled = "btn btn-primary";
-                    }
-                    let tenQuyen = "";
-                    quyens.forEach(quyen => {
-                        if (quyen.MaQuyen == data.MaQuyen) {
-                            tenQuyen = quyen.TenQuyen;
-                            return true;
-                        }
-                    });
-                    if ($row % 2 == 0) {
-
-                        table1.append(`
-                        <tr class="table-light">
-                            <td>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.TenDangNhap}">
-                                </div>
-                            </td>
-                            <td>${data.TenDangNhap}</td>
-                            <td>${data.FullName}</td>
-                            <td>${tenQuyen}</td>
-                            <td><button id="reset${data.TenDangNhap}" type="button" onclick="resetPass('${data.TenDangNhap}')" class="${disabled}">Khôi Phục</button></td>
-                            <td>
-                                <button onclick="viewRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                                <button onclick="repairRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-tools"></i>
-                                </button>
-                                <button onclick="deleteRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button>
-                            </td>
-                        </tr>`);
-                    } else {
-                        table1.append(`
-                        <tr class="table-info">
-                            <td>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.TenDangNhap}">
-                                </div>
-                            </td>
-                            <td>${data.TenDangNhap}</td>
-                            <td>${data.FullName}</td>
-                            <td>${tenQuyen}</td>
-                            <td><button id="reset${data.TenDangNhap}" type="button" onclick="resetPass('${data.TenDangNhap}')" class="${disabled}">Khôi Phục</button></td>
-                            <td>
-                                <button onclick="viewRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                                <button onclick="repairRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-tools"></i>
-                                </button>
-                                <button onclick="deleteRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button>
-                            </td>
-                        </tr>`);
-                    }
-                    checkedRows.push(data.TenDangNhap);
-                    $row += 1;
                 });
+            }
+        })
+    }
 
-                const pagination = $('#pagination');
-                // Xóa phân trang cũ
-                pagination.empty();
-                if (response.totalPage > 1) {
-                    for (let i = 1; i <= response.totalPage; i++) {
-                        if (i == currentPage) {
-                            pagination.append(`
-                        <li class="page-item active">
-                            <button class="page-link" onClick='changePage(${i})'>${i}</button>
-                        </li>`)
-                        } else {
-                            pagination.append(`
-                        <li class="page-item">
-                            <button class="page-link" onClick='changePage(${i})'>${i}</button>
-                        </li>`)
-                        }
-
-                    }
-                }
-
-            });
-        }
-
-        function layDSUserSearchNangCao(search, search2) {
-            $.get(`http://localhost/ooad-emss/emss/user/advancedSearch?rowsPerPage=10&page=${currentPage}&search=${search}&search2=${search2}`, function(response) {
-                // Không được gán biến response này ra ngoài function,
-                // vì function này bất đồng bộ, khi nào gọi api xong thì response mới có dữ liệu
-                // gán ra ngoài thì code ở ngoài chạy trc khi gọi api xong.
-                //data là danh sách usser
-                //page là trang hiện tại
-                // rowsPerpage là số dòng trên 1 trang
-                // totalPage là tổng số trang
-                const table1 = $('#table1 > tbody');
-                table1.empty();
-                checkedRows = [];
-                $row = 0;
-                response.data.forEach(data => {
-                    let disabled = "disabled btn icon icon-left btn-secondary";
-                    if (data.YeuCau == 1) {
-                        disabled = "btn btn-primary";
-                    }
-                    let tenQuyen = "";
-                    quyens.forEach(quyen => {
-                        if (quyen.MaQuyen == data.MaQuyen) {
-                            tenQuyen = quyen.TenQuyen;
-                            return true;
-                        }
-                    });
-                    if ($row % 2 == 0) {
-
-                        table1.append(`
-                        <tr class="table-light">
-                            <td>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.TenDangNhap}">
-                                </div>
-                            </td>
-                            <td>${data.TenDangNhap}</td>
-                            <td>${data.FullName}</td>
-                            <td>${tenQuyen}</td>
-                            <td><button id="reset${data.TenDangNhap}" type="button" onclick="resetPass('${data.TenDangNhap}')" class="${disabled}">Khôi Phục</button></td>
-                            <td>
-                                <button onclick="viewRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                                <button onclick="repairRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-tools"></i>
-                                </button>
-                                <button onclick="deleteRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button>
-                            </td>
-                        </tr>`);
-                    } else {
-                        table1.append(`
-                        <tr class="table-info">
-                            <td>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${data.TenDangNhap}">
-                                </div>
-                            </td>
-                            <td>${data.TenDangNhap}</td>
-                            <td>${data.FullName}</td>
-                            <td>${tenQuyen}</td>
-                            <td><button id="reset${data.TenDangNhap}" type="button" onclick="resetPass('${data.TenDangNhap}')" class="${disabled}">Khôi Phục</button></td>
-                            <td>
-                                <button onclick="viewRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                                <button onclick="repairRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-tools"></i>
-                                </button>
-                                <button onclick="deleteRow('${data.TenDangNhap}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button>
-                            </td>
-                        </tr>`);
-                    }
-                    checkedRows.push(data.TenDangNhap);
-                    $row += 1;
-                });
-
-                const pagination = $('#pagination');
-                // Xóa phân trang cũ
-                pagination.empty();
-                if (response.totalPage > 1) {
-                    for (let i = 1; i <= response.totalPage; i++) {
-                        if (i == currentPage) {
-                            pagination.append(`
-                        <li class="page-item active">
-                            <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
-                        </li>`)
-                        } else {
-                            pagination.append(`
-                        <li class="page-item">
-                            <button class="page-link" onClick='changePageSearchNangCao(${i},"${search}","${search2}")'>${i}</button>
-                        </li>`)
-                        }
-
-                    }
-                }
-
-            });
-        }
-
-        function viewRow(params) {
-            let data = {
-                email: params
-            };
-            $.post(`http://localhost/ooad-emss/emss/user/viewUser`, data, function(response) {
+    function deleteRow(params) {
+        let data = {
+            email: params
+        };
+        $("#myModalLabel110").text("Quản Lý Tài Khoản");
+        $("#question-model").text("Bạn có chắc chắn muốn xóa tài khoản này không");
+        $("#question-user-modal").modal('toggle');
+        $('#thuchien').off('click');
+        $("#thuchien").click(function() {
+            $.post(`http://localhost/emss/user/deleteUser`, data, function(response) {
                 if (response.thanhcong) {
-                    $("#view-hoten").val(response.FullName);
-                    $("#view-ms").val(response.TenDangNhap);
-                    let tenQuyen = "";
-                    quyens.forEach(quyen => {
-                        if (quyen.MaQuyen == response.MaQuyen) {
-                            tenQuyen = quyen.TenQuyen;
-                            return true;
-                        }
-                    });
-                    $("#view-quyen").val(tenQuyen);
-                }
-            });
-            $("#view-user-modal").modal('toggle');
-        }
-
-        function resetPass(params) {
-            let data = {
-                email: params
-            };
-            $.post(`http://localhost/ooad-emss/emss/user/resetPassword`, data, function(response) {
-                if (response.thanhcong) {
-
                     Toastify({
-                        text: "Khôi Phục Thành Công",
+                        text: "Xóa Thành Công",
                         duration: 1000,
                         close: true,
                         gravity: "top",
                         position: "center",
                         backgroundColor: "#4fbe87",
                     }).showToast();
-                    $("#reset" + params).removeClass("btn-primary");
-                    $("#reset" + params).addClass("disabled icon icon-left btn-secondary");
+                    currentPage = 1;
+                    layDSUserAjax();
                 } else {
                     Toastify({
-                        text: "Khôi Phục Thất Bại",
+                        text: "Xóa Thất Bại",
                         duration: 1000,
                         close: true,
                         gravity: "top",
@@ -637,151 +751,49 @@ View::$activeItem = 'user';
                     }).showToast();
                 }
             });
-        }
+        });
 
-        function repairRow(params) {
+    }
+    $("#btn-delete-user").click(function() {
+        $("#myModalLabel110").text("Quản Lý Tài Khoản");
+        $("#question-model").text("Bạn có chắc chắn muốn xóa những tài khoản này không");
+        $("#question-user-modal").modal('toggle');
+        $('#thuchien').off('click')
+        $("#thuchien").click(function() {
+            let datas = []
+            checkedRows.forEach(checkedRow => {
+                if ($('#' + checkedRow).prop("checked")) {
+                    datas.push(checkedRow);
+                }
+            });
             let data = {
-                email: params
+                emails: JSON.stringify(datas)
             };
-
-            $.post(`http://localhost/ooad-emss/emss/user/viewUser`, data, function(response) {
+            $.post(`http://localhost/emss/user/deleteUsers`, data, function(response) {
                 if (response.thanhcong) {
-                    $('#re-email').val(response.TenDangNhap);
-                    $('#cars-quyen-sua').val(response.MaQuyen).prop('selected', true);
-                    $('#re-fullname').val(response.FullName);
+                    Toastify({
+                        text: "Xóa Thành Công",
+                        duration: 1000,
+                        close: true,
+                        gravity: "top",
+                        position: "center",
+                        backgroundColor: "#4fbe87",
+                    }).showToast();
+                    currentPage = 1;
+                    layDSUserAjax();
+                } else {
+                    Toastify({
+                        text: "Xóa Thất Bại",
+                        duration: 1000,
+                        close: true,
+                        gravity: "top",
+                        position: "center",
+                        backgroundColor: "#FF6A6A",
+                    }).showToast();
                 }
-            });
-            $("#repair-user-modal").modal('toggle');
-            //Sua form
-            $("form[name='repair-user-form']").validate({
-                rules: {
-                    fullname: {
-                        required: true,
-                        validateName: true,
-                    }
-                },
-                messages: {
-                    fullname: {
-                        required: "Vui lòng nhập họ tên",
-                    }
-                },
-                submitHandler: function(form, event) {
-                    event.preventDefault();
-                    $("#myModalLabel110").text("Quản Lý Tài Khoản");
-                    $("#question-model").text("Bạn có chắc chắn muốn sửa tài khoản này không");
-                    $("#question-user-modal").modal('toggle');
-                    $('#thuchien').off('click')
-                    $("#thuchien").click(function() {
-                        // lấy dữ liệu từ form
-
-                        const data = Object.fromEntries(new FormData(form).entries());
-                        data['email'] = $('#re-email').val();
-                        $.post(`http://localhost/ooad-emss/emss/user/repairUser`, data, function(response) {
-                            if (response.thanhcong) {
-                                currentPage = 1;
-                                layDSUserAjax();
-                                Toastify({
-                                    text: "Sửa Thành Công",
-                                    duration: 1000,
-                                    close: true,
-                                    gravity: "top",
-                                    position: "center",
-                                    backgroundColor: "#4fbe87",
-                                }).showToast();
-                            } else {
-                                Toastify({
-                                    text: "Sửa Thất Bại",
-                                    duration: 1000,
-                                    close: true,
-                                    gravity: "top",
-                                    position: "center",
-                                    backgroundColor: "#FF6A6A",
-                                }).showToast();
-                            }
-
-                            // Đóng modal
-                            $("#repair-user-modal").modal('toggle')
-                        });
-                    });
-                }
-            })
-        }
-
-        function deleteRow(params) {
-            let data = {
-                email: params
-            };
-            $("#myModalLabel110").text("Quản Lý Tài Khoản");
-            $("#question-model").text("Bạn có chắc chắn muốn xóa tài khoản này không");
-            $("#question-user-modal").modal('toggle');
-            $('#thuchien').off('click');
-            $("#thuchien").click(function() {
-                $.post(`http://localhost/ooad-emss/emss/user/deleteUser`, data, function(response) {
-                    if (response.thanhcong) {
-                        Toastify({
-                            text: "Xóa Thành Công",
-                            duration: 1000,
-                            close: true,
-                            gravity: "top",
-                            position: "center",
-                            backgroundColor: "#4fbe87",
-                        }).showToast();
-                        currentPage = 1;
-                        layDSUserAjax();
-                    } else {
-                        Toastify({
-                            text: "Xóa Thất Bại",
-                            duration: 1000,
-                            close: true,
-                            gravity: "top",
-                            position: "center",
-                            backgroundColor: "#FF6A6A",
-                        }).showToast();
-                    }
-                });
-            });
-
-        }
-        $("#btn-delete-user").click(function() {
-            $("#myModalLabel110").text("Quản Lý Tài Khoản");
-            $("#question-model").text("Bạn có chắc chắn muốn xóa những tài khoản này không");
-            $("#question-user-modal").modal('toggle');
-            $('#thuchien').off('click')
-            $("#thuchien").click(function() {
-                let datas = []
-                checkedRows.forEach(checkedRow => {
-                    if ($('#' + checkedRow).prop("checked")) {
-                        datas.push(checkedRow);
-                    }
-                });
-                let data = {
-                    emails: JSON.stringify(datas)
-                };
-                $.post(`http://localhost/ooad-emss/emss/user/deleteUsers`, data, function(response) {
-                    if (response.thanhcong) {
-                        Toastify({
-                            text: "Xóa Thành Công",
-                            duration: 1000,
-                            close: true,
-                            gravity: "top",
-                            position: "center",
-                            backgroundColor: "#4fbe87",
-                        }).showToast();
-                        currentPage = 1;
-                        layDSUserAjax();
-                    } else {
-                        Toastify({
-                            text: "Xóa Thất Bại",
-                            duration: 1000,
-                            close: true,
-                            gravity: "top",
-                            position: "center",
-                            backgroundColor: "#FF6A6A",
-                        }).showToast();
-                    }
-                });
             });
         });
+    });
     </script>
 </body>
 

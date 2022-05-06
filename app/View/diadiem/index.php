@@ -442,7 +442,7 @@ View::$activeItem = 'location';
                     suc = 0;
                     trong = 0;
                 }
-                var ajax = $.post(`http://localhost/ooad-emss/emss/diadiem/add`, {
+                var ajax = $.post(`http://localhost/emss/diadiem/add`, {
                     addten: $('#addten').val(),
                     addtinh: $('#addtinh option').filter(':selected').text(),
                     addhuyen: $('#addhuyen option').filter(':selected').text(),
@@ -515,7 +515,7 @@ View::$activeItem = 'location';
         let data = {
             id: Number(params)
         };
-        $.post(`http://localhost/ooad-emss/emss/diadiem/getOneByID`, data, function(response) {
+        $.post(`http://localhost/emss/diadiem/getOneByID`, data, function(response) {
             if (response.thanhcong) {
                 $('#upten').val(response.ten_dia_diem);
                 $('#uptinh option').filter(':selected').text(response.tp_tinh);
@@ -584,7 +584,7 @@ View::$activeItem = 'location';
                         suc = 0;
                         trong = 0;
                     }
-                    var ajax = $.post(`http://localhost/ooad-emss/emss/diadiem/update`, {
+                    var ajax = $.post(`http://localhost/emss/diadiem/update`, {
                         upma: Number(params),
                         upten: $('#upten').val(),
                         uptinh: $('#uptinh option').filter(':selected').text(),
@@ -630,7 +630,7 @@ View::$activeItem = 'location';
         let data = {
             id: Number(params)
         };
-        $.post(`http://localhost/ooad-emss/emss/diadiem/getOneByID`, data, function(response) {
+        $.post(`http://localhost/emss/diadiem/getOneByID`, data, function(response) {
             if (response.thanhcong) {
                 $('#viewten').val(response.ten_dia_diem);
                 $('#viewtinh').val(response.tp_tinh);
@@ -694,7 +694,7 @@ View::$activeItem = 'location';
     function getAddressAjax() {
         let search = $('#cars-search option').filter(':selected').val();
         console.log('/' + search + "/");
-        $.get(`http://localhost/ooad-emss/emss/diadiem/getAddress?rowsPerPage=10&page=${currentPage}&search=${$("#search-address-text").val()}&search2=${search}`,
+        $.get(`http://localhost/emss/diadiem/getAddress?rowsPerPage=10&page=${currentPage}&search=${$("#search-address-text").val()}&search2=${search}`,
             function(response) {
                 const table1 = $('#table1 > tbody');
                 table1.empty();
@@ -789,7 +789,7 @@ View::$activeItem = 'location';
         $("#question-address-modal").modal('toggle');
         $('#thuchien').off('click');
         $("#thuchien").click(function() {
-            $.post(`http://localhost/ooad-emss/emss/diadiem//delete`, data, function(response) {
+            $.post(`http://localhost/emss/diadiem//delete`, data, function(response) {
                 if (response.thanhcong) {
                     Toastify({
                         text: "Xóa Thành Công",
@@ -830,7 +830,7 @@ View::$activeItem = 'location';
             let data = {
                 ids: JSON.stringify(datas)
             };
-            $.post(`http://localhost/ooad-emss/emss/diadiem/deletes`, data, function(response) {
+            $.post(`http://localhost/emss/diadiem/deletes`, data, function(response) {
                 if (response.thanhcong) {
                     Toastify({
                         text: "Xóa Thành Công",
