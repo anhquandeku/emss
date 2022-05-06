@@ -6,6 +6,8 @@ use App\Core\Auth;
 use App\Core\Controller;
 use App\Core\Request;
 use App\Model\NguoiDungModel;
+use App\Model\DTCLModel;
+use LDAP\Result;
 
 class NguoiDungController extends Controller
 {
@@ -43,20 +45,44 @@ class NguoiDungController extends Controller
         $email = Request::post('email');
         $password = Request::post('password');
         $address = $province . "-" . $district . "-" . $ward;
-        if($home!='') $address = $address . "-" . $home;
-        if($village!='') $address = $address. "-" . $village;
+        if ($home != '') $address = $address . "-" . $home;
+        if ($village != '') $address = $address . "-" . $village;
         $role = Request::post('role');
         $result = NguoiDungModel::add($phone_number, $password, $role, $lastname, $firstname, $cmnd, $birthday, $sex, $address, $email, $phone_number);
+        if ($result['thanhcong']) {
+            $user = NguoiDungModel::getAll();
+            //Lấy người dùng vừa được thêm
+            $person = $user[count($user) - 1];
+            //Nếu là admin
+            if($person['ma_vai_tro']>1 && $person['ma_vai_tro']<4){
+
+            }
+            //Nếu là bệnh nhân
+            if($person['ma_vai_tro'] == 4){
+
+            }
+            //Nếu là đối tượng cách ly
+            if($person['ma_vai_tro'] == 5){
+                $source = Request::post('source');
+                $local = Request::post('local');
+                $result['thanhcong'] = DTCLModel::add_2($person['ma_nguoi_dung'],$local, $source);
+                if($result['thanhcong']){
+                    $date = date('Y-m-d');
+                    $result['thanhcong'] = DTCLModel::add($person['ma_nguoi_dung'],$local,$date,'0000-00-00',-1,$source);
+                }
+            }
+            
+        }
         return $this->View->renderJSON($result);
     }
     public function getList()
     {
         Auth::checkAuthentication();
         $keyword = Request::get('key_word');
-        if($keyword!="") $keyword = trim($keyword);
+        if ($keyword != "") $keyword = trim($keyword);
         $current_page = Request::get('current_page');
         $row_per_page = Request::get('row_per_page');
-        $data = NguoiDungModel::getListAdvanted($current_page, $row_per_page,$keyword);
+        $data = NguoiDungModel::getListAdvanted($current_page, $row_per_page, $keyword);
         $this->View->renderJSON($data);
     }
     public function update()

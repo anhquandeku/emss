@@ -142,4 +142,27 @@ class DTCLModel
         }
         return false;
     }
+    public static function add_2($ma_doi_tuong, $ma_dia_diem, $nguon_lay)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $sql = "INSERT INTO doi_tuong_cach_ly(ma_doi_tuong, ma_dia_diem, nguon_lay) VALUES (:madoituong, :madiadiem, :nguonlay)";
+        $query = $database->prepare($sql);
+        $query->execute([':madoituong' => $ma_doi_tuong, ':madiadiem' => $ma_dia_diem, ':nguonlay' => $nguon_lay]);
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+        return false;
+    }
+    public static function update_2($ma_dia_diem, $nguon_lay, $F, $ma_doi_tuong)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("UPDATE doi_tuong_cach_ly SET ma_dia_diem = :ma_dia_diem, F = :f, nguon_lay = :nguon_lay WHERE ma_doi_tuong = :ma_doi_tuong");
+        $query->execute([':ma_dia_diem' => $ma_dia_diem, ':f' => $F, ':nguon_lay' => $nguon_lay, 'ma_doi_tuong'=>$ma_doi_tuong]);
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+        return false;
+    }
 }

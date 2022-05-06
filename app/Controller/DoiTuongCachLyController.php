@@ -88,7 +88,12 @@ class DoiTuongCachLyController extends Controller
         $tg_bat_dau = Request::post('tg_bat_dau');
         $f = Request::post('f');
         $nguon_lay = Request::post('nguon_lay');
+        $row = Request::post('row');
+        $id = Request::post('id');
         $data = DTCLModel::update($ma_ho_so, $ma_dia_diem, $tg_bat_dau, $f, $nguon_lay);
+        if($row == 0){
+            $data = DTCLModel::update_2($ma_dia_diem,$nguon_lay,$f,$id);
+        }
         if ($data = false) 
             $data = ['thanhcong' => false,];
         else $data = ['thanhcong' => true];

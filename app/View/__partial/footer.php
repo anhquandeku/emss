@@ -5,7 +5,7 @@
         </div>
         <div class="float-end">
             <p>
-                Được tạo bởi <a href="https://github.com/anhquandeku/emss">ArWin </a>
+                Được tạo bởi <a href="https://github.com/anhquandeku/emss" target="_blank">ArWin </a>
                 <span class="text-danger"><i class="bi bi-heart-fill icon-mid"></i></span>
             </p>
         </div>

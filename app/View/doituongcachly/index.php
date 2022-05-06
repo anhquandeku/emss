@@ -14,8 +14,7 @@ View::$activeItem = 'object';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>EMSS</title>
     <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="<?= View::assets('css/bootstrap.css') ?>" />
     <link rel="stylesheet" href="<?= View::assets('vendors/toastify/toastify.css') ?>" />
     <link rel="stylesheet" href="<?= View::assets('vendors/perfect-scrollbar/perfect-scrollbar.css') ?>" />
@@ -39,8 +38,7 @@ View::$activeItem = 'object';
                         <h6>Tìm Kiếm</h6>
                         <div id="search-benhnhan-form" name="search-benhnhan-form">
                             <div class="form-group position-relative has-icon-right">
-                                <input id="search-benhnhan-text" type="text" class="form-control" placeholder="Tìm kiếm"
-                                    value="">
+                                <input id="search-benhnhan-text" type="text" class="form-control" placeholder="Tìm kiếm" value="">
                                 <div class="form-control-icon">
                                     <i class="bi bi-search"></i>
                                 </div>
@@ -110,7 +108,7 @@ View::$activeItem = 'object';
                 <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Thêm Tài Khoản</h4>
+                            <h4 class="modal-title">Thêm đối tượng cách ly</h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                 <i data-feather="x"></i>
                             </button>
@@ -121,15 +119,13 @@ View::$activeItem = 'object';
                                     <div class="form-group row col-6">
                                         <label for="lastname" class="col-sm-4 col-form-label">Họ lót:</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="lastname" name="lastname"
-                                                placeholder="Họ lót">
+                                            <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Họ lót">
                                         </div>
                                     </div>
                                     <div class="form-group row col-6">
                                         <label for="firstname" class="col-sm-4 col-form-label">Tên:</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="firstname" name="firstname"
-                                                placeholder="Tên">
+                                            <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Tên">
                                         </div>
                                     </div>
                                 </div>
@@ -137,15 +133,13 @@ View::$activeItem = 'object';
                                     <div class="form-group row col-6">
                                         <label for="cmnd" class="col-sm-4 col-form-label">CMND:</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="cmnd" name="cmnd"
-                                                placeholder="CMND">
+                                            <input type="text" class="form-control" id="cmnd" name="cmnd" placeholder="CMND">
                                         </div>
                                     </div>
                                     <div class="form-group row col-6">
                                         <label for="firstname" class="col-sm-4 col-form-label">Ngày sinh:</label>
                                         <div class="col-sm-8">
-                                            <input type="date" class="form-control" id="birthday" name="birthday"
-                                                placeholder="Tên">
+                                            <input type="date" class="form-control" id="birthday" name="birthday" placeholder="Tên">
                                         </div>
                                     </div>
                                     <div class="form-group row col-6">
@@ -166,8 +160,7 @@ View::$activeItem = 'object';
                                     <div class="form-group row col-6">
                                         <label for="phone_number" class="col-sm-4 col-form-label">SĐT:</label>
                                         <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="phone_number"
-                                                name="phone_number" placeholder="Số điện thoại">
+                                            <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="Số điện thoại">
                                         </div>
                                     </div>
                                 </div>
@@ -195,24 +188,34 @@ View::$activeItem = 'object';
                                     <label for="" class="col-2 col-form-label"> </label>
                                     <div class="col-10 row">
                                         <div class="col-6 row">
-                                            <input type="text" class="form-control" id="village" name="village"
-                                                placeholder="Thôn/ấp">
+                                            <input type="text" class="form-control" id="village" name="village" placeholder="Thôn/ấp">
                                         </div>
                                         <div class="col-6">
-                                            <input type="text" class="form-control" id="home" name="home"
-                                                placeholder="Số nhà">
+                                            <input type="text" class="form-control" id="home" name="home" placeholder="Số nhà">
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row form-group">
-
                                 </div>
                                 <div class="row">
                                     <div class="form-group row">
                                         <label for="email" class="col-2 col-form-label"> Email:</label>
                                         <div class="col-10">
-                                            <input type="text" class="form-control" id="email" name="email"
-                                                placeholder="Email">
+                                            <input type="text" class="form-control" id="email" name="email" placeholder="Email">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group row col-6">
+                                        <label for="source" class="col-sm-4 col-form-label">Nguồn lây:</label>
+                                        <div class="col-8">
+                                            <select class="form-control" name="source" id="source">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row col-6">
+                                        <label for="phone_number" class="col-sm-4 col-form-label">DDCL:</label>
+                                        <div class="col-8">
+                                            <select class="form-control" name="local" id="local">
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -247,75 +250,81 @@ View::$activeItem = 'object';
     <script src="<?= View::assets('js/api.js') ?>"></script>
     <script src="<?= View::assets('js/address.js') ?>"></script>
     <script>
-    /**Hàm chính */
-    $(function() {
-        getList(1, "", "");
-        $('#btn-add-dtcl').click(function() {
-            $('#add-modal').modal('show');
-            getListAddress("");
-            validateAdd();
-        })
-    });
-
-    /**Các sự kiện */
-    $('#search-benhnhan-text').keyup(function() {
-        getList(1, $('#search-benhnhan-text').val(), $('#cars-search').val());
-    })
-    $('#cars-search').change(function() {
-        getList(1, $('#search-benhnhan-text').val(), $('#cars-search').val());
-    })
-
-    /**Các hàm */
-    //Hàm lấy số trang
-    function changePage(newPage) {
-        getList(newPage, $('#search-benhnhan-text').val(), $('#cars-search').val());
-    }
-    /**Hàm lấy danh sách tỉnh huyện xã */
-    function getListAddress(flag) {
-        var address = $.xResponse();
-        address.forEach(function(element, index) {
-            $(`#${flag}tinh`).append(
-                `<option class="${flag}tinh" value="${index}">${element['name']}</option>`);
-        })
-        $(`#${flag}tinh`).change(function() {
-            $(`#${flag}huyen`).empty();
-            $(`#${flag}huyen`).append('<option value="-1"> Chọn Quận/Huyện</option>')
-            $(`#${flag}xa`).empty();
-            $(`#${flag}xa`).append('<option value="-1"> Chọn Phường/Xã </option>')
-            var districs = address[$(`#${flag}tinh`).val()]['districts'];
-            districs.forEach(function(element, index) {
-                $(`#${flag}huyen`).append(
-                    `<option class="huyen" value="${index}">${element['name']}</option>`);
-            })
-            $(`#${flag}huyen`).change(function() {
-                $(`#${flag}xa`).empty();
-                $(`#${flag}xa`).append('<option value="-1"> Chọn Phường/Xã </option>')
-                var wards = districs[$(`#${flag}huyen`).val()]['wards'];
-                wards.forEach(function(element, index) {
-                    $(`#${flag}xa`).append(
-                        `<option  class="xa" value="${index}">${element['name']}</option>`);
-                })
+        /**Hàm chính */
+        $(function() {
+            getList(1, "", "");
+            $('#btn-add-dtcl').click(function() {
+                $('#add-modal').modal('show');
+                getListAddress("");
+                getAdd();
+                validateAdd();
             })
         });
-    }
-    //Lấy danh sách đối tượng cách ly   
-    function getList(current_page, text, column) {
-        $.ajax({
-            url: `http://localhost/emss/doituongcachly/getList?current_page=${current_page}&row_per_page=5&keyword=${text}&column=${column}`,
-            type: 'get'
-        }).done(function(data) {
-            const content = $('#table1 > tbody');
-            content.empty();
-            var row = 0;
-            data.data.forEach(function(element, index) {
-                var mark = 'table-info';
-                if (row % 2 == 0) {
-                    mark = 'table-light';
-                }
-                var html = `<tr class="${mark}">
+
+        /**Các sự kiện */
+        $('#search-benhnhan-text').keyup(function() {
+            getList(1, $('#search-benhnhan-text').val(), $('#cars-search').val());
+        })
+        $('#cars-search').change(function() {
+            getList(1, $('#search-benhnhan-text').val(), $('#cars-search').val());
+        })
+
+        /**Các hàm */
+        //Hàm lấy số trang
+        function changePage(newPage) {
+            getList(newPage, $('#search-benhnhan-text').val(), $('#cars-search').val());
+        }
+        /**Hàm lấy danh sách tỉnh huyện xã */
+        function getListAddress(flag) {
+            var address = $.xResponse();
+            address.forEach(function(element, index) {
+                $(`#${flag}tinh`).append(
+                    `<option class="${flag}tinh" value="${index}">${element['name']}</option>`);
+            })
+            $(`#${flag}tinh`).change(function() {
+                $(`#${flag}huyen`).empty();
+                $(`#${flag}huyen`).append('<option value="-1"> Chọn Quận/Huyện</option>')
+                $(`#${flag}xa`).empty();
+                $(`#${flag}xa`).append('<option value="-1"> Chọn Phường/Xã </option>')
+                var districs = address[$(`#${flag}tinh`).val()]['districts'];
+                districs.forEach(function(element, index) {
+                    $(`#${flag}huyen`).append(
+                        `<option class="huyen" value="${index}">${element['name']}</option>`);
+                })
+                $(`#${flag}huyen`).change(function() {
+                    $(`#${flag}xa`).empty();
+                    $(`#${flag}xa`).append('<option value="-1"> Chọn Phường/Xã </option>')
+                    var wards = districs[$(`#${flag}huyen`).val()]['wards'];
+                    wards.forEach(function(element, index) {
+                        $(`#${flag}xa`).append(
+                            `<option  class="xa" value="${index}">${element['name']}</option>`);
+                    })
+                })
+            });
+        }
+        //Hàm cập nhật thông tin đối tượng cách ly
+
+        //Lấy danh sách đối tượng cách ly   
+        function getList(current_page, text, column) {
+            $.ajax({
+                url: `http://localhost/emss/doituongcachly/getList?current_page=${current_page}&row_per_page=5&keyword=${text}&column=${column}`,
+                type: 'get'
+            }).done(function(data) {
+                const content = $('#table1 > tbody');
+                content.empty();
+                var row = 0;
+                data.data.forEach(function(element, index) {
+                    var mark = 'table-info';
+                    if (row % 2 == 0) {
+                        mark = 'table-light';
+                    }
+                    var object ="";
+                    if(element.F==-1) object = "Chưa xác định";
+                    else object = 'F'+element.F;
+                    var html = `<tr class="${mark}">
                             <td>${element.ho_lot}</td>
                             <td>${element.ten}</td>
-                            <td>F${element.F}</td>
+                            <td>${object}</td>
                             <td>${element.cmnd}</td>
                             <td>${element.so_dien_thoai}</td>
                             <td>
@@ -327,127 +336,157 @@ View::$activeItem = 'object';
                                 </button>
                             </td>
                         </tr>`
-                content.append(html);
-                row++;
-            })
-            let i = 1;
-            $('#pagination').empty();
-            for (i = 1; i <= data.totalPage; i++)
-                if (i == current_page) {
-                    $('#pagination').append(
-                        `<li class="page-item active">\<button class="page-link" onclick="changePage(${i})" id="'${i}'">${i}</button>\</li>`
+                    content.append(html);
+                    row++;
+                })
+                let i = 1;
+                $('#pagination').empty();
+                for (i = 1; i <= data.totalPage; i++)
+                    if (i == current_page) {
+                        $('#pagination').append(
+                            `<li class="page-item active">\<button class="page-link" onclick="changePage(${i})" id="'${i}'">${i}</button>\</li>`
+                        );
+                    } else $('#pagination').append(
+                        `<li class="page-item">\<button class="page-link" onclick="changePage(${i})" id="'${i}'">${i}</button>\</li>`
                     );
-                } else $('#pagination').append(
-                    `<li class="page-item">\<button class="page-link" onclick="changePage(${i})" id="'${i}'">${i}</button>\</li>`
-                );
-        })
-    }
-    /**THÊM */
-    function validateAdd() {
-        $("form[name='add-form']").validate({
-            // Định nghĩa rule validate
-            rules: {
-                lastname: {
-                    required: true,
-                },
-                firstname: {
-                    required: true,
-                },
-                cmnd: {
-                    required: true,
-                    minlength: 9,
-                },
-                birthday: {
-                    required: true,
-                },
-                phone_number: {
-                    required: true,
-                    number: true,
-                },
-                province: {
-                    min: 0
-                },
-                district: {
-                    min: 0
-                },
-                ward: {
-                    min: 0
-                },
-                email: {
-                    email: true,
-                    required: true
-                },
-            },
-            //Tạo massages:
-            messages: {
-                lastname: "Vui lòng nhập họ lót",
-                firstname: "Vui lòng nhập tên",
-                cmnd: {
-                    required: "Vui lòng nhập số chứng minh nhân dân",
-                    minlength: "Định dạng CMND không hợp lệ",
-                },
-                birthday: "Vui lòng chọn ngày sinh",
-                phone_number: {
-                    required: "Vui lòng nhập số điện thoại",
-                    number: "Vui lòng nhập đúng định dạng"
-                },
-                province: "Vui lòng chọn tỉnh/thành phố",
-                district: "Vui lòng chọn huyện/quận",
-                ward: "Vui lòng chọn xã/phường",
-                email: {
-                    email: "Vui lòng nhập đúng định dạng",
-                    required: "Vui lòng nhập email"
-                },
-            },
-            submitHandler: function(form, event) {
-                event.preventDefault();
-                doAdd();
-            }
-        });
-    }
+            })
+        }
+        /**THÊM */
+        //Đổ dữ liệu vào modal thêm: 
+        function getAdd() {
+            var patient = $.ajax({
+                url: 'http://localhost/emss/benhnhan/getAll',
+                type: 'POST',
+            });
+            var location = $.ajax({
+                url: 'http://localhost/emss/diadiem/getList',
+                type: 'POST',
+            });
+            $.when(patient, location).done(function(l_patient, l_location) {
+                const source = $('#source');
+                source.empty();
+                const local = $('#local');
+                local.empty();
+                l_patient[0].forEach(function(element) {
+                    source.append(
+                        `<option value='${element['ma_benh_nhan']}'>${element['ma_benh_nhan']} - ${element['ho_lot']} ${element['ten']}</option>`
+                    );
+                });
+                l_location[0].forEach(function(element) {
+                    if (element['phan_loai'] == 1) local.append(
+                        `<option value='${element['ma_dia_diem']}'>${element['ten_dia_diem']}</option>`);
+                });
+                add();
+            })
+        }
 
-    function doAdd() {
-        $.post(
-            'http://localhost/emss/nguoidung/add', {
-                lastname: $('#lastname').val(),
-                firstname: $('#firstname').val(),
-                cmnd: $('#cmnd').val(),
-                birthday: $('#birthday').val(),
-                sex: $('input[name="sex"]').val(),
-                phone_number: $('#phone_number').val(),
-                province: $('.tinh:selected').text(),
-                district: $('.huyen:selected').text(),
-                ward: $('.xa:selected').text(),
-                village: $('#village').val(),
-                home: $('#home').val(),
-                email: $('#email').val(),
-                password: $('#cmnd').val(),
-                role: 5
-            }).done(function(data) {
-            if (data['thanhcong']) {
-                Toastify({
-                    text: "Thêm thành công",
-                    duration: 1000,
-                    close: true,
-                    gravity: "top",
-                    position: "center",
-                    backgroundColor: "#00CC33",
-                }).showToast();
-                $('#add-modal').modal('hide');
-                getList(1, "", "");
-            } else {
-                Toastify({
-                    text: data['error'],
-                    duration: 1000,
-                    close: true,
-                    gravity: "top",
-                    position: "center",
-                    backgroundColor: "#FF6600",
-                }).showToast();
-                $('#add-user-modal').modal('show');
-            }
-        })
-    }
+        function validateAdd() {
+            $("form[name='add-form']").validate({
+                // Định nghĩa rule validate
+                rules: {
+                    lastname: {
+                        required: true,
+                    },
+                    firstname: {
+                        required: true,
+                    },
+                    cmnd: {
+                        required: true,
+                        minlength: 9,
+                    },
+                    birthday: {
+                        required: true,
+                    },
+                    phone_number: {
+                        required: true,
+                        number: true,
+                    },
+                    province: {
+                        min: 0
+                    },
+                    district: {
+                        min: 0
+                    },
+                    ward: {
+                        min: 0
+                    },
+                    email: {
+                        email: true,
+                        required: true
+                    },
+                },
+                //Tạo massages:
+                messages: {
+                    lastname: "Vui lòng nhập họ lót",
+                    firstname: "Vui lòng nhập tên",
+                    cmnd: {
+                        required: "Vui lòng nhập số chứng minh nhân dân",
+                        minlength: "Định dạng CMND không hợp lệ",
+                    },
+                    birthday: "Vui lòng chọn ngày sinh",
+                    phone_number: {
+                        required: "Vui lòng nhập số điện thoại",
+                        number: "Vui lòng nhập đúng định dạng"
+                    },
+                    province: "Vui lòng chọn tỉnh/thành phố",
+                    district: "Vui lòng chọn huyện/quận",
+                    ward: "Vui lòng chọn xã/phường",
+                    email: {
+                        email: "Vui lòng nhập đúng định dạng",
+                        required: "Vui lòng nhập email"
+                    },
+                },
+                submitHandler: function(form, event) {
+                    event.preventDefault();
+                    doAdd();
+                }
+            });
+        }
+
+        function doAdd() {
+            $.post(
+                'http://localhost/emss/nguoidung/add', {
+                    lastname: $('#lastname').val(),
+                    firstname: $('#firstname').val(),
+                    cmnd: $('#cmnd').val(),
+                    birthday: $('#birthday').val(),
+                    sex: $('input[name="sex"]').val(),
+                    phone_number: $('#phone_number').val(),
+                    province: $('.tinh:selected').text(),
+                    district: $('.huyen:selected').text(),
+                    ward: $('.xa:selected').text(),
+                    village: $('#village').val(),
+                    home: $('#home').val(),
+                    email: $('#email').val(),
+                    password: $('#cmnd').val(),
+                    role: 5,
+                    source: $('#source').val(),
+                    local: $('#local').val(),
+                }).done(function(data) {
+                if (data['thanhcong']) {
+                    Toastify({
+                        text: "Thêm thành công",
+                        duration: 1000,
+                        close: true,
+                        gravity: "top",
+                        position: "center",
+                        backgroundColor: "#00CC33",
+                    }).showToast();
+                    $('#add-modal').modal('hide');
+                    getList(1, "", "");
+                } else {
+                    Toastify({
+                        text: data['error'],
+                        duration: 1000,
+                        close: true,
+                        gravity: "top",
+                        position: "center",
+                        backgroundColor: "#FF6600",
+                    }).showToast();
+                    $('#add-user-modal').modal('show');
+                }
+            })
+        }
     </script>
 </body>
 

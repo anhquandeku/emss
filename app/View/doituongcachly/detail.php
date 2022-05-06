@@ -89,6 +89,9 @@ View::$activeItem = 'object';
     #table1 {
         text-align: center;
     }
+    .font-weight{
+        font-weight: bold;
+    }
     </style>
 </head>
 
@@ -429,10 +432,23 @@ View::$activeItem = 'object';
         return yyyy + '-' + (mm < 10 ? '0' + mm.toString() : mm) + '-' + (dd < 10 ? '0' + mm.toString() : dd);
 
     }
-
+    //Format thời gian:
     function formatDateTime(datetime) {
         let temp = datetime.split('-');
         return temp[2] + '-' + temp[1] + '-' + temp[0];
+    }
+    //Cắt url lấy id:
+    function getID(){
+        var url = location.href;
+        var index1 = url.indexOf('id=');
+        var index2 = url.indexOf('&');
+        var str = url;
+        if(index2!=-1){
+            str.slice(index1,index2);
+        }else str.slice(index1);
+        var str2 = "";
+        for(var i=0;i<str.length;i++) if(str[i]<'9' && str[i]>'0') str2+=str[i];
+        return parseInt(str2,10);
     }
     //Hàm thay đổi trang
     function changePage(newPage) {
@@ -464,7 +480,7 @@ View::$activeItem = 'object';
     //Hàm load dữ liệu vào bảng
     function getList(current_page) {
         var _url = location.href;
-        $.ajax({
+        $.ajax({    
             url: _url + `&flag=view&row_per_page=5&current_page=${current_page}`,
             type: 'get'
         }).done(function(data) {
@@ -476,7 +492,7 @@ View::$activeItem = 'object';
                 if (row % 2 == 0) {
                     mark = 'table-light';
                 }
-                var html = `<tr class="${mark}">
+                var html = `<tr class="${mark}" id="row${row}">
                             <td class="check d-none"><input type="checkbox" value="${element.ma_ho_so}" class="form-check-input del-check shadow-none ${element.ma_ho_so}"></td>
                             <td>${element.ma_ho_so}</td>
                             <td>${formatDateTime(element.tg_bat_dau)}</td>
@@ -486,7 +502,7 @@ View::$activeItem = 'object';
                                 <button onclick="loadView(${element.ma_ho_so})"type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
                                 </button>
-                                <button onclick="loadUpdate(${element.ma_ho_so})" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                <button onclick="loadUpdate(${element.ma_ho_so},${row})" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
                                     <i class="bi bi-gear"></i>
                                 </button>
                                 <button onclick="del(${element.ma_ho_so})" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
@@ -497,6 +513,9 @@ View::$activeItem = 'object';
                 content.append(html);
                 row++;
             })
+            $('#row0').addClass('text-danger');
+            $('#row0').addClass('font-weight');
+
             let i = 1;
             $('#pagination').empty();
             for (i = 1; i <= data.totalPage; i++)
@@ -682,7 +701,7 @@ View::$activeItem = 'object';
     }
     /**SỬA */
     //Cập nhật
-    function update(idHS) {
+    function update(idHS,_id) {
         $("form[name='form-detail-update']").validate({
             rules: {
                 update_beginday: {
@@ -701,7 +720,9 @@ View::$activeItem = 'object';
                     ma_dia_diem: $('#update_local').val(),
                     tg_bat_dau: $('#update_beginday').val(),
                     f: $('#update_object').val(),
-                    nguon_lay: $('#update_source').val()
+                    nguon_lay: $('#update_source').val(),
+                    row: _id,
+                    id: getID()
                 }, function(response) {
                     $('#update-dtcl-modal').modal('hide');
                     if (response.thanhcong == true) {
@@ -731,7 +752,7 @@ View::$activeItem = 'object';
         });
     }
     //Hàm load dữ liệu vào modal sửa
-    function loadUpdate(idHS) {
+    function loadUpdate(idHS,_id) {
         $('#update-dtcl-modal').modal('show');
         var file = $.ajax({
             url: 'http://localhost/emss/doituongcachly/getOneByID',
@@ -767,7 +788,7 @@ View::$activeItem = 'object';
             source.val(_file[0][0].nguon_lay);
             local.val(_file[0][0].ma_dia_diem);
         })
-        update(idHS);
+        update(idHS,_id);
     }
     </script>
 </body>
