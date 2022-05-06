@@ -5,9 +5,8 @@
         </div>
         <div class="float-end">
             <p>
-                Được tạo
-                <span class="text-danger"><i class="bi bi-heart-fill icon-mid"></i></span>
-                bởi <a href="#">Vip Pro Team</a>
+                Được tạo bởi <a href="#">ArWin </a><span class="text-danger"><i
+                        class="bi bi-heart-fill icon-mid"></i></span>
             </p>
         </div>
     </div>

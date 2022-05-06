@@ -10,7 +10,7 @@ use App\Core\View;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Học Tập</title>
+    <title>EMSS</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?= Config::get('URL') ?>assets/css/bootstrap.css">
     <link rel="stylesheet" href="<?= Config::get('URL') ?>assets/vendors/bootstrap-icons/bootstrap-icons.css">
@@ -24,7 +24,8 @@ use App\Core\View;
 
         <div class="error-page container">
             <div class="col-md-8 col-12 offset-md-2">
-                <img class="img-error" src="<?= Config::get('URL') ?>assets/images/samples/error-500.png" alt="Not Found">
+                <img class="img-error" src="<?= Config::get('URL') ?>assets/images/samples/error-500.png"
+                    alt="Not Found">
                 <div class="text-center">
                     <h1 class="error-title">Lỗi hệ thống</h1>
                     <p class="fs-5 text-gray-600">
@@ -32,7 +33,7 @@ use App\Core\View;
                         <br />
                         Vui lòng quay lại sau, hoặc liên hệ admin <b>kindaichicao@gmail.com</b>
                     <p>
-                    <a href="<?= View::getBaseUrl() ?>" class="btn btn-lg btn-outline-primary mt-3">Về trang chủ</a>
+                        <a href="<?= View::getBaseUrl() ?>" class="btn btn-lg btn-outline-primary mt-3">Về trang chủ</a>
                 </div>
             </div>
         </div>
