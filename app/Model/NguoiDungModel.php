@@ -28,11 +28,8 @@ class NguoiDungModel
 
         $query = $database->prepare("SELECT * FROM nguoi_dung WHERE ma_nguoi_dung = :mnd LIMIT 1");
         $query->execute([':mnd' => $ma_nguoi_dung]);
-
-        if ($row = $query->fetch()) {
-            return $row;
-        }
-        return null;
+        $data = $query -> fetchAll();
+        return $data;
     }
     public static function add($username, $password, $vaitro, $holot, $ten, $cmnd, $ngaysinh, $phai, $diachi, $email, $sdt)
     {

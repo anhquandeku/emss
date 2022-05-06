@@ -99,7 +99,7 @@ use App\Core\Redirect;
                     password: $('#password').val(),
                 }).done(function(data) {
                     if (data['thanhcong']) {
-                        window.location.href     = "http://localhost/emss/";
+                        window.location.href = "http://localhost/emss/";
                     }else{
                         Toastify({
                             text: data['summary'],
