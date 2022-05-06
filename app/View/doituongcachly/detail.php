@@ -83,6 +83,9 @@ View::$activeItem = 'object';
             padding-left: 0px;
             background-color: #ddebf8;
         }
+        #table1{
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -476,11 +479,11 @@ View::$activeItem = 'object';
                                 <button onclick="loadView(${element.ma_ho_so})"type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
                                 </button>
-                                <button onclick="del(${element.ma_ho_so})" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button>
                                 <button onclick="loadUpdate(${element.ma_ho_so})" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
                                     <i class="bi bi-gear"></i>
+                                </button>
+                                <button onclick="del(${element.ma_ho_so})" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-trash-fill"></i>
                                 </button>
                             </td>
                         </tr>`
