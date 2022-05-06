@@ -74,10 +74,10 @@ View::$activeItem = 'user';
                             <div class="col-12 col-md-5 order-md-2 order-first">
                                 <div class=" loat-start float-lg-end mb-3">
                                     <button id='btn-delete-user' class="btn btn-danger">
-                                        <i class="bi bi-trash-fill"></i> Xóa người dùng
+                                        <i class="bi bi-trash-fill icon-mid"></i> Xóa người dùng
                                     </button>
                                     <button id='open-add-user-btn' class="btn btn-primary">
-                                        <i class="bi bi-plus"></i> Thêm người dùng
+                                        <i class="bi bi-person-plus-fill"></i> Thêm người dùng
                                     </button>
                                 </div>
                             </div>

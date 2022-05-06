@@ -59,7 +59,7 @@ View::$activeItem = 'trace';
                             <div class="col-12 col-md-5 order-md-2 order-first">
                                 <div class=" loat-start float-lg-end mb-3">
                                     <button id='do-trace' class="btn btn-primary">
-                                        <i class="bi bi-plus"></i> Tiến hành truy vết
+                                        <i class="bi bi-share-fill icon-mid"></i> Tiến hành truy vết
                                     </button>
                                 </div>
                             </div>
@@ -338,13 +338,14 @@ View::$activeItem = 'trace';
                                                         'ma_' +
                                                         element[
                                                             'ma_dia_diem'
-                                                            ]
-                                                        ];
+                                                        ]
+                                                    ];
                                                 var code = '<tr class="table-light">\
                                             <td>' + element['ma_dia_diem'] + '</td>\
                                             <td>' + temp['ten_dia_diem'] + '</td>\
                                             <td>' + temp['tp_tinh'] + " - " + temp['quan_huyen'] + " - " + temp[
-                                                    'phuong_xa'] + '</td>\
+                                                    'phuong_xa'
+                                                    ] + '</td>\
                                         </tr>';
                                                 if (row %
                                                     2) {
@@ -357,7 +358,7 @@ View::$activeItem = 'trace';
                                                 $('#content-table')
                                                     .append(
                                                         code
-                                                        );
+                                                    );
                                             });
                                     })
                                 } else
@@ -379,8 +380,8 @@ View::$activeItem = 'trace';
                                                         'ma_' +
                                                         element[
                                                             'ma_nguoi_dung'
-                                                            ]
-                                                        ];
+                                                        ]
+                                                    ];
                                                 var code = '<tr class="table-light">\
                                             <td>' + temp['ho_lot'] + " " + temp['ten'] + '</td>\
                                             <td>' + temp['cmnd'] + '</td>\
@@ -401,7 +402,7 @@ View::$activeItem = 'trace';
                                                 $('#content-table-2')
                                                     .append(
                                                         code
-                                                        );
+                                                    );
                                             })
                                     })
                                 } else if ($('#view').val() == 3) {
@@ -422,8 +423,8 @@ View::$activeItem = 'trace';
                                                         'ma_' +
                                                         element[
                                                             'ma_nguoi_dung'
-                                                            ]
-                                                        ];
+                                                        ]
+                                                    ];
                                                 var code = '<tr class="table-light">\
                                             <td>' + temp_['ho_lot'] + " " + temp_['ten'] + '</td>\
                                             <td>' + temp_['cmnd'] + '</td>\
@@ -444,7 +445,7 @@ View::$activeItem = 'trace';
                                                 $('#content-table-3')
                                                     .append(
                                                         code
-                                                        );
+                                                    );
                                             })
                                     })
                                 }

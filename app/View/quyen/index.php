@@ -60,10 +60,10 @@ View::$activeItem = 'quyen';
 
                                 <div class=" loat-start float-lg-end mb-3">
                                     <button id='btn-delete-mon' class="btn btn-danger">
-                                        <i class="bi bi-trash-fill"></i> Xóa quyền
+                                        <i class="bi bi-trash-fill icon-mid"></i> Xóa quyền
                                     </button>
                                     <button id='open-add-mon-btn' class="btn btn-primary">
-                                        <i class="bi bi-plus"></i> Thêm quyền
+                                        <i class="bi bi-plus icon-mid"></i> Thêm quyền
                                     </button>
                                 </div>
                             </div>
@@ -283,7 +283,8 @@ View::$activeItem = 'quyen';
                     '<li class="d-inline-block me-0 mb-1 w-50">\
                                     <div class="form-check">\
                                         <div class="custom-control custom-checkbox">\
-                                            <input type="checkbox" class="form-check-input form-check-success" name="' + data
+                                            <input type="checkbox" class="form-check-input form-check-success" name="' +
+                    data
                     .MaChucNang + '" id="view-' + data.MaChucNang + '" disabled>\
                                             <label class="form-check-label" for="customColorCheck3">' + data
                     .TenDoiTuong + '</label>\

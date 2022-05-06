@@ -68,10 +68,10 @@ View::$activeItem = 'test';
                             <div class="col-12 col-md-4 order-md-2 order-first">
                                 <div class=" loat-start float-lg-end mb-3">
                                     <button id='btn-delete-benhnhan' class="btn btn-danger">
-                                        <i class="bi bi-trash-fill"></i> Xóa mẫu
+                                        <i class="bi bi-trash-fill icon-mid"></i> Xóa mẫu
                                     </button>
                                     <button id='open-add-benhnhan-btn' class="btn btn-primary">
-                                        <i class="bi bi-plus"></i> Thêm mẫu
+                                        <i class="bi bi-plus icon-mid"></i> Thêm mẫu
                                     </button>
                                 </div>
                             </div>

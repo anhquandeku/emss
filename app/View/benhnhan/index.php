@@ -68,10 +68,10 @@ View::$activeItem = 'patient';
                             <div class="col-12 col-md-5 order-md-2 order-first">
                                 <div class=" loat-start float-lg-end mb-3">
                                     <button id='btn-delete-benhnhan' class="btn btn-danger">
-                                        <i class="bi bi-trash-fill"></i> Xóa bệnh nhân
+                                        <i class="bi bi-trash-fill icon-mid"></i> Xóa bệnh nhân
                                     </button>
                                     <button id='open-add-benhnhan-btn' class="btn btn-primary">
-                                        <i class="bi bi-plus"></i> Thêm bệnh nhân
+                                        <i class="bi bi-person-plus-fill icon-mid"></i> Thêm bệnh nhân
                                     </button>
                                 </div>
                             </div>
