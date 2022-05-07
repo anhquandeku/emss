@@ -745,7 +745,7 @@ View::$activeItem = 'user';
         }
         function getListAdvantage(current_page, text, column) {
             $.ajax({
-                url: `http://localhost/emss/nguoidung/getList?current_page=${current_page}&row_per_page=2&keyword=${text}&column=${column}`,
+                url: `http://localhost/emss/nguoidung/getList?current_page=${current_page}&row_per_page=5&keyword=${text}&column=${column}`,
                 type: 'GET'
             }).done(function(data) {
                 var row = 1;
