@@ -173,4 +173,15 @@ class NguoiDungModel
         }
         return $data;
     }
+    public static function updateRole($ma_nguoi_dung, $role)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("UPDATE nguoi_dung SET ma_vai_tro = :mavaitro WHERE ma_nguoi_dung = :manguoidung AND trang_thai =1");
+        $query->execute([':mavaitro' => $role, ':manguoidung' => $ma_nguoi_dung]);
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+        return false;
+    }
 }

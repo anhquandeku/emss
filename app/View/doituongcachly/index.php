@@ -22,6 +22,11 @@ View::$activeItem = 'object';
     <link rel="stylesheet" href="<?= View::assets('css/app.css') ?>" />
     <link rel="shortcut icon" href="<?= View::assets('images/logo/logo_.png') ?>" type="image/x-icon" />
     <link rel="stylesheet" href="<?= View::assets('css/quan.css') ?>" />
+    <style>
+        table {
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
@@ -69,9 +74,11 @@ View::$activeItem = 'object';
                                     <button id='btn-delete-dtcl' class="btn btn-danger">
                                         <i class="bi bi-trash-fill icon-mid"></i> Xóa DTCL
                                     </button>
-                                    <button id="btn-add-dtcl" class="btn btn-primary">
-                                        <i class="bi bi-person-plus-fill icon-mid"></i> Thêm DTCL
-                                    </button>
+                                    <a href="http://localhost/emss/doituongcachly/doAdd">
+                                        <button id="btn-add-dtcl" class="btn btn-primary">
+                                            <i class="bi bi-person-plus-fill icon-mid"></i> Thêm DTCL
+                                        </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -102,137 +109,6 @@ View::$activeItem = 'object';
                                 </div>
                             </div>
                     </section>
-                </div>
-            </div>
-            <!-- MODAL ADD -->
-            <div class="modal fade text-left" id="add-modal" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Thêm đối tượng cách ly</h4>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <i data-feather="x"></i>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form name="add-form" method="post">
-                                <div class="row">
-                                    <div class="form-group row col-6">
-                                        <label for="lastname" class="col-sm-4 col-form-label">Họ lót:</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Họ lót">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row col-6">
-                                        <label for="firstname" class="col-sm-4 col-form-label">Tên:</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Tên">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group row col-6">
-                                        <label for="cmnd" class="col-sm-4 col-form-label">CMND:</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="cmnd" name="cmnd" placeholder="CMND">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row col-6">
-                                        <label for="firstname" class="col-sm-4 col-form-label">Ngày sinh:</label>
-                                        <div class="col-sm-8">
-                                            <input type="date" class="form-control" id="birthday" name="birthday" placeholder="Tên">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row col-6">
-                                        <label for="sex" class="col-sm-4 col-form-label">Giới tính:</label>
-                                        <div class="col-sm-8 row">
-                                            <div class="col-6">
-                                                <input type="radio" name="sex" id="male" value="Nam" checked=checked>
-                                                <label class="form-check-label col-form-label" for="male"> Nam
-                                                </label>
-                                            </div>
-                                            <div class="col-6">
-                                                <input class="" type="radio" name="sex" valune="Nữ" id="female">
-                                                <label class="form-check-label col-form-label" for="female"> Nữ
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row col-6">
-                                        <label for="phone_number" class="col-sm-4 col-form-label">SĐT:</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="Số điện thoại">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class=" from-group row" style="padding-right: 1.5em; padding-left:0em" ;>
-                                    <label for="address" class="col-2 col-form-label ">Địa chỉ:</label>
-                                    <div class="col-10 row form-group">
-                                        <div class="col-4">
-                                            <select class="form-control" name="province" id="tinh">
-                                                <option value='-1'>Chọn TP/Tỉnh</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-4">
-                                            <select class="form-control" name="district" id="huyen">
-                                                <option value='-1'>Chọn Quận/Huyện</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-4">
-                                            <select class="form-control" name="ward" id="xa">
-                                                <option value='-1'>Chọn Phường/Xã</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row form-group" ;>
-                                    <label for="" class="col-2 col-form-label"> </label>
-                                    <div class="col-10 row">
-                                        <div class="col-6 row">
-                                            <input type="text" class="form-control" id="village" name="village" placeholder="Thôn/ấp">
-                                        </div>
-                                        <div class="col-6">
-                                            <input type="text" class="form-control" id="home" name="home" placeholder="Số nhà">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group row">
-                                        <label for="email" class="col-2 col-form-label"> Email:</label>
-                                        <div class="col-10">
-                                            <input type="text" class="form-control" id="email" name="email" placeholder="Email">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group row col-6">
-                                        <label for="source" class="col-sm-4 col-form-label">Nguồn lây:</label>
-                                        <div class="col-8">
-                                            <select class="form-control" name="source" id="source">
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row col-6">
-                                        <label for="phone_number" class="col-sm-4 col-form-label">DDCL:</label>
-                                        <div class="col-8">
-                                            <select class="form-control" name="local" id="local">
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                <i class="bx bx-x d-block d-sm-none"></i>
-                                <span class="d-none d-sm-block">Đóng</span>
-                            </button>
-                            <button type="submit" class="btn btn-primary ml-1">
-                                <i class="bx bx-check d-block d-sm-none"></i>
-                                <span class="d-none d-sm-block">Thêm</span>
-                            </button>
-                        </div>
-                        </form>
-                    </div>
                 </div>
             </div>
             <!-- MODAL XÁC NHẬN XÓA -->
@@ -287,12 +163,6 @@ View::$activeItem = 'object';
         /**Hàm chính */
         $(function() {
             getList(1, "", "");
-            $('#btn-add-dtcl').click(function() {
-                $('#add-modal').modal('show');
-                getListAddress("");
-                getAdd();
-                validateAdd();
-            })
             //Xóa
             $('#btn-delete-dtcl').click(function() {
                 $('.check').toggleClass('d-none')
@@ -348,8 +218,6 @@ View::$activeItem = 'object';
                 })
             });
         }
-        //Hàm cập nhật thông tin đối tượng cách ly
-
         //Lấy danh sách đối tượng cách ly   
         function getList(current_page, text, column) {
             $.ajax({
@@ -378,8 +246,11 @@ View::$activeItem = 'object';
                                 <a href = "<?= View::url('doituongcachly/detail?id=${element.ma_nguoi_dung}') ?>">
                                     <button type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;"><i class="bi bi-eye"></i></button>
                                 </a>
-                                <button onclick="deleteRow('${data.ma_nguoi_dung}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                <button onclick="del('${element.ma_nguoi_dung}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
                                     <i class="bi bi-trash-fill"></i>
+                                </button>
+                                <button onclick="complete(${element.ma_nguoi_dung})" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                <i class="bi bi-check-circle"></i>
                                 </button>
                             </td>
                         </tr>`
@@ -396,142 +267,6 @@ View::$activeItem = 'object';
                     } else $('#pagination').append(
                         `<li class="page-item">\<button class="page-link" onclick="changePage(${i})" id="'${i}'">${i}</button>\</li>`
                     );
-            })
-        }
-        /**THÊM */
-        //Đổ dữ liệu vào modal thêm: 
-        function getAdd() {
-            var patient = $.ajax({
-                url: 'http://localhost/emss/benhnhan/getAll',
-                type: 'POST',
-            });
-            var location = $.ajax({
-                url: 'http://localhost/emss/diadiem/getList',
-                type: 'POST',
-            });
-            $.when(patient, location).done(function(l_patient, l_location) {
-                const source = $('#source');
-                source.empty();
-                const local = $('#local');
-                local.empty();
-                l_patient[0].forEach(function(element) {
-                    source.append(
-                        `<option value='${element['ma_benh_nhan']}'>${element['ma_benh_nhan']} - ${element['ho_lot']} ${element['ten']}</option>`
-                    );
-                });
-                l_location[0].forEach(function(element) {
-                    if (element['phan_loai'] == 1) local.append(
-                        `<option value='${element['ma_dia_diem']}'>${element['ten_dia_diem']}</option>`);
-                });
-                add();
-            })
-        }
-
-        function validateAdd() {
-            $("form[name='add-form']").validate({
-                // Định nghĩa rule validate
-                rules: {
-                    lastname: {
-                        required: true,
-                    },
-                    firstname: {
-                        required: true,
-                    },
-                    cmnd: {
-                        required: true,
-                        minlength: 9,
-                    },
-                    birthday: {
-                        required: true,
-                    },
-                    phone_number: {
-                        required: true,
-                        number: true,
-                    },
-                    province: {
-                        min: 0
-                    },
-                    district: {
-                        min: 0
-                    },
-                    ward: {
-                        min: 0
-                    },
-                    email: {
-                        email: true,
-                        required: true
-                    },
-                },
-                //Tạo massages:
-                messages: {
-                    lastname: "Vui lòng nhập họ lót",
-                    firstname: "Vui lòng nhập tên",
-                    cmnd: {
-                        required: "Vui lòng nhập số chứng minh nhân dân",
-                        minlength: "Định dạng CMND không hợp lệ",
-                    },
-                    birthday: "Vui lòng chọn ngày sinh",
-                    phone_number: {
-                        required: "Vui lòng nhập số điện thoại",
-                        number: "Vui lòng nhập đúng định dạng"
-                    },
-                    province: "Vui lòng chọn tỉnh/thành phố",
-                    district: "Vui lòng chọn huyện/quận",
-                    ward: "Vui lòng chọn xã/phường",
-                    email: {
-                        email: "Vui lòng nhập đúng định dạng",
-                        required: "Vui lòng nhập email"
-                    },
-                },
-                submitHandler: function(form, event) {
-                    event.preventDefault();
-                    doAdd();
-                }
-            });
-        }
-
-        function doAdd() {
-            $.post(
-                'http://localhost/emss/nguoidung/add', {
-                    lastname: $('#lastname').val(),
-                    firstname: $('#firstname').val(),
-                    cmnd: $('#cmnd').val(),
-                    birthday: $('#birthday').val(),
-                    sex: $('input[name="sex"]').val(),
-                    phone_number: $('#phone_number').val(),
-                    province: $('.tinh:selected').text(),
-                    district: $('.huyen:selected').text(),
-                    ward: $('.xa:selected').text(),
-                    village: $('#village').val(),
-                    home: $('#home').val(),
-                    email: $('#email').val(),
-                    password: $('#cmnd').val(),
-                    role: 5,
-                    source: $('#source').val(),
-                    local: $('#local').val(),
-                }).done(function(data) {
-                if (data['thanhcong']) {
-                    Toastify({
-                        text: "Thêm thành công",
-                        duration: 1000,
-                        close: true,
-                        gravity: "top",
-                        position: "center",
-                        backgroundColor: "#00CC33",
-                    }).showToast();
-                    $('#add-modal').modal('hide');
-                    getList(1, "", "");
-                } else {
-                    Toastify({
-                        text: data['error'],
-                        duration: 1000,
-                        close: true,
-                        gravity: "top",
-                        position: "center",
-                        backgroundColor: "#FF6600",
-                    }).showToast();
-                    $('#add-user-modal').modal('show');
-                }
             })
         }
         /**XÓA */
@@ -554,7 +289,7 @@ View::$activeItem = 'object';
                             position: "center",
                             backgroundColor: "#4fbe87",
                         }).showToast();
-                        getList(1);
+                        getList(1, "", "");
                     } else {
                         Toastify({
                             text: "Xóa Thất Bại",
@@ -571,6 +306,47 @@ View::$activeItem = 'object';
                 $('input.del-check:checked').each(function(index, element) {
                     $(this).prop('checked', false);
                 })
+            })
+        }
+        /** Hoàn thành cách ly */
+        function complete(idUser) {
+            $.ajax({
+                url: 'http://localhost/emss/doituongcachly/updateFinishTime',
+                data: {
+                    ma_doi_tuong: idUser
+                },
+                type: 'POST'
+            }).done(function(response) {
+                if (response) {
+                    $.ajax({
+                        url: 'http://localhost/emss/doituongcachly/delete_dtcl',
+                        data: {
+                            list: idUser
+                        },
+                        type: 'POST',
+                    }).done(function(data) {
+                        if (data.thanhcong == true) {
+                            Toastify({
+                                text: "Thành Công",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#4fbe87",
+                            }).showToast();
+                            getList(1, "", "");
+                        } else {
+                            Toastify({
+                                text: "Thất Bại",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#FF6A6A",
+                            }).showToast();
+                        }
+                    })
+                }
             })
         }
     </script>

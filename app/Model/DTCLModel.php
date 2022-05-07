@@ -17,17 +17,17 @@ class DTCLModel
 
         $sql = "";
         if ($column == "") {
-            $sql = 'SELECT * FROM nguoi_dung, doi_tuong_cach_ly WHERE (ho_lot LIKE :keyword OR ten LIKE :keyword OR F LIKE :keyword OR cmnd LIKE :keyword OR so_dien_thoai LIKE :keyword) AND ma_doi_tuong = ma_nguoi_dung AND trang_thai=1';
+            $sql = 'SELECT * FROM nguoi_dung, doi_tuong_cach_ly  WHERE (ho_lot LIKE :keyword OR ten LIKE :keyword OR cmnd LIKE :keyword OR so_dien_thoai LIKE :keyword)  AND ma_doi_tuong = ma_nguoi_dung AND trang_thai=1 AND ma_vai_tro = 5';
         } else if ($column == "ho") {
-            $sql = 'SELECT * FROM nguoi_dung, doi_tuong_cach_ly WHERE (ho_lot LIKE :keyword) AND ma_doi_tuong = ma_nguoi_dung AND trang_thai=1';
+            $sql = 'SELECT * FROM nguoi_dung, doi_tuong_cach_ly WHERE (ho_lot LIKE :keyword) AND ma_doi_tuong = ma_nguoi_dung AND trang_thai=1 AND ma_vai_tro = 5';
         } else if ($column == "ten") {
-            $sql = 'SELECT * FROM nguoi_dung, doi_tuong_cach_ly WHERE (ten LIKE :keyword) AND ma_doi_tuong = ma_nguoi_dung AND trang_thai=1';
+            $sql = 'SELECT * FROM nguoi_dung, doi_tuong_cach_ly WHERE (ten LIKE :keyword) AND ma_doi_tuong = ma_nguoi_dung AND trang_thai=1 AND ma_vai_tro = 5';
         } else if ($column == "F") {
-            $sql = 'SELECT * FROM nguoi_dung, doi_tuong_cach_ly WHERE (F LIKE :keyword) AND ma_doi_tuong = ma_nguoi_dung AND trang_thai=1';
+            $sql = 'SELECT * FROM nguoi_dung, doi_tuong_cach_ly WHERE (F LIKE :keyword) AND ma_doi_tuong = ma_nguoi_dung AND trang_thai=1 AND ma_vai_tro = 5';
         } else  if ($column == "cmnd") {
-            $sql = 'SELECT * FROM nguoi_dung, doi_tuong_cach_ly WHERE (cmnd LIKE :keyword) AND ma_doi_tuong = ma_nguoi_dung AND trang_thai=1';
+            $sql = 'SELECT * FROM nguoi_dung, doi_tuong_cach_ly WHERE (cmnd LIKE :keyword) AND ma_doi_tuong = ma_nguoi_dung AND trang_thai=1 AND ma_vai_tro = 5';
         } else if ($column == "sdt") {
-            $sql = 'SELECT * FROM nguoi_dung, doi_tuong_cach_ly WHERE (so_dien_thoai LIKE :keyword) AND ma_doi_tuong = ma_nguoi_dung AND trang_thai=1';
+            $sql = 'SELECT * FROM nguoi_dung, doi_tuong_cach_ly WHERE (so_dien_thoai LIKE :keyword) AND ma_doi_tuong = ma_nguoi_dung AND trang_thai=1 AND ma_vai_tro = 5';
         }
 
         $sql .= ' ORDER BY ma_nguoi_dung ASC LIMIT :limit OFFSET :offset';
@@ -40,17 +40,17 @@ class DTCLModel
         $data = $query->fetchAll();
 
         if ($column == "") {
-            $sql_ = 'SELECT COUNT(*) FROM nguoi_dung, doi_tuong_cach_ly WHERE (ho_lot LIKE :keyword OR ten LIKE :keyword OR F LIKE :keyword OR cmnd LIKE :keyword OR so_dien_thoai LIKE :keyword) AND ma_doi_tuong = ma_nguoi_dung AND trang_thai=1';
+            $sql_ = 'SELECT COUNT(*) FROM nguoi_dung, doi_tuong_cach_ly WHERE (ho_lot LIKE :keyword OR ten LIKE :keyword OR F LIKE :keyword OR cmnd LIKE :keyword OR so_dien_thoai LIKE :keyword) AND ma_doi_tuong = ma_nguoi_dung AND trang_thai=1 AND ma_vai_tro = 5';
         } else if ($column == "ho") {
-            $sql_ = 'SELECT COUNT(*) FROM nguoi_dung, doi_tuong_cach_ly WHERE (ho_lot LIKE :keyword) AND ma_doi_tuong = ma_nguoi_dung AND trang_thai=1';
+            $sql_ = 'SELECT COUNT(*) FROM nguoi_dung, doi_tuong_cach_ly WHERE (ho_lot LIKE :keyword) AND ma_doi_tuong = ma_nguoi_dung AND trang_thai=1 AND ma_vai_tro = 5';
         } else if ($column == "ten") {
-            $sql_ = 'SELECT COUNT(*) FROM nguoi_dung, doi_tuong_cach_ly WHERE (ten LIKE :keyword) AND ma_doi_tuong = ma_nguoi_dung AND trang_thai=1';
+            $sql_ = 'SELECT COUNT(*) FROM nguoi_dung, doi_tuong_cach_ly WHERE (ten LIKE :keyword) AND ma_doi_tuong = ma_nguoi_dung AND trang_thai=1 AND ma_vai_tro = 5';
         } else if ($column == "F") {
-            $sql_ = 'SELECT COUNT(*) FROM nguoi_dung, doi_tuong_cach_ly WHERE (F LIKE :keyword) AND ma_doi_tuong = ma_nguoi_dung AND trang_thai=1';
+            $sql_ = 'SELECT COUNT(*) FROM nguoi_dung, doi_tuong_cach_ly WHERE (F LIKE :keyword) AND ma_doi_tuong = ma_nguoi_dung AND trang_thai=1 AND ma_vai_tro = 5';
         } else  if ($column == "cmnd") {
-            $sql_ = 'SELECT COUNT(*) FROM nguoi_dung, doi_tuong_cach_ly WHERE (cmnd LIKE :keyword) AND ma_doi_tuong = ma_nguoi_dung AND trang_thai=1';
+            $sql_ = 'SELECT COUNT(*) FROM nguoi_dung, doi_tuong_cach_ly WHERE (cmnd LIKE :keyword) AND ma_doi_tuong = ma_nguoi_dung AND trang_thai=1 AND ma_vai_tro = 5';
         } else if ($column == "sdt") {
-            $sql_ = 'SELECT COUNT(*) FROM nguoi_dung, doi_tuong_cach_ly WHERE (so_dien_thoai LIKE :keyword) AND ma_doi_tuong = ma_nguoi_dung AND trang_thai=1';
+            $sql_ = 'SELECT COUNT(*) FROM nguoi_dung, doi_tuong_cach_ly WHERE (so_dien_thoai LIKE :keyword) AND ma_doi_tuong = ma_nguoi_dung AND trang_thai=1 AND ma_vai_tro = 5';
         }
 
         $countQuery = $database->prepare($sql_);
@@ -123,6 +123,9 @@ class DTCLModel
         }
         return false;
     }
+    public static function deleteCurrentFile(){
+        
+    }
     public static function getOneByID($ma_ho_so)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
@@ -142,12 +145,12 @@ class DTCLModel
         }
         return false;
     }
-    public static function add_2($ma_doi_tuong, $ma_dia_diem, $nguon_lay)
+    public static function add_2($ma_doi_tuong, $ma_dia_diem, $f, $nguon_lay)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
-        $sql = "INSERT INTO doi_tuong_cach_ly(ma_doi_tuong, ma_dia_diem, nguon_lay) VALUES (:madoituong, :madiadiem, :nguonlay)";
+        $sql = "INSERT INTO doi_tuong_cach_ly(ma_doi_tuong, ma_dia_diem, F, nguon_lay) VALUES (:madoituong, :madiadiem, :f, :nguonlay)";
         $query = $database->prepare($sql);
-        $query->execute([':madoituong' => $ma_doi_tuong, ':madiadiem' => $ma_dia_diem, ':nguonlay' => $nguon_lay]);
+        $query->execute([':madoituong' => $ma_doi_tuong, ':madiadiem' => $ma_dia_diem, ':f' => $f, ':nguonlay' => $nguon_lay]);
         $count = $query->rowCount();
         if ($count == 1) {
             return true;
@@ -175,5 +178,24 @@ class DTCLModel
             return true;
         }
         return false;
+    }
+    public static function updateFinishTime($ngay_ket_thuc, $ma_ho_so)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("UPDATE ho_so_cach_ly SET tg_ket_thuc = :tgkt WHERE ma_ho_so = :ma_ho_so");
+        $query->execute([':tgkt' => $ngay_ket_thuc, 'ma_ho_so' => $ma_ho_so]);
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+        return false;
+    }
+    public static function getCurrentFile($ma_doi_tuong)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("SELECT * FROM ho_so_cach_ly WHERE ma_doi_tuong = :ma_doi_tuong AND trang_thai = 1  ORDER BY tg_bat_dau DESC LIMIT 1");
+        $query->execute([':ma_doi_tuong' => $ma_doi_tuong]);
+        $data = $query->fetchAll();
+        return $data;
     }
 }
