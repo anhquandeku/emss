@@ -130,4 +130,5 @@ class NguoiDungController extends Controller
         $data = NguoiDungModel::updateRole($ma_nguoi_dung,$role);
         return $this->View->renderJSON($data);
     }
+    
 }
