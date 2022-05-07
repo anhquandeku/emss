@@ -3,7 +3,7 @@ namespace App\Core;
 
 class RSA
 {
-    function RSAencrypt( $num, $GETn){
+    function encrypt( $num, $GETn){
         if ( file_exists( 'temp/bigprimes'.hash( 'sha256', $GETn).'.php')){
             $t= explode( '>,', file_get_contents('temp/bigprimes'.hash( 'sha256', $GETn).'.php'));
             return $this->JL_powmod( $num, $t[4], $t[10]); 
@@ -12,7 +12,7 @@ class RSA
         }
     }
      
-    function RSAdecrypt( $num, $GETn){
+    function decrypt( $num, $GETn){
         if ( file_exists( 'temp/bigprimes'.hash( 'sha256', $GETn).'.php')){
             $t= explode( '>,', file_get_contents('temp/bigprimes'.hash( 'sha256', $GETn).'.php'));
             return $this->JL_powmod( $num, $t[8], $t[10]);     
@@ -51,7 +51,7 @@ class RSA
         $tf= $this->digit( $from, $b[$to]);
      
         for ($i=strlen($message)-1; $i>=0; $i--){
-            $result= $this->badd( $result, $this->bmul( $this->digit( strpos( $b[$from], substr( $message, $i, 1)), $b  [$to]), $f, $b[$to]), $b[$to]);
+            $result= $this->badd( $result, $this->bmul( $this->digit( strpos( $b[$from], substr( $message, $i, 1)), $b[$to]), $f, $b[$to]), $b[$to]);
             $f= $this->bmul($f, $tf, $b[$to]);
         }
         return $result; 
@@ -124,6 +124,7 @@ class RSA
         }
         return $o;
     }
+    
     function bmul( $n1, $n2, $nbase){
         $base= strlen( $nbase);
         $b[$base]= $nbase; 
