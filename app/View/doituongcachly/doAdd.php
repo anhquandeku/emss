@@ -38,6 +38,10 @@ View::$activeItem = 'object';
         .modal-content {
             width: 1200em;
         }
+
+        table {
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -115,6 +119,65 @@ View::$activeItem = 'object';
                             </div>
                     </section>
                 </div>
+                <!-- MODAL ADD -->
+                <div class="modal fade text-left" id="add-dtcl-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Thêm Hồ Sơ</h4>
+                                <input type="text" id="idUser" class="d-none" value="1">
+                            </div>
+                            <div class="modal-body">
+                                <form name="form-detail-add" id=" " method="post">
+                                    <div class="row">
+                                        <div class="form-group row col-6">
+                                            <label for="begindate" class="col-sm-4 col-form-label">Ngày bắt đầu</label>
+                                            <div class="col-sm-8">
+                                                <input type="date" class="form-control" value="2000-01-01" id="beginday" name="beginday">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row col-6">
+                                            <label for="object" class="col-sm-4 col-form-label">Đối tượng:</label>
+                                            <div class="col-8">
+                                                <select class="form-control" name="object" id="object">
+                                                    <option value='-1'>Chưa xác định</option>
+                                                    <option value='0'>F0</option>
+                                                    <option value='1'>F1</option>
+                                                    <option value='2'>F2</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row col-6">
+                                            <label for="source" class="col-sm-4 col-form-label">Nguồn lây:</label>
+                                            <div class="col-8">
+                                                <select class="form-control" name="source" id="source">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row col-6">
+                                            <label for="phone_number" class="col-sm-4 col-form-label">Địa điểm:</label>
+                                            <div class="col-8">
+                                                <select class="form-control" name="local" id="local">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Đóng</span>
+                                </button>
+                                <button type="submit" class="btn btn-primary ml-1">
+                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Thêm</span>
+                                </button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <!-- FOOTER -->
                 <?php View::partial('footer')  ?>
             </div>
@@ -143,12 +206,135 @@ View::$activeItem = 'object';
             $('#cars-search').change(function() {
                 getListAdvantage(1, $('#search-user-text').val(), $('#cars-search').val())
             })
+
         })
         /** Các hàm */
+        //Lấy ngày hiện tại
+        function getDateTime() {
+            var d = new Date();
+            var yyyy = d.getFullYear();
+            var mm = d.getMonth() + 1;
+            var dd = d.getDate();
+            return yyyy + '-' + (mm < 10 ? '0' + mm.toString() : mm) + '-' + (dd < 10 ? '0' + mm.toString() : dd);
+
+        }
+        //Thay đổi trang
         function changePage(newPage) {
             getListAdvantage(newPage, $('#search-user-text').val(), $('#cars-search').val());
         }
+        // Hàm update người dùng
+        function updateUser(idUser) {
+            $.ajax({
+                url: `http://localhost/emss/nguoidung/updateRole`,
+                data: {
+                    ma_nguoi_dung: idUser,
+                    role: 5
+                },
+                type: 'POST'
+            }).done(function(data) {
+                return data;
+            })
+        }
+        //Hàm lấy idUser 
+        function getID(idUser) {
+            $('#add-dtcl-modal').modal('show');
+            getAdd(idUser);
+        }
+        /**THÊM */
+        //Hàm thêm mới hồ sơ cho đối tượng
+        function addDetail(idUser) {
+            $("form[name='form-detail-add']").validate({
+                rules: {
+                    beginday: {
+                        min: getDateTime(),
+                    },
+                },
+                messages: {
+                    beginday: {
+                        min: "Ngày bắt đầu phải lớn hơn hoặc bằng ngày hiện tại",
+                    },
+                },
+                submitHandler: function(form, event) {
+                    event.preventDefault();
+                    $.post('http://localhost/emss/doituongcachly/add', {
+                        ma_doi_tuong: idUser,
+                        ma_dia_diem: $('#local').val(),
+                        tg_bat_dau: $('#beginday').val(),
+                        tg_ket_thuc: '0000-00-00',
+                        f: $('#object').val(),
+                        nguon_lay: $('#source').val()
+                    }, function(response) {
+                        addPerson(idUser);
+                        updateUser(idUser);
+                        $('#add-dtcl-modal').modal('hide');
+                        if (response.thanhcong == true) {
+                            Toastify({
+                                text: "Thêm Thành Công",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#4fbe87",
+                            }).showToast();
+                            window.location = 'http://localhost/emss/doituongcachly/doAdd'
+                        } else {
+                            Toastify({
+                                text: "Thêm Thất Bại",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#FF6A6A",
+                            }).showToast();
+                        }
+                    })
+                }
+            });
+        }
+        //Hàm thêm đối tượng 
+        function addPerson(idUser) {
+            $.ajax({
+                url: 'http://localhost/emss/doituongcachly/addPerson',
+                data: {
+                    ma_doi_tuong: idUser,
+                    ma_dia_diem: $('#local').val(),
+                    f: $('#object').val(),
+                    nguon_lay: $('#source').val()
+                },
+                type: 'POST',
+            }).done(function(data) {
+                return data;
+            })
+        }
+        //Hàm load dữ liệu vào modal thêm
+        function getAdd(idUser) {
+            var patient = $.ajax({
+                url: 'http://localhost/emss/benhnhan/getAll',
+                type: 'POST',
+            });
+            var location = $.ajax({
+                url: 'http://localhost/emss/diadiem/getList',
+                type: 'POST',
+            });
+            $.when(patient, location).done(function(l_patient, l_location) {
+                const source = $('#source');
+                source.empty();
+                const local = $('#local');
+                local.empty();
+                l_patient[0].forEach(function(element) {
+                    source.append(
+                        `<option value='${element['ma_benh_nhan']}'>${element['ma_benh_nhan']} - ${element['ho_lot']} ${element['ten']}</option>`
+                    );
+                });
+                l_location[0].forEach(function(element) {
+                    if (element['phan_loai'] == 1) local.append(
+                        `<option value='${element['ma_dia_diem']}'>${element['ten_dia_diem']}</option>`);
+                });
+                addDetail(idUser);
+            })
+        }
 
+        //Lấy danh sách
         function getListAdvantage(current_page, text, column) {
             $.ajax({
                 url: `http://localhost/emss/nguoidung/getList?current_page=${current_page}&row_per_page=5&keyword=${text}&column=${column}`,
@@ -158,12 +344,13 @@ View::$activeItem = 'object';
                 const table1 = $('#table1 > tbody');
                 table1.empty();
                 data.data.forEach(function(element, index) {
-                    var mark = 'table-info';
-                    if (row % 2 == 0) {
-                        mark = 'table-light';
-                    }
-                    var html =
-                        `<tr class="${mark}">
+                    if (element.ma_vai_tro == 6) {
+                        var mark = 'table-info';
+                        if (row % 2 == 0) {
+                            mark = 'table-light';
+                        }
+                        var html =
+                            `<tr class="${mark}">
                             <td class="check d-none"><input type="checkbox" value="${element.ma_nguoi_dung}" class="form-check-input del-check shadow-none ${element.ma_nguoi_dung}"></td>
                             <td>${element.ho_lot}</td>
                             <td>${element.ten}</td>
@@ -171,14 +358,14 @@ View::$activeItem = 'object';
                             <td>${element.so_dien_thoai}</td>
                             <td>${element.cmnd}</td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;"><i class="bi bi-eye"></i></button>
-                                <button type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button>
+                            <button type="button" onclick="getID(${element.ma_nguoi_dung})"class="btn btn-sm btn-primary" style="padding-top: 7px; padding-bottom: 0px;">
+                            <i class="bi bi-plus-circle"></i>
+                            </button>
                             </td>
                         </tr>`;
-                    table1.append(html);
-                    row++;
+                        table1.append(html);
+                        row++;
+                    }
                 })
                 let i = 1;
                 $('#pagination').empty();
@@ -190,7 +377,7 @@ View::$activeItem = 'object';
                     } else $('#pagination').append(
                         `<li class="page-item">\<button class="page-link" onclick="changePage(${i})" id="'${i}'">${i}</button>\</li>`
                     );
-            })
+            });
         }
     </script>
 </body>

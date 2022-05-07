@@ -54,24 +54,21 @@ class NguoiDungController extends Controller
             //Lấy người dùng vừa được thêm
             $person = $user[count($user) - 1];
             //Nếu là admin
-            if($person['ma_vai_tro']>1 && $person['ma_vai_tro']<4){
-
+            if ($person['ma_vai_tro'] > 1 && $person['ma_vai_tro'] < 4) {
             }
             //Nếu là bệnh nhân
-            if($person['ma_vai_tro'] == 4){
-
+            if ($person['ma_vai_tro'] == 4) {
             }
             //Nếu là đối tượng cách ly
-            if($person['ma_vai_tro'] == 5){
+            if ($person['ma_vai_tro'] == 5) {
                 $source = Request::post('source');
                 $local = Request::post('local');
-                $result['thanhcong'] = DTCLModel::add_2($person['ma_nguoi_dung'],$local, $source);
-                if($result['thanhcong']){
+                $result['thanhcong'] = DTCLModel::add_2($person['ma_nguoi_dung'], $local, -1, $source);
+                if ($result['thanhcong']) {
                     $date = date('Y-m-d');
-                    $result['thanhcong'] = DTCLModel::add($person['ma_nguoi_dung'],$local,$date,'0000-00-00',-1,$source);
+                    $result['thanhcong'] = DTCLModel::add($person['ma_nguoi_dung'], $local, $date, '0000-00-00', -1, $source);
                 }
             }
-            
         }
         return $this->View->renderJSON($result);
     }
@@ -125,4 +122,5 @@ class NguoiDungController extends Controller
         }
         return $this->View->renderJSON($data);
     }
-}
+
+

@@ -8,6 +8,7 @@ use App\Core\Request;
 use App\Model\DTCLModel;
 use LDAP\Result;
 use App\Model\DiaDIemModel;
+use App\Model\NguoiDungModel;
 
 class DoiTuongCachLyController extends Controller
 {
@@ -126,11 +127,10 @@ class DoiTuongCachLyController extends Controller
     {
         Auth::checkAuthentication();
         $list = Request::post('list');
-        print_r($list);
-        $list = '44';
         $list_id = explode('-', $list);
         foreach ($list_id as $value) {
             $data = DTCLModel::delete_2($value);
+            $data = NguoiDungModel::updateRole($value,6);
             if ($data = false) {
                 $data = [
                     'thanhcong' => false,
@@ -142,5 +142,23 @@ class DoiTuongCachLyController extends Controller
             'thanhcong' => true,
         ];
         $this->View->renderJSON($data);
+    }
+
+    public function addPerson(){
+        Auth::checkAuthentication();
+        $ma_doi_tuong = Request::post('ma_doi_tuong');
+        $ma_dia_diem = Request::post('ma_dia_diem');
+        $f = Request::post('f');
+        $nguon_lay = Request::post('nguon_lay');
+        $data = DTCLModel::add_2($ma_doi_tuong,$ma_dia_diem,$f,$nguon_lay);
+        $this->View->renderJSON($data);
+    }
+    public function updateFinishTime(){
+        Auth::checkAuthentication();
+        $ma_doi_tuong = Request::post('ma_doi_tuong');
+        $tg_ket_thuc =   date('Y-m-d');
+        $file = DTCLModel::getCurrentFile($ma_doi_tuong);
+        $response = DTCLModel::updateFinishTime($tg_ket_thuc, $file[0]->ma_ho_so);
+        $this->View->renderJSON($response);
     }
 }
