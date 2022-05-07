@@ -42,7 +42,6 @@ class BenhNhanController extends Controller
     }
     public function delete(){
         Auth::checkAuthentication();
-       // Auth::ktraquyen("CN02");
         $ma_nguoi_dung = Request::post('ma_nguoi_dung');
         $kq= NguoiDungModel::delete($ma_nguoi_dung);
         $response = [

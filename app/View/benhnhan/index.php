@@ -1,6 +1,7 @@
 <?php
 
 use App\Core\View;
+use App\Core\AES;
 
 View::$activeItem = 'patient';
 
@@ -33,6 +34,11 @@ View::$activeItem = 'patient';
             <!-- HEADER -->
             <?php View::partial('header')  ?>
             <?php View::partial('changepass')  ?>
+            <!--<?php 
+                //$encrypted =AES::encrypt('Plaintext string.', 'password');
+ 
+                //echo $encrypted;
+            ?>-->
             <div id="main-content">
                 <div class="page-heading">
                     <div class="col-sm-6">
