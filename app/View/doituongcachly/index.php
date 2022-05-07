@@ -66,7 +66,7 @@ View::$activeItem = 'object';
                             </div>
                             <div class="col-12 col-md-4 order-md-2 order-first">
                                 <div class=" loat-start float-lg-end mb-3">
-                                    <button id='btn-delete-benhnhan' class="btn btn-danger">
+                                    <button id='btn-delete-dtcl' class="btn btn-danger">
                                         <i class="bi bi-trash-fill icon-mid"></i> Xóa DTCL
                                     </button>
                                     <button id="btn-add-dtcl" class="btn btn-primary">
@@ -84,6 +84,7 @@ View::$activeItem = 'object';
                                     <table class="table mb-0 table-danger" id="table1">
                                         <thead>
                                             <tr>
+                                                <th class=" d-none check">Chọn</th>
                                                 <th>Họ Lót</th>
                                                 <th>Tên</th>
                                                 <th>Đối tượng</th>
@@ -234,6 +235,39 @@ View::$activeItem = 'object';
                     </div>
                 </div>
             </div>
+            <!-- MODAL XÁC NHẬN XÓA -->
+            <div class="modal" id="modal-confirm-delete">
+                <div class="modal-dialog modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger">
+                            <h4 class="modal-title text-light">Xác nhận</h4>
+                        </div>
+                        <div class="modal-body" id="modal-content-delete">
+                            Xác nhận xóa đối tượng?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-delete-cancel">Close</button>
+                            <button type="button" class="btn btn-danger" id="btn-delete-confirm" data-bs-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal" id="modal">
+                <div class="modal-dialog modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger">
+                            <h4 class="modal-title text-light">Xác nhận</h4>
+                        </div>
+                        <div class="modal-body" id="modal-content-delete">
+                            Xác nhận xóa đối tượng?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-delete-cancel">Close</button>
+                            <button type="button" class="btn btn-danger" id="btn-delete-confirm" data-bs-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- FOOTER -->
             <?php View::partial('footer')  ?>
         </div>
@@ -258,6 +292,18 @@ View::$activeItem = 'object';
                 getListAddress("");
                 getAdd();
                 validateAdd();
+            })
+            //Xóa
+            $('#btn-delete-dtcl').click(function() {
+                $('.check').toggleClass('d-none')
+                str = "";
+                $('input.del-check:checked').each(function(index, element) {
+                    str += $(this).val() + '-';
+                })
+                str = str.slice(0, str.length - 1);
+                if (str != "") {
+                    del(str);
+                }
             })
         });
 
@@ -318,10 +364,11 @@ View::$activeItem = 'object';
                     if (row % 2 == 0) {
                         mark = 'table-light';
                     }
-                    var object ="";
-                    if(element.F==-1) object = "Chưa xác định";
-                    else object = 'F'+element.F;
+                    var object = "";
+                    if (element.F == -1) object = "Chưa xác định";
+                    else object = 'F' + element.F;
                     var html = `<tr class="${mark}">
+                            <td class="check d-none"><input type="checkbox" value="${element.ma_doi_tuong}" class="form-check-input del-check shadow-none ${element.ma_doi_tuong}"></td>
                             <td>${element.ho_lot}</td>
                             <td>${element.ten}</td>
                             <td>${object}</td>
@@ -485,6 +532,45 @@ View::$activeItem = 'object';
                     }).showToast();
                     $('#add-user-modal').modal('show');
                 }
+            })
+        }
+        /**XÓA */
+        function del(list_id) {
+            $('#modal-confirm-delete').modal('show');
+            $('#btn-delete-confirm').click(function() {
+                $.ajax({
+                    url: 'http://localhost/emss/doituongcachly/delete_dtcl',
+                    data: {
+                        list: list_id
+                    },
+                    type: 'POST'
+                }).done(function(response) {
+                    if (response.thanhcong == true) {
+                        Toastify({
+                            text: "Xóa Thành Công",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#4fbe87",
+                        }).showToast();
+                        getList(1);
+                    } else {
+                        Toastify({
+                            text: "Xóa Thất Bại",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }
+                })
+            })
+            $('#btn-delete-cancel').click(function() {
+                $('input.del-check:checked').each(function(index, element) {
+                    $(this).prop('checked', false);
+                })
             })
         }
     </script>

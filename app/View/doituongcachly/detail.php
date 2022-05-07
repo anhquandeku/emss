@@ -255,7 +255,7 @@ View::$activeItem = 'object';
                             <h4 class="modal-title text-light">Xác nhận</h4>
                         </div>
                         <div class="modal-body" id="modal-content-delete">
-                            Xác nhận xóa bệnh nhân?
+                            Xác nhận xóa hồ sơ cách ly?
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
