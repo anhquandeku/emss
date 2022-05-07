@@ -127,7 +127,7 @@ class NguoiDungController extends Controller
         Auth::checkAuthentication();
         $ma_nguoi_dung = Request::post('ma_nguoi_dung');
         $role = Request::post('role');
-        $data = NguoiDungModel::updateRole($ma_nguoi_dung,$role);
+        $data = NguoiDungModel::updateRole($ma_nguoi_dung, $role);
         return $this->View->renderJSON($data);
     }
     
