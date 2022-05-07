@@ -158,7 +158,18 @@ class DTCLModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
         $query = $database->prepare("UPDATE doi_tuong_cach_ly SET ma_dia_diem = :ma_dia_diem, F = :f, nguon_lay = :nguon_lay WHERE ma_doi_tuong = :ma_doi_tuong");
-        $query->execute([':ma_dia_diem' => $ma_dia_diem, ':f' => $F, ':nguon_lay' => $nguon_lay, 'ma_doi_tuong'=>$ma_doi_tuong]);
+        $query->execute([':ma_dia_diem' => $ma_dia_diem, ':f' => $F, ':nguon_lay' => $nguon_lay, 'ma_doi_tuong' => $ma_doi_tuong]);
+        $count = $query->rowCount();
+        if ($count == 1) {
+            return true;
+        }
+        return false;
+    }
+    public static function delete_2($ma_doi_tuong)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+        $query = $database->prepare("DELETE FROM doi_tuong_cach_ly  WHERE ma_doi_tuong = :ma_doi_tuong");
+        $query->execute(['ma_doi_tuong' => $ma_doi_tuong]);
         $count = $query->rowCount();
         if ($count == 1) {
             return true;

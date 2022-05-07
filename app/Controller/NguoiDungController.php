@@ -78,11 +78,11 @@ class NguoiDungController extends Controller
     public function getList()
     {
         Auth::checkAuthentication();
-        $keyword = Request::get('key_word');
-        if ($keyword != "") $keyword = trim($keyword);
+        $keyword = Request::get('keyword');
         $current_page = Request::get('current_page');
         $row_per_page = Request::get('row_per_page');
-        $data = NguoiDungModel::getListAdvanted($current_page, $row_per_page, $keyword);
+        $column = Request::get('column');
+        $data = NguoiDungModel::getListAdvanted($current_page, $row_per_page, $keyword, $column);
         $this->View->renderJSON($data);
     }
     public function update()

@@ -44,10 +44,14 @@ class DoiTuongCachLyController extends Controller
         }
         if ($flag == null)  $this->View->render('doituongcachly/detail');
     }
+    public function doAdd()
+    {
+        $this->View->render('doituongcachly/doAdd');
+    }
     public function getOneByID()
     {
         Auth::checkAuthentication();
-        $id=Request::post('id');
+        $id = Request::post('id');
         $data = DTCLModel::getOneByID($id);
         $this->View->renderJSON($data);
     }
@@ -91,10 +95,10 @@ class DoiTuongCachLyController extends Controller
         $row = Request::post('row');
         $id = Request::post('id');
         $data = DTCLModel::update($ma_ho_so, $ma_dia_diem, $tg_bat_dau, $f, $nguon_lay);
-        if($row == 0){
-            $data = DTCLModel::update_2($ma_dia_diem,$nguon_lay,$f,$id);
+        if ($row == 0) {
+            $data = DTCLModel::update_2($ma_dia_diem, $nguon_lay, $f, $id);
         }
-        if ($data = false) 
+        if ($data = false)
             $data = ['thanhcong' => false,];
         else $data = ['thanhcong' => true];
         $this->View->renderJSON($data);
@@ -106,6 +110,27 @@ class DoiTuongCachLyController extends Controller
         $list_id = explode('-', $list);
         foreach ($list_id as $value) {
             $data = DTCLModel::delete($value);
+            if ($data = false) {
+                $data = [
+                    'thanhcong' => false,
+                ];
+                $this->View->renderJSON($data);
+            }
+        }
+        $data = [
+            'thanhcong' => true,
+        ];
+        $this->View->renderJSON($data);
+    }
+    public function delete_dtcl()
+    {
+        Auth::checkAuthentication();
+        $list = Request::post('list');
+        print_r($list);
+        $list = '44';
+        $list_id = explode('-', $list);
+        foreach ($list_id as $value) {
+            $data = DTCLModel::delete_2($value);
             if ($data = false) {
                 $data = [
                     'thanhcong' => false,
