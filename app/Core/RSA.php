@@ -3,20 +3,21 @@ namespace App\Core;
 
 class RSA
 {
-    protected static $p = '531137992816767098689588206552468627329593117727031923199444138200403559860852242739162502265229285668889329486246501015346579337652707239409519978766587351943831270835393219031728127'; //bcsub(bcpow('2', '607'),'1');
+    protected static $p = '162259276829213363391578010288127';//bcsub(bcpow('2', '107'),'1'); 
+    //'531137992816767098689588206552468627329593117727031923199444138200403559860852242739162502265229285668889329486246501015346579337652707239409519978766587351943831270835393219031728127'; //bcsub(bcpow('2', '607'),'1');
     protected static $q = '6864797660130609714981900799081393217269435300143305409394463459185543183397656052122559640661454554977296311391480858037121987999716643812574028291115057151'; //bcsub(bcpow('2', '521'),'1');
     protected static $b = '170141183460469231731687303715884105727';//bcsub(bcpow('2', '127'),'1'); 
     public static $base10='0123456789';
     public static $baseText='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghiklmnopqrstuvwxyz0123456789 ';
     
-    public static function EncryptionRSA($text){
+    public static function encryptRSA($text){
         $n=bcmul(self::$p, self::$q);
         $num=self::baseToBase($text,self::$baseText,self::$base10);
         $mod=bcpowmod($num,self::$b,$n);
         return self::baseToBase($mod,self::$base10,self::$baseText);
     }
 
-    public static function DecryptionRSA($text){
+    public static function decryptRSA($text){
         $n=bcmul(self::$p, self::$q);
         $_n=bcmul(bcsub(self::$p,'1'), bcsub(self::$q,'1'));
         $a=self::Euclide_extend($_n,self::$b);
