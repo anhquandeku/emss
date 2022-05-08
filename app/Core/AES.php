@@ -3,7 +3,7 @@ namespace App\Core;
 
 class AES
 {
-    function encrypt($plaintext, $password) {
+    public static function encryptAES($plaintext, $password) {
         $method = "AES-256-CBC";
         $key = hash('sha256', $password, true);
         $iv = openssl_random_pseudo_bytes(16);
@@ -14,7 +14,7 @@ class AES
         return $iv . $hash . $ciphertext;
     }
      
-    function decrypt($ivHashCiphertext, $password) {
+    public static function decryptAES($ivHashCiphertext, $password) {
         $method = "AES-256-CBC";
         $iv = substr($ivHashCiphertext, 0, 16);
         $hash = substr($ivHashCiphertext, 16, 32);
