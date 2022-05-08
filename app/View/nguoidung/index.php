@@ -517,6 +517,7 @@ View::$activeItem = 'user';
             getListAdvantage(1, "", "   ")
             $('#open-add-user-btn').click(function() {
                 $('#add-user-modal').modal('show');
+                addPerson();
             })
 
             $("#search-user-text").keyup(function() {
@@ -525,224 +526,206 @@ View::$activeItem = 'user';
             $('#cars-search').change(function() {
                 getListAdvantage(1, $('#search-user-text').val(), $('#cars-search').val())
             })
-            /**Xóa tài khoản
-             * 
-             */
-            $('#btn-delete-user').click(function() {
-                $('.check').toggleClass('d-none');
-                var str = "";
-                $('input.del-check:checked').each(function(index, element) {
-                    str += $(this).val() + '-';
-                })
-                str = str.slice(0, str.length - 1);
-                if (str != "") {
-                    $('#modal-confirm-delete').modal('show');
-                    $('#btn-delete-user-confirm').click(function() {
-                        $.ajax({
-                            url: 'http://localhost/emss/nguoidung/delete',
-                            data: {
-                                list_user: str
-                            },
-                            type: 'POST',
-                        }).done(function(data) {
-                            if (data) {
-                                Toastify({
-                                    text: "Xóa thành công",
-                                    duration: 1000,
-                                    close: true,
-                                    gravity: "top",
-                                    position: "center",
-                                    backgroundColor: "#00CC33",
-                                }).showToast();
-                                getList(1);
-                            } else {
-                                Toastify({
-                                    text: "Xóa thành công",
-                                    duration: 1000,
-                                    close: true,
-                                    gravity: "top",
-                                    position: "center",
-                                    backgroundColor: "#00CC33",
-                                }).showToast();
-                                getList(1);
-                            }
-                        })
+        })
+
+        /**Xóa tài khoản
+         * 
+         */
+        $('#btn-delete-user').click(function() {
+            $('.check').toggleClass('d-none');
+            var str = "";
+            $('input.del-check:checked').each(function(index, element) {
+                str += $(this).val() + '-';
+            })
+            str = str.slice(0, str.length - 1);
+            if (str != "") {
+                $('#modal-confirm-delete').modal('show');
+                $('#btn-delete-user-confirm').click(function() {
+                    $.ajax({
+                        url: 'http://localhost/emss/nguoidung/delete',
+                        data: {
+                            list_user: str
+                        },
+                        type: 'POST',
+                    }).done(function(data) {
+                        if (data) {
+                            Toastify({
+                                text: "Xóa thành công",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#00CC33",
+                            }).showToast();
+                            getList(1);
+                        } else {
+                            Toastify({
+                                text: "Xóa thành công",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#00CC33",
+                            }).showToast();
+                            getList(1);
+                        }
                     })
-                }
+                })
+            }
+        });
+
+        /**Lấy danh sách tỉnh huyện xã */
+        function getAddress(text) {
+            var address = $.xResponse();
+            address.forEach(function(element, index) {
+                $(`${text}#tinh`).append('<option class="tinh" value="' + index + '">' + element['name'] + '</option>');
+            })
+            $(`${text}#tinh`).change(function() {
+                $(`${text}#huyen`).empty();
+                $(`${text}#huyen`).append('<option value="-1"> Chọn Quận/Huyện</option>')
+                $(`${text}#xa`).empty();
+                $(`${text}#xa`).append('<option value="-1"> Chọn Phường/Xã </option>')
+                var districs = address[$('#tinh').val()]['districts'];
+                districs.forEach(function(element, index) {
+                    $(`${text}#huyen`).append('<option class="huyen" value="' + index + '">' + element['name'] + '</option>')
+                })
+                $(`${text}#huyen`).change(function() {
+                    $(`${text}#xa`).empty();
+                    $(`${text}#xa`).append('<option value="-1"> Chọn Phường/Xã </option>')
+                    var wards = districs[$('#huyen').val()]['wards'];
+                    wards.forEach(function(element, index) {
+                        $(`${text}#xa`).append('<option  class="xa" value="' + index + '">' + element['name'] + '</option>')
+                    })
+                })
             });
-            //Biến ajax quyền
-            var role_ = $.ajax({
+        }
+        /**THÊM */
+        function addPerson() {
+            getAddress("");
+            $.ajax({
                 url: 'http://localhost/emss/phanquyen/getListRole',
                 type: 'POST'
-            });
-            //Xem chi tiết
-
-            //Thêm người dùng
-            role_.done(function(data_rel) {
+            }).done(function(response) {
                 $('#role').empty();
                 $('#role').append(' <option value=-1> Chọn  </option>');
-                data_rel.forEach(function(element, index) {
+                response.forEach(function(element, index) {
                     var code = ' <option value=' + element['ma_vai_tro'] + ' class="role">' +
                         element['ten_vai_tro'] + '</option>';
                     $('#role').append(code);
                     $('#update-role').append(code);
-                })
-                $("form[name='add-form']").validate({
-                    // Định nghĩa rule validate
-                    rules: {
-                        lastname: {
-                            required: true,
-                        },
-                        firstname: {
-                            required: true,
-                        },
-                        cmnd: {
-                            required: true,
-                            minlength: 9,
-                        },
-                        birthday: {
-                            required: true,
-                        },
-                        phone_number: {
-                            required: true,
-                            number: true,
-                        },
-                        province: {
-                            min: 0
-                        },
-                        district: {
-                            min: 0
-                        },
-                        ward: {
-                            min: 0
-                        },
-                        email: {
-                            email: true,
-                            required: true
-                        },
-                    },
-                    //Tạo massages:
-                    messages: {
-                        lastname: "Vui lòng nhập họ lót",
-                        firstname: "Vui lòng nhập tên",
-                        cmnd: {
-                            required: "Vui lòng nhập số chứng minh nhân dân",
-                            minlength: "Định dạng CMND không hợp lệ",
-                        },
-                        birthday: "Vui lòng chọn ngày sinh",
-                        phone_number: {
-                            required: "Vui lòng nhập số điện thoại",
-                            number: "Vui lòng nhập đúng định dạng"
-                        },
-                        province: "Vui lòng chọn tỉnh/thành phố",
-                        district: "Vui lòng chọn huyện/quận",
-                        ward: "Vui lòng chọn xã/phường",
-                        email: {
-                            email: "Vui lòng nhập đúng định dạng",
-                            required: "Vui lòng nhập email"
-                        },
-                    },
-                    submitHandler: function(form) {
-                        doAdd();
-                    }
                 });
+                doAdd();
+            })
+        }
 
-                function doAdd() {
-                    $("form[name='add-form']").submit(function(event) {
-                        var date = $('#birthday').val();
-                        var arr = date.split('-');
-                        var birthday_ = arr[2] + arr[1] + arr[0];
-                        $('#modal-confirm-add').modal('show');
-                        $('#add-user-modal').modal('hide');
-                        $('#btn-add-user').click(function() {
-                            var ajax =
-                                $.post(
-                                    'http://localhost/emss/nguoidung/add', {
-                                        lastname: $('#lastname').val(),
-                                        firstname: $('#firstname').val(),
-                                        cmnd: $('#cmnd').val(),
-                                        birthday: date,
-                                        sex: $('input[name="sex"]').val(),
-                                        phone_number: $('#phone_number').val(),
-                                        province: $('.tinh:selected').text(),
-                                        district: $('.huyen:selected').text(),
-                                        ward: $('.xa:selected').text(),
-                                        village: $('#village').val(),
-                                        home: $('#home').val(),
-                                        email: $('#email').val(),
-                                        password: $('#password').val(),
-                                        role: $('.role:selected').val(),
-                                    }).done(function(data) {
-                                    if (data['thanhcong']) {
-                                        Toastify({
-                                            text: "Thêm thành công",
-                                            duration: 1000,
-                                            close: true,
-                                            gravity: "top",
-                                            position: "center",
-                                            backgroundColor: "#00CC33",
-                                        }).showToast();
-                                        window.location.href =
-                                            'http://localhost/emss/nguoidung/index'
-                                        getList(1, "");
-                                    } else {
-                                        Toastify({
-                                            text: data['error'],
-                                            duration: 1000,
-                                            close: true,
-                                            gravity: "top",
-                                            position: "center",
-                                            backgroundColor: "#FF6600",
-                                        }).showToast();
-                                        $('#add-user-modal').modal('show');
-                                    }
-                                })
-                            ajax.fail(function(data) {
-                                Toastify({
-                                    text: "Thêm thất bại",
-                                    duration: 1000,
-                                    close: true,
-                                    gravity: "top",
-                                    position: "center",
-                                    backgroundColor: "#FF6600",
-                                }).showToast();
-                            })
-                        })
-                        getList(1, "");
-                    });
-                }
-            })
-            /**Lấy danh sách tỉnh huyện xã */
-            var address = $.xResponse();
-            address.forEach(function(element, index) {
-                $('#tinh').append('<option class="tinh" value="' + index + '">' + element['name'] +
-                    '</option>');
-            })
-            $('#tinh').change(function() {
-                $('#huyen').empty();
-                $('#huyen').append('<option value="-1"> Chọn Quận/Huyện</option>')
-                $('#xa').empty();
-                $('#xa').append('<option value="-1"> Chọn Phường/Xã </option>')
-                var districs = address[$('#tinh').val()]['districts'];
-                districs.forEach(function(element, index) {
-                    $('#huyen').append('<option class="huyen" value="' + index + '">' + element[
-                        'name'] + '</option>')
-                })
-                $('#huyen').change(function() {
-                    $('#xa').empty();
-                    $('#xa').append('<option value="-1"> Chọn Phường/Xã </option>')
-                    var wards = districs[$('#huyen').val()]['wards'];
-                    wards.forEach(function(element, index) {
-                        $('#xa').append('<option  class="xa" value="' + index + '">' +
-                            element['name'] + '</option>')
+        function doAdd() {
+            $("form[name='add-form']").validate({
+                // Định nghĩa rule validate
+                rules: {
+                    lastname: {
+                        required: true,
+                    },
+                    firstname: {
+                        required: true,
+                    },
+                    cmnd: {
+                        required: true,
+                        minlength: 9,
+                    },
+                    birthday: {
+                        required: true,
+                    },
+                    phone_number: {
+                        required: true,
+                        number: true,
+                    },
+                    province: {
+                        min: 0
+                    },
+                    district: {
+                        min: 0
+                    },
+                    ward: {
+                        min: 0
+                    },
+                    email: {
+                        email: true,
+                        required: true
+                    },
+                },
+                //Tạo massages:
+                messages: {
+                    lastname: "Vui lòng nhập họ lót",
+                    firstname: "Vui lòng nhập tên",
+                    cmnd: {
+                        required: "Vui lòng nhập số chứng minh nhân dân",
+                        minlength: "Định dạng CMND không hợp lệ",
+                    },
+                    birthday: "Vui lòng chọn ngày sinh",
+                    phone_number: {
+                        required: "Vui lòng nhập số điện thoại",
+                        number: "Vui lòng nhập đúng định dạng"
+                    },
+                    province: "Vui lòng chọn tỉnh/thành phố",
+                    district: "Vui lòng chọn huyện/quận",
+                    ward: "Vui lòng chọn xã/phường",
+                    email: {
+                        email: "Vui lòng nhập đúng định dạng",
+                        required: "Vui lòng nhập email"
+                    },
+                },
+                submitHandler: function(form, event) {
+                    event.preventDefault();
+                    $.post(
+                        'http://localhost/emss/nguoidung/add', {
+                            lastname: $('#lastname').val(),
+                            firstname: $('#firstname').val(),
+                            cmnd: $('#cmnd').val(),
+                            birthday: $('#birthday').val(),
+                            sex: $('input[name="sex"]').val(),
+                            phone_number: $('#phone_number').val(),
+                            province: $('.tinh:selected').text(),
+                            district: $('.huyen:selected').text(),
+                            ward: $('.xa:selected').text(),
+                            village: $('#village').val(),
+                            home: $('#home').val(),
+                            email: $('#email').val(),
+                            password: $('#cmnd').val(),
+                            role: $('.role:selected').val(),
+                        }).done(function(data) {
+                        if (data.thanhcong == true) {
+                            Toastify({
+                                text: "Thêm Thành Công",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#4fbe87",
+                            }).showToast();
+                            $(form).trigger("reset");
+                            $('#add-user-modal').modal('hide');
+                            getListAdvantage(1,"","");
+                        } else {
+                            Toastify({
+                                text: data.error,
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#FF6600",
+                            }).showToast();
+                            $('#add-user-modal').modal('show');
+                        }
                     })
-                })
+                }
             });
-        })
+        }
+
         /** Các hàm */
         function changePage(newPage) {
             getListAdvantage(newPage, $('#search-user-text').val(), $('#cars-search').val());
         }
+
         function getListAdvantage(current_page, text, column) {
             $.ajax({
                 url: `http://localhost/emss/nguoidung/getList?current_page=${current_page}&row_per_page=5&keyword=${text}&column=${column}`,
