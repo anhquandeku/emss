@@ -220,12 +220,7 @@ class DiaDIemModel
         $database = DatabaseFactory::getFactory()->getConnection();
         $sql = "UPDATE dia_diem SET trang_thai = 0  WHERE ma_dia_diem = :id";
         $query = $database->prepare($sql);
-        $query->execute([':id' => $id]);
-        $count = $query->rowCount();
-        if ($count == 1) {
-            return true;
-        }
-        return false;
+        return $query->execute([':id' => $id]);
     }
 
     public static function deletes($ids)

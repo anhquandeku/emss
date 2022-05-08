@@ -24,6 +24,33 @@ View::$activeItem = 'location';
     <link rel="stylesheet" href="<?= View::assets('css/app.css') ?>" />
     <link rel="shortcut icon" href="<?= View::assets('images/logo/logo_.png') ?>" type="image/x-icon" />
     <link rel="stylesheet" href="<?= View::assets('css/quan.css') ?>" />
+    <style>
+        table {
+            text-align: center;
+        }
+
+        .table-file {
+            border-collapse: collapse;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+        }
+
+        .table-file td {
+            height: 2em;
+            border-width: 1.5px;
+            border-color: #6699FF;
+            padding: 0.75em;
+            color: black;
+        }
+
+        .table-file .title {
+            width: 15%;
+            color: #3366CC;
+            font-weight: 550;
+            background-color: #ddebf8;
+        }
+    </style>
 </head>
 
 <body>
@@ -89,14 +116,14 @@ View::$activeItem = 'location';
                                     <table class="table mb-0 table-danger" id="table1">
                                         <thead>
                                             <tr>
-                                                <th class="d-none">Chọn</th>
-                                                <th>Mã địa điểm</th>
+                                                <th class=" d-none check">Chọn</th>
+                                                <th style="width:10px">Mã</th>
                                                 <th>Tên địa điểm</th>
                                                 <th>Tỉnh/TP</th>
                                                 <th>Quận/Huyện</th>
                                                 <th>Phường/Xã</th>
-                                                <th>Phân loại</th>
-                                                <th>Tác Vụ</th>
+                                                <th>Loại</th>
+                                                <th style="width:15%">Tác Vụ</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -157,8 +184,8 @@ View::$activeItem = 'location';
                                     <label for="thuonggia">Phân loại:</label>
                                     <fieldset class="form-group">
                                         <select class="form-select" name="addloai" id="addloai" style="margin-right: 15px;">
-                                            <option value="kiemdich" selected>Điểm kiểm dịch</option>
-                                            <option value="cachly">Điểm cách ly</option>
+                                            <option value="0" selected>Điểm kiểm dịch</option>
+                                            <option value="1">Điểm cách ly</option>
                                         </select>
                                     </fieldset>
                                     <div id='addcachly'></div>
@@ -224,8 +251,8 @@ View::$activeItem = 'location';
                                     <label for="thuonggia">Phân loại:</label>
                                     <fieldset class="form-group">
                                         <select class="form-select" name="uploai" id="uploai" style="margin-right: 15px;">
-                                            <option value="kiemdich">Điểm kiểm dịch</option>
-                                            <option value="cachly">Điểm cách ly</option>
+                                            <option value="0">Điểm kiểm dịch</option>
+                                            <option value="1">Điểm cách ly</option>
                                         </select>
                                     </fieldset>
                                     <div id='upcachly'></div>
@@ -256,64 +283,83 @@ View::$activeItem = 'location';
                                 <i data-feather="x"></i>
                             </button>
                         </div>
-                        <div class="modal-body" id="question-model">
+                        <div class="modal-body" id="question-modal">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
                                 <i class="bx bx-x d-block d-sm-none"></i>
                                 <span class="d-none d-sm-block">Đóng</span>
                             </button>
-                            <button type="button" class="btn btn-success ml-1" data-bs-dismiss="modal">
+                            <button type="button" id="thuchien" class="btn btn-success ml-1" data-bs-dismiss="modal">
                                 <i class="bx bx-check d-block d-sm-none"></i>
-                                <span id="thuchien" class="d-none d-sm-block">Thực hiện</span>
+                                <span class="d-none d-sm-block">Thực hiện</span>
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Modal View -->
-            <div class="modal fade text-left" id="view-address-modal" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <!-- MODAL THÔNG BÁO-->
+            <div class="modal" id="modal-confirm-delete">
+                <div class="modal-dialog modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Thông tin chi tiết địa điểm</h4>
+                        <div class="modal-header bg-danger">
+                            <h4 class="modal-title text-light">Xác nhận</h4>
+                        </div>
+                        <div class="modal-body" id="modal-content-delete">
+                            Xác nhận xóa hồ sơ cách ly?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btn-delete-cancel">Close</button>
+                            <button type="button" class="btn btn-danger" id="btn-delete-confirm" data-bs-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- MODAL XEM -->
+            <div class="modal fade text-left" id="view-address-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary">
+                            <h4 class="modal-title text-light">Xem thông tin địa điểm</h4>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                 <i data-feather="x"></i>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form name="view-address-form" action="/" method="POST">
-                                <div class="modal-body">
-                                    <label for="viewname">Tên địa điểm:</label>
-                                    <div class="form-group">
-                                        <input type="text" id="viewten" name="viewten" class="form-control" disabled>
-                                    </div>
-                                    <label for="cars-hang">Tỉnh/TP: </label><br>
-                                    <div class="form-group">
-                                        <input type="text" id="viewtinh" name="viewtinh" class="form-control" disabled>
-                                    </div>
-                                    <label for="cars-hang">Quận/Huyện: </label><br>
-                                    <div class="form-group">
-                                        <input type="text" id="viewhuyen" name="viewhuyen" class="form-control" disabled>
-                                    </div>
-                                    <label for="cars-hang">Phường/Xã: </label><br>
-                                    <div class="form-group">
-                                        <input type="text" id="viewxa" name="viewxa" class="form-control" disabled>
-                                    </div>
-                                    <label for="ghethuong">Ấp/Thôn:</label>
-                                    <div class="form-group">
-                                        <input type="text" id="viewthon" name="viewthon" class="form-control" disabled>
-                                    </div>
-                                    <label for="ghethuong">Số nhà:</label>
-                                    <div class="form-group">
-                                        <input type="text" id="viewsonha" name="viewsonha" class="form-control" disabled>
-                                    </div>
-                                    <label for="thuonggia">Phân loại:</label>
-                                    <div class="form-group">
-                                        <input type="text" id="viewloai" name="viewloai" class="form-control" disabled>
-                                    </div>
-                                    <div id='viewcachly'></div>
-                                </div>
+                            <table class="table-file">
+                                <tr>
+                                    <td class="title">
+                                        Mã địa điểm
+                                    </td>
+                                    <td id="view-ID">
+                                        01
+                                    </td>
+                                    <td class="title">
+                                        Tên địa điểm
+                                    </td>
+                                    <td id="view-name">
+                                        30
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="title">Thành Phố/Tỉnh</td>
+                                    <td id="view-provide"></td>
+                                    <td class="title">Quận/Huyện</td>
+                                    <td id="view-district"></td>
+                                </tr>
+                                <tr>
+                                    <td class="title">Phường/Xã</td>
+                                    <td id="view-ward"></td>
+                                    <td class="title">Ấp/Thôn</td>
+                                    <td id="view-village"></td>
+                                </tr>
+                                <tr>
+                                    <td class="title">Số</td>
+                                    <td id="number"></td>
+                                    <td class="title">Phân loại</td>
+                                    <td id="category"></td>
+                                </tr>
+                            </table>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
@@ -321,7 +367,6 @@ View::$activeItem = 'location';
                                 <span class="d-none d-sm-block">Đóng</span>
                             </button>
                         </div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -348,15 +393,32 @@ View::$activeItem = 'location';
             $('#cars-search').change(function() {
                 getListAdvanted(1, $('#search-address-text').val(), $(this).val());
             })
+            $("#open-add-address-btn").click(function() {
+                $("#add-address-modal").modal('toggle')
+                addAddress();
+            });
+
+            $('#btn-delete-address').click(function() {
+                $('.check').toggleClass('d-none')
+                str = "";
+                $('input.del-check:checked').each(function(index, element) {
+                    str += $(this).val() + '-';
+                })
+                str = str.slice(0, str.length - 1);
+                if (str != "") {
+                    del(str);
+                }
+            })
+            loadUpdate(1);
         })
         //Các hàm
         //Hàm thay đổi trang
-        function changePage(newPage){
+        function changePage(newPage) {
             getListAdvanted(newPage, $('#search-address-text').val(), $('#cars-search').val());
         }
         //Hàm load dữ liệu
         function getListAdvanted(currentPage, text, column) {
-            $.get(`http://localhost/emss/diadiem/getAddress?rowsPerPage=1&page=${currentPage}&search=${text}&search2=${column}`,
+            $.get(`http://localhost/emss/diadiem/getAddress?rowsPerPage=5&page=${currentPage}&search=${text}&search2=${column}`,
                 function(response) {
                     var mark = "";
                     var row = 0;
@@ -370,10 +432,7 @@ View::$activeItem = 'location';
                         }
                         content.append(
                             `<tr class="${mark}">
-                            <td class=" d-none"><div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="form-check-input form-check-success form-check-glow" id="${element.ma_dia_diem}"/>
-                                </div>
-                            </td>
+                            <td class="check d-none"><input type="checkbox" value="${element.ma_dia_diem}" class="form-check-input del-check shadow-none ${element.ma_dia_diem}"></td>
                             <td>${element.ma_dia_diem}</td>
                             <td>${element.ten_dia_diem}</td>
                             <td>${element.tp_tinh}</td>
@@ -381,13 +440,13 @@ View::$activeItem = 'location';
                             <td>${element.phuong_xa}</td>
                             <td>${element.phan_loai}</td>
                             <td>
-                                <button onclick="viewRow('${element.ma_dia_diem}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                <button onclick="getView('${element.ma_dia_diem}')" type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
                                     <i class="bi bi-eye"></i>
                                 </button>
-                                <button onclick="repairRow('${element.ma_dia_diem}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                <button onclick="update('${element.ma_dia_diem}')" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
                                     <i class="bi bi-tools"></i>
                                 </button>
-                                <button onclick="deleteRow('${element.ma_dia_diem}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                <button onclick="del('${element.ma_dia_diem}')" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
                                     <i class="bi bi-trash-fill"></i>
                                 </button>
                             </td>
@@ -406,6 +465,272 @@ View::$activeItem = 'location';
                         );
                 })
         }
+        /**THÊM */
+        //Hàm load dữ liệu
+        function loadAdd(key) {
+            var address = $.xResponse();
+            address.forEach(function(element, index) {
+                $(`#${key}tinh`).append('<option value="' + index + '">' + element['name'] + '</option>');
+            })
+            $(`#${key}tinh`).change(function() {
+                $(`#${key}huyen`).empty();
+                $(`#${key}huyen`).append('<option value="-1"> Chọn Quận/Huyện</option>')
+                $(`#${key}xa`).empty();
+                $(`#${key}xa`).append('<option value="-1"> Chọn Phường/Xã </option>')
+                var districs = address[$(`#${key}tinh`).val()]['districts'];
+                districs.forEach(function(element, index) {
+                    $(`#${key}huyen`).append('<option value="' + index + '">' + element[
+                        'name'] + '</option>')
+                })
+                $(`#${key}huyen`).change(function() {
+                    $(`#${key}xa`).empty();
+                    $(`#${key}xa`).append('<option value="-1"> Chọn Phường/Xã </option>')
+                    var wards = districs[$(`#${key}huyen`).val()]['wards'];
+                    wards.forEach(function(element, index) {
+                        $(`#${key}xa`).append('<option value="' + index + '">' +
+                            element['name'] + '</option>')
+                    })
+                })
+            });
+        }
+        //Hàm thêm
+        function addAddress() {
+            loadAdd("add");
+            $("form[name='add-address-form']").validate({
+                rules: {
+                    addten: {
+                        required: true,
+                    },
+                    addsucchua: {
+                        required: true,
+                    },
+                    addtrong: {
+                        required: true,
+                    },
+                },
+                messages: {
+                    addten: {
+                        required: "Vui lòng nhập tên địa điểm",
+                    },
+                    addsucchua: {
+                        required: "Vui lòng nhập sức chứa của khu cách ly",
+                    },
+                    addtrong: {
+                        required: "Vui lòng nhập chỗ còn trống của khu cách ly",
+                    },
+                },
+                submitHandler: function(form, event) {
+                    event.preventDefault();
+                    var suc, trong;
+                    if ($('#addloai option').filter(':selected').val() == "cachly") {
+                        suc = Number($("#addsucchua").val());
+                        trong = Number($("#addtrong").val());
+                    } else {
+                        suc = 0;
+                        trong = 0;
+                    }
+                    var ajax = $.post(`http://localhost/emss/diadiem/add`, {
+                        addten: $('#addten').val(),
+                        addtinh: $('#addtinh option').filter(':selected').text(),
+                        addhuyen: $('#addhuyen option').filter(':selected').text(),
+                        addxa: $('#addxa option').filter(':selected').text(),
+                        addthon: $("#addthon").val(),
+                        addsonha: $("#addsonha").val(),
+                        addloai: $('#addloai option').filter(':selected').val(),
+                        addsucchua: suc,
+                        addtrong: trong
+                    });
+
+                    ajax.done(function(response) {
+                        $("#add-address-modal").modal('toggle')
+                        if (response.thanhcong) {
+                            Toastify({
+                                text: "Thêm Thành Công",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#4fbe87",
+                            }).showToast();
+                            getListAdvanted(1, "", "");
+                        } else {
+                            Toastify({
+                                text: "Thêm Thất Bại",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#FF6A6A",
+                            }).showToast();
+                        }
+                    });
+                    $('#addten').val("");
+                    $('#addtinh').val("-1");
+                    $('#addhuyen').val("-1");
+                    $('#addxa').val("-1");
+                    $('#addthon').val("");
+                    $('#addsonha').val("");
+                    $('#addsucchua').val("");
+                    $('#addtrong').val("");
+                    $('#addloai').val("kiemdich");
+                }
+            })
+        }
+        //XÓA
+        function del(list_id) {
+            $('#modal-confirm-delete').modal('show');
+            $('#btn-delete-confirm').click(function() {
+                $.ajax({
+                    url: 'http://localhost/emss/diadiem/delete',
+                    data: {
+                        list: list_id
+                    },
+                    type: 'POST'
+                }).done(function(response) {
+                    if (!response) {
+                        Toastify({
+                            text: "Xóa Thành Công",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#4fbe87",
+                        }).showToast();
+                        getListAdvanted(1, "", "");
+                    } else {
+                        Toastify({
+                            text: "Xóa Thất Bại",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#FF6A6A",
+                        }).showToast();
+                    }
+                })
+            })
+            $('#btn-delete-cancel').click(function() {
+                $('input.del-check:checked').each(function(index, element) {
+                    $(this).prop('checked', false);
+                })
+            })
+        }
+        //XEM
+        //Đổ dữ liệu:
+        function getView(idAddress) {
+            $('#view-address-modal').modal('show');
+            $.ajax({
+                url: 'http://localhost/emss/diadiem/getOneByID',
+                data: {
+                    id: idAddress,
+                },
+                type: 'POST'
+            }).done(function(response) {
+                $('#view-ID').text(response[0].ma_dia_diem);
+                $('#view-name').text(response[0].ten_dia_diem);
+                $('#view-provide').text(response[0].tp_tinh);
+                $('#view-district').text(response[0].quan_huyen);
+                $('#view-ward').text(response[0].phuong_xa);
+                $('#view-village').text(response[0].ap_thon);
+                $('#number').text(response[0].so_nha);
+                if (response[0].phan_loai == 0) $('#category').text('Điểm kiểm dịch');
+                else {
+                    $('#category').text('Điểm cách ly')
+                }
+            })
+        }
+        //SỬA
+        function doUpdate(idAddress) {
+            $("form[name='update-address-form']").validate({
+                rules: {
+                    upten: {
+                        required: true,
+                    },
+                    upsucchua: {
+                        required: true,
+                    },
+                    uptrong: {
+                        required: true,
+                    },
+                },
+                messages: {
+                    upten: {
+                        required: "Vui lòng nhập tên địa điểm",
+                    },
+                    upsucchua: {
+                        required: "Vui lòng nhập sức chứa của khu cách ly",
+                    },
+                    uptrong: {
+                        required: "Vui lòng nhập chỗ còn trống của khu cách ly",
+                    },
+                },
+                submitHandler: function(form, event) {
+                    event.preventDefault();
+                    suc = 0;
+                    trong = 0;
+                    var ajax = $.post(`http://localhost/emss/diadiem/update`, {
+                        upma: idAddress,
+                        upten: $('#upten').val(),
+                        uptinh: $('#uptinh option').filter(':selected').text(),
+                        uphuyen: $('#uphuyen option').filter(':selected').text(),
+                        upxa: $('#upxa option').filter(':selected').text(),
+                        upthon: $("#upthon").val(),
+                        upsonha: $("#upsonha").val(),
+                        uploai: $('#uploai option').filter(':selected').text(),
+                        upsucchua: suc,
+                        uptrong: trong
+                    });
+
+                    ajax.done(function(response) {
+                        $("#update-address-modal").modal('toggle')
+                        if (response.thanhcong) {
+                            Toastify({
+                                text: "Sửa Thành Công",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#4fbe87",
+                            }).showToast();
+                            getListAdvanted(1, "", "");
+                        } else {
+                            Toastify({
+                                text: "Sửa Thất Bại",
+                                duration: 1000,
+                                close: true,
+                                gravity: "top",
+                                position: "center",
+                                backgroundColor: "#FF6A6A",
+                            }).showToast();
+                        }
+                    });
+
+                }
+            });
+        }
+
+        //Đổ dữ liệu vào modal sửa
+        function update(idAddress) {
+            $('#update-address-modal').modal('show');
+            $.ajax({
+                url: 'http://localhost/emss/diadiem/getOneByID',
+                data: {
+                    id: idAddress,
+                },
+                type: 'POST'
+            }).done(function(response) {
+                $('#upten').val(response[0].ten_dia_diem);
+                $('#uptinh').html(`<option> ${response[0].tp_tinh} </option>`);
+                $('#uphuyen').html(`<option> ${response[0].quan_huyen} </option>`);
+                $('#upxa').html(`<option> ${response[0].phuong_xa} </option>`);
+                $('#upthon').val(response[0].ap_thon);
+                $('#upsonha').val(response[0].so_nha);
+                $('#uploai').val(response[0].phan_loai);
+                loadAdd('up');
+                doUpdate(idAddress);
+            })
+        }
+
         /* $(function() {
              getAddressAjax();
              var address = $.xResponse();
