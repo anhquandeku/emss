@@ -3,7 +3,47 @@ namespace App\Core;
 
 class RSA
 {
-    function encrypt( $num, $GETn){
+    protected $p=2;
+    protected $q=3;
+    protected $b=2; 
+    public $base10='0123456789';
+    public $baseText='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghiklmnopqrstuvwxyz0123456789 ';
+    
+    public function EncryptionRSA($text){
+        $n=bcmul($this->p, $this->q);
+        $num=$this->baseToBase($text,$this->baseText,$this->base10);
+        $mod=bcpowmod($num,$this->b,$n);
+        return $this->baseToBase($mod,$this->base10,$this->baseText);
+    }
+
+    public function DecryptionRSA($text){
+        $n=bcmul($this->p, $this->q, $this->base10);
+        $_n=bcmul(bcsub($this->p,'1'), bcsub($this->q,'1'));
+        $a=$this->Euclide_extend($_n,$this->b);
+        $num=$this->baseToBase($text,$this->baseText,$this->base10);
+        $mod=bcpowmod($num,$a,$n);
+        return $this->baseToBase($mod,$this->base10,$this->baseText);
+    }
+    
+    public function Euclide_extend($num, $a){
+        $n=$num;
+        $x2='1'; $x1='0'; $y2='0'; $y1='1';
+        while(bccomp($a,'0')==1){
+            $q=bcdiv($n,$a);
+            $r=bcsub($n,bcmul($q,$a));
+            $x=bcsub($x2,bcmul($q,$x1));
+            $y=bcsub($y2,bcmul($q,$y1));
+            $n=$a;
+            $a=$r;
+            $x2=$x1;
+            $x1=$x;
+            $y2=$y1;
+            $y1=$y;            
+        }
+        return bcadd($num,$y2);
+    }
+    
+    /*function encrypt( $num, $GETn){
         if ( file_exists( 'temp/bigprimes'.hash( 'sha256', $GETn).'.php')){
             $t= explode( '>,', file_get_contents('temp/bigprimes'.hash( 'sha256', $GETn).'.php'));
             return $this->JL_powmod( $num, $t[4], $t[10]); 
@@ -19,10 +59,10 @@ class RSA
         }else{
             return false;
         }
-    }
+    }*/
      
     // Tính ($num^$pow) % (%mod) 
-    function JL_powmod( $num, $pow, $mod) {
+    /*function JL_powmod( $num, $pow, $mod) {
         if ( function_exists('bcpowmod')) {
             return bcpowmod( $num, $pow, $mod);
         }
@@ -36,8 +76,9 @@ class RSA
            $pow = bcdiv( $pow, '2');
         } while ( bccomp( $pow, '0'));
         return $result;
-    }
+    }*/
      
+    //Chuyển đổi từ cơ sở này sang cơ sở khác
     function baseToBase ($message, $fromBase, $toBase){
         $from= strlen( $fromBase);
         $b[$from]= $fromBase; 
@@ -80,7 +121,8 @@ class RSA
         }
         return $res;
     }   
-     
+    
+    // Cộng $n1 với $n2
     function badd( $n1, $n2, $nbase){
         $base= strlen( $nbase);
         $b[$base]= $nbase; 
@@ -125,6 +167,7 @@ class RSA
         return $o;
     }
     
+    //Nhân $n1 với $n2
     function bmul( $n1, $n2, $nbase){
         $base= strlen( $nbase);
         $b[$base]= $nbase; 

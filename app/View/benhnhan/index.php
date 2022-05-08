@@ -36,7 +36,6 @@ View::$activeItem = 'patient';
             <?php View::partial('changepass')  ?>
             <!--<?php 
                 //$encrypted =AES::encrypt('Plaintext string.', 'password');
- 
                 //echo $encrypted;
             ?>-->
             <div id="main-content">
