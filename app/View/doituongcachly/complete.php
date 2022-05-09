@@ -61,7 +61,7 @@ use App\Core\View;
 
         #person {
             line-height: 2em;
-            width: 100%;    
+            width: 100%;
         }
 
         #person td {
@@ -155,8 +155,29 @@ use App\Core\View;
         $(document).ready(function() {
             //Lấy thời gian 
             $('#date').text(getDateTime());
-            getPerson();
-            createQR();
+          
+            $.ajax({
+                url: 'http://localhost/emss/auth/getUser',
+            }).done(function(response) {
+                $.ajax({
+                    url: `http://localhost/emss/nguoidung/getOneByID`,
+                    data: {
+                        ma_nguoi_dung: response,
+                    },
+                    type: 'POST'
+                }).done(function(res2) {
+                    if (res2[0]['ma_vai_tro'] != 1) {
+                        if (getID() != response) {
+                            alert("Bạn không có quyền truy cập vào trang này");
+                            window.top.close();
+                        } else {
+                            getPerson();
+                        }
+                    } else {
+                        getPerson();
+                    }
+                })
+            })
         })
         //Format tg bắt đầu
         function formatDateTime(datetime) {
@@ -214,6 +235,7 @@ use App\Core\View;
                     type: 'POST'
                 }).done(function(response_2) {
                     $('#time').text(`Từ ngày ${formatDateTime(response_2[0].tg_bat_dau)} đến hết ngày ${formatDateTime_2(response_2[0].tg_ket_thuc)}`)
+                    createQR();
                     $.ajax({
                         url: 'http://localhost/emss/diadiem/getOneByID',
                         data: {
@@ -226,40 +248,39 @@ use App\Core\View;
                         if (data_3[0].ap_thon != '') address += data_3[0].ap_thon + ' - ';
                         address += `${data_3[0].phuong_xa} - ${data_3[0].quan_huyen} - ${data_3[0].tp_tinh}`;
                         $('#address2').text(data_3[0].ten_dia_diem + " (" + address + ")");
+                        window.print();
                     })
                 })
             })
+
         }
         //Tạo qrcode
         function createQR() {
-            $.ajax({
-                url: `http://localhost/emss/auth/getUser`,
-            }).done(function(IDuser) {
-                var admin = $.ajax({
-                    url: 'http://localhost/emss/nguoidung/getOneByID',
-                    data: {
-                        ma_nguoi_dung: IDuser,
-                    },
-                    type: 'POST'
-                });
-                var user = $.ajax({
-                    url: 'http://localhost/emss/nguoidung/getOneByID',
-                    data: {
-                        ma_nguoi_dung: getID()
-                    },
-                    type: 'POST'
-                })
-                $.when(admin, user).done(function(data_1, data_2) {
-                    var name = data_2[0][0].ho_lot + " " + data_2[0][0].ten;
-                    name = name.toLocaleLowerCase();
-                    var text_create = name.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a").replace(/\ /g, '').replace(/đ/g, "d").replace(/đ/g, "d").replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y").replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u").replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ.+/g, "o").replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ.+/g, "e").replace(/ì|í|ị|ỉ|ĩ/g, "i");
-                    name = text_create.toUpperCase();
-                    var time = $('#time').text().match(/\d/g);
-                    var number = time.join("");
-                    var text = `${data_1[0][0].cmnd}|${data_2[0][0].cmnd}|${name}|${data_2[0][0].ngay_sinh}|${data_2[0][0].so_dien_thoai}|${number} `
-                    $('#qr').html(`<img src="https://huynhtanmao.com/barcode-master/barcode.php?f=jpg&s=qr&d=${text}" />`);
-                })
+            var admin = $.ajax({
+                url: 'http://localhost/emss/doituongcachly/getFile',
+                data: {
+                    ma_doi_tuong: getID(),
+                },
+                type: 'POST'
+            });
+            var user = $.ajax({
+                url: 'http://localhost/emss/nguoidung/getOneByID',
+                data: {
+                    ma_nguoi_dung: getID()
+                },
+                type: 'POST'
             })
+            $.when(admin, user).done(function(data_1, data_2) {
+                var name = data_2[0][0].ho_lot + " " + data_2[0][0].ten;
+                name = name.toLocaleLowerCase();
+                var text_create = name.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a").replace(/\ /g, '').replace(/đ/g, "d").replace(/đ/g, "d").replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y").replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u").replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ.+/g, "o").replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ.+/g, "e").replace(/ì|í|ị|ỉ|ĩ/g, "i");
+                name = text_create.toUpperCase();
+                var time = $('#time').text().match(/\d/g);
+                var number = time.join("");
+                var text = `${data_1[0][0].cmnd}|${data_2[0][0].cmnd}|${name}|${data_2[0][0].ngay_sinh}|${data_2[0][0].so_dien_thoai}|${number} `;
+                $('#qr').html(`<img src="https://huynhtanmao.com/barcode-master/barcode.php?f=jpg&s=qr&d=${text}"/>`);
+            })
+
         }
     </script>
 </body>

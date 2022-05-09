@@ -8,8 +8,7 @@ use App\Core\Request;
 use App\Model\DTCLModel;
 use App\Model\DiaDIemModel;
 use App\Model\NguoiDungModel;
-use App\Core\barcode_generator;
-use barcode_generator as GlobalBarcode_generator;
+use App\Core\Cookie;
 
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 class DoiTuongCachLyController extends Controller
@@ -163,9 +162,11 @@ class DoiTuongCachLyController extends Controller
     {
         Auth::checkAuthentication();
         $ma_doi_tuong = Request::post('ma_doi_tuong');
+        $idUser = Cookie::get('user_id');
+        $user = NguoiDungModel::getOneByID($idUser);
         $tg_ket_thuc =  date('Y:m:d');
-        $file = DTCLModel::getCurrentFile(44);
-        $response = DTCLModel::updateFinishTime($tg_ket_thuc, $file[0]->ma_ho_so);
+        $file = DTCLModel::getCurrentFile($ma_doi_tuong);
+        $response = DTCLModel::updateFinishTime($tg_ket_thuc, $file[0]->ma_ho_so, $user[0]->cmnd);
         $this->View->renderJSON($response);
     }
     public function getFile()

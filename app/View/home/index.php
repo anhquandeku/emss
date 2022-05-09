@@ -1,7 +1,7 @@
 <?php
 
 use App\Core\View;
-
+use App\Core\Cookie;
 View::$activeItem = 'dashboard';
 date_default_timezone_set('Asia/Ho_Chi_Minh')
 ?>
