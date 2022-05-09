@@ -26,7 +26,7 @@ class NguoiDungModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $query = $database->prepare("SELECT * FROM nguoi_dung WHERE ma_nguoi_dung = :mnd LIMIT 1");
+        $query = $database->prepare("SELECT * FROM nguoi_dung, vai_tro WHERE ma_nguoi_dung = :mnd AND nguoi_dung.ma_vai_tro = vai_tro.ma_vai_tro  LIMIT 1");
         $query->execute([':mnd' => $ma_nguoi_dung]);
         $data = $query->fetchAll();
         return $data;
@@ -72,10 +72,10 @@ class NguoiDungModel
 
         return $data;
     }
-    public static function update($user_name, $role, $lastname, $firstname, $cmnd, $birthday, $sex, $address, $email, $phone_number)
+    public static function update($idUser,$user_name, $role, $lastname, $firstname, $cmnd, $birthday, $sex, $address, $email, $phone_number)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
-        $query = $database->prepare("UPDATE nguoi_dung SET user_name='" . $user_name . "', ma_vai_tro=" . $role . ", ho_lot='" . $lastname . "', ten='" . $firstname . "', cmnd='" . $cmnd . "' , ngay_sinh='" . $birthday . "', phai='" . $sex . "', dia_chi='" . $address . "', email='" . $email . "', so_dien_thoai= '" . $phone_number . "' WHERE user_name='" . $user_name . "'");
+        $query = $database->prepare("UPDATE nguoi_dung SET user_name='" . $user_name . "', ma_vai_tro=" . $role . ", ho_lot='" . $lastname . "', ten='" . $firstname . "', cmnd='" . $cmnd . "' , ngay_sinh='" . $birthday . "', phai='" . $sex . "', dia_chi='" . $address . "', email='" . $email . "', so_dien_thoai= '" . $phone_number . "' WHERE ma_nguoi_dung='" . $idUser. "'");
         return $query->execute();
     }
     public static function delete($ma_nguoi_dung)

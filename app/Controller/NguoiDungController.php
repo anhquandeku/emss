@@ -21,12 +21,20 @@ class NguoiDungController extends Controller
         Auth::checkAuthentication();
         $this->View->render('nguoidung/index');
     }
+    public function qr()
+    {
+        Auth::checkAuthentication();
+        $this->View->render('nguoidung/qr');
+    }
     public function getOneByID()
     {
         Auth::checkAuthentication();
         $ma_nguoi_dung = Request::post('ma_nguoi_dung');
         $data = NguoiDungModel::getOneByID($ma_nguoi_dung);
         return $this->View->renderJSON($data);
+    }
+    public function  text()
+    {
     }
     public function add()
     {
@@ -62,11 +70,12 @@ class NguoiDungController extends Controller
             //Nếu là đối tượng cách ly
             if ($person['ma_vai_tro'] == 5) {
                 $source = Request::post('source');
+                $f = Request::post('source');
                 $local = Request::post('local');
-                $result['thanhcong'] = DTCLModel::add_2($person['ma_nguoi_dung'], $local, -1, $source);
+                $result['thanhcong'] = DTCLModel::add_2($person['ma_nguoi_dung'], $local, $f, $source);
                 if ($result['thanhcong']) {
                     $date = date('Y-m-d');
-                    $result['thanhcong'] = DTCLModel::add($person['ma_nguoi_dung'], $local, $date, '0000-00-00', -1, $source);
+                    $result['thanhcong'] = DTCLModel::add($person['ma_nguoi_dung'], $local, $date, '0000-00-00', $f, $source);
                 }
             }
         }
@@ -85,6 +94,7 @@ class NguoiDungController extends Controller
     public function update()
     {
         Auth::checkAuthentication();
+        $idUser = Request::post('idUser');
         $lastname = Request::post('lastname');
         $firstname = Request::post('firstname');
         $cmnd = Request::post('cmnd');
@@ -97,9 +107,33 @@ class NguoiDungController extends Controller
         $village = Request::post('village');
         $home = Request::post('home');
         $email = Request::post('email');
-        $address = $province . "-" . $district . "-" . $ward . "-" . $home . "-" . $village;
+        $address = $province . "-" . $district . "-" . $ward;
+        if ($home != '') $address = $address . "-" . $home;
+        if ($village != '') $address = $address . "-" . $village;
         $role = Request::post('role');
-        $data = NguoiDungModel::update($phone_number, $role, $lastname, $firstname, $cmnd, $birthday, $sex, $address, $email, $phone_number);
+        $data = NguoiDungModel::update($idUser,$phone_number, $role, $lastname, $firstname, $cmnd, $birthday, $sex, $address, $email, $phone_number);
+        if ($data == true) {
+            $user = NguoiDungModel::getOneByID($idUser);
+            //Lấy người dùng vừa được thêm
+            $person = $user[0];
+            //Nếu là admin
+            if ($person->ma_vai_tro > 1 && $person->ma_vai_tro  < 4) {
+            }
+            //Nếu là bệnh nhân
+            if ($person->ma_vai_tro == 4) {
+            }
+            //Nếu là đối tượng cách ly
+            if ($person->ma_vai_tro == 5) {
+                $source = Request::post('source');
+                $f = Request::post('object');
+                $local = Request::post('local');
+                $data= DTCLModel::add_2($person->ma_nguoi_dung , $local, $f, $source);
+                if ($data) {
+                    $date = date('Y-m-d');
+                    $data = DTCLModel::add($person->ma_nguoi_dung, $local, $date, '0000-00-00', $f, $source);
+                }
+            }
+        }
         $this->View->renderJSON($data);
     }
     public function delete()
@@ -130,5 +164,5 @@ class NguoiDungController extends Controller
         $data = NguoiDungModel::updateRole($ma_nguoi_dung, $role);
         return $this->View->renderJSON($data);
     }
-    
 }
+
