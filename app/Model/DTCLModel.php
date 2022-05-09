@@ -179,11 +179,11 @@ class DTCLModel
         }
         return false;
     }
-    public static function updateFinishTime($ngay_ket_thuc, $ma_ho_so)
+    public static function updateFinishTime($ngay_ket_thuc, $ma_ho_so, $cmnd)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
-        $query = $database->prepare("UPDATE ho_so_cach_ly SET tg_ket_thuc = :tgkt WHERE ma_ho_so = :ma_ho_so");
-        $query->execute([':tgkt' => $ngay_ket_thuc, 'ma_ho_so' => $ma_ho_so]);
+        $query = $database->prepare("UPDATE ho_so_cach_ly SET tg_ket_thuc = :tgkt, cmnd = :cmnd WHERE ma_ho_so = :ma_ho_so");
+        $query->execute([':tgkt' => $ngay_ket_thuc, ':cmnd' => $cmnd, 'ma_ho_so' => $ma_ho_so]);
         $count = $query->rowCount();
         if ($count == 1) {
             return true;

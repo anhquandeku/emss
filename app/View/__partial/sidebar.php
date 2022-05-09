@@ -1,7 +1,7 @@
 <?php
 
 use App\Core\View;
-
+use App\Core\Cookie;
 ?>
 <div id="sidebar" class="active">
     <div class="sidebar-wrapper active">
@@ -75,6 +75,12 @@ use App\Core\View;
                     <a href="<?= View::url('thongke/index') ?>" class="sidebar-link">
                         <i class="bi bi-graph-up"></i>
                         <span>Thống kê</span>
+                    </a>
+                </li>
+                <li id="10" class="d-none sidebar-item  <?= View::$activeItem == 'confirm' ? 'active' : '' ?>">
+                    <a href="<?= "http://localhost/emss/doituongcachly/complete/id=". Cookie::get('user_id')?>" target="_blank" class="sidebar-link">
+                        <i class="bi bi-graph-up"></i>
+                        <span>Xác nhận hoàn thành cách ly</span>
                     </a>
                 </li>
             </ul>

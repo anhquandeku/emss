@@ -175,6 +175,7 @@ View::$activeItem = 'object';
                     del(str);
                 }
             })
+            
         });
 
         /**Các sự kiện */
