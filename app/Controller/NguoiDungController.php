@@ -165,3 +165,4 @@ class NguoiDungController extends Controller
         return $this->View->renderJSON($data);
     }
 }
+

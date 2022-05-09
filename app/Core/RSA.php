@@ -3,42 +3,49 @@ namespace App\Core;
 
 class RSA
 {
-    function RSAencrypt( $num, $GETn){
-        if ( file_exists( 'temp/bigprimes'.hash( 'sha256', $GETn).'.php')){
-            $t= explode( '>,', file_get_contents('temp/bigprimes'.hash( 'sha256', $GETn).'.php'));
-            return $this->JL_powmod( $num, $t[4], $t[10]); 
-        }else{
-            return false;
+    protected static $p = '162259276829213363391578010288127';//bcsub(bcpow('2', '107'),'1'); 
+    //'531137992816767098689588206552468627329593117727031923199444138200403559860852242739162502265229285668889329486246501015346579337652707239409519978766587351943831270835393219031728127'; //bcsub(bcpow('2', '607'),'1');
+    protected static $q = '6864797660130609714981900799081393217269435300143305409394463459185543183397656052122559640661454554977296311391480858037121987999716643812574028291115057151'; //bcsub(bcpow('2', '521'),'1');
+    protected static $b = '170141183460469231731687303715884105727';//bcsub(bcpow('2', '127'),'1'); 
+    public static $base10='0123456789';
+    public static $baseText='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghiklmnopqrstuvwxyz0123456789 ';
+    
+    public static function encryptRSA($text){
+        $n=bcmul(self::$p, self::$q);
+        $num=self::baseToBase($text,self::$baseText,self::$base10);
+        $mod=bcpowmod($num,self::$b,$n);
+        return self::baseToBase($mod,self::$base10,self::$baseText);
+    }
+
+    public static function decryptRSA($text){
+        $n=bcmul(self::$p, self::$q);
+        $_n=bcmul(bcsub(self::$p,'1'), bcsub(self::$q,'1'));
+        $a=self::Euclide_extend($_n,self::$b);
+        $num=self::baseToBase($text,self::$baseText,self::$base10);
+        $mod=bcpowmod($num,$a,$n);
+        return self::baseToBase($mod,self::$base10,self::$baseText);
+    }
+    
+    public static function Euclide_extend($num, $a){
+        $n=$num;
+        $x2='1'; $x1='0'; $y2='0'; $y1='1';
+        while(bccomp($a,'0')==1){
+            $q=bcdiv($n,$a);
+            $r=bcsub($n,bcmul($q,$a));
+            $x=bcsub($x2,bcmul($q,$x1));
+            $y=bcsub($y2,bcmul($q,$y1));
+            $n=$a;
+            $a=$r;
+            $x2=$x1;
+            $x1=$x;
+            $y2=$y1;
+            $y1=$y;            
         }
+        return bcadd($num,$y2);
     }
      
-    function RSAdecrypt( $num, $GETn){
-        if ( file_exists( 'temp/bigprimes'.hash( 'sha256', $GETn).'.php')){
-            $t= explode( '>,', file_get_contents('temp/bigprimes'.hash( 'sha256', $GETn).'.php'));
-            return $this->JL_powmod( $num, $t[8], $t[10]);     
-        }else{
-            return false;
-        }
-    }
-     
-    // Tính ($num^$pow) % (%mod) 
-    function JL_powmod( $num, $pow, $mod) {
-        if ( function_exists('bcpowmod')) {
-            return bcpowmod( $num, $pow, $mod);
-        }
-        $result= '1';
-        do {
-            if ( !bccomp( bcmod( $pow, '2'), '1')) {
-                $result = bcmod( bcmul( $result, $num), $mod);
-            }
-           $num = bcmod( bcpow( $num, '2'), $mod);
-     
-           $pow = bcdiv( $pow, '2');
-        } while ( bccomp( $pow, '0'));
-        return $result;
-    }
-     
-    function baseToBase ($message, $fromBase, $toBase){
+    //Chuyển đổi từ cơ sở này sang cơ sở khác
+    public static function baseToBase ($message, $fromBase, $toBase){
         $from= strlen( $fromBase);
         $b[$from]= $fromBase; 
         $to= strlen( $toBase);
@@ -48,16 +55,16 @@ class RSA
      
         $f= substr( $b[$to], 1, 1);
      
-        $tf= $this->digit( $from, $b[$to]);
+        $tf= self::digit( $from, $b[$to]);
      
         for ($i=strlen($message)-1; $i>=0; $i--){
-            $result= $this->badd( $result, $this->bmul( $this->digit( strpos( $b[$from], substr( $message, $i, 1)), $b  [$to]), $f, $b[$to]), $b[$to]);
-            $f= $this->bmul($f, $tf, $b[$to]);
+            $result= self::badd( $result, self::bmul( self::digit( strpos( $b[$from], substr( $message, $i, 1)), $b[$to]), $f, $b[$to]), $b[$to]);
+            $f= self::bmul($f, $tf, $b[$to]);
         }
         return $result; 
     } 
      
-    function digit( $from, $bto){   
+    public static function digit( $from, $bto){   
         $to= strlen( $bto);
         $b[$to]= $bto; 
      
@@ -80,8 +87,9 @@ class RSA
         }
         return $res;
     }   
-     
-    function badd( $n1, $n2, $nbase){
+    
+    // Cộng $n1 với $n2
+    public static function badd( $n1, $n2, $nbase){
         $base= strlen( $nbase);
         $b[$base]= $nbase; 
      
@@ -124,7 +132,9 @@ class RSA
         }
         return $o;
     }
-    function bmul( $n1, $n2, $nbase){
+    
+    //Nhân $n1 với $n2
+    public static function bmul( $n1, $n2, $nbase){
         $base= strlen( $nbase);
         $b[$base]= $nbase; 
      
