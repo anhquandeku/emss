@@ -9,6 +9,7 @@ use App\Model\DTCLModel;
 use LDAP\Result;
 use App\Model\DiaDIemModel;
 use App\Model\NguoiDungModel;
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 class DoiTuongCachLyController extends Controller
 {
@@ -22,6 +23,10 @@ class DoiTuongCachLyController extends Controller
     public function index()
     {
         $this->View->render('doituongcachly/index');
+    }
+    public function complete()
+    {
+        $this->View->render('doituongcachly/complete');
     }
     public function detail()
     {
@@ -61,7 +66,7 @@ class DoiTuongCachLyController extends Controller
         Auth::checkAuthentication();
         $ma_doi_tuong = Request::post('ma_doi_tuong');
         $ma_dia_diem = Request::post('ma_dia_diem');
-        $tg_bat_dau = Request::post('tg_bat_dau');
+        $tg_bat_dau =  date('Y-m-d H:i:s');
         $tg_ket_thuc = Request::post('tg_ket_thuc');
         $f = Request::post('f');
         $nguon_lay = Request::post('nguon_lay');

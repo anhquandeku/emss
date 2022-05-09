@@ -249,23 +249,103 @@ View::$activeItem = 'user';
                         </div>
                     </div>
                 </div>
-                <!-- The Modal Add -->
-                <div class="modal" id="modal-confirm-add">
-                    <div class="modal-dialog modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable">
+                <!-- MODAL ADD HO SO -->
+                <div class="modal fade text-left" id="add-dtcl-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
                         <div class="modal-content">
-                            <!-- Modal Header -->
-                            <div class="modal-header bg-info">
-                                <h4 class="modal-title">Xác nhận</h4>
+                            <div class="modal-header">
+                                <h4 class="modal-title">Thêm Hồ Sơ</h4>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <i data-feather="x"></i>
+                                </button>
                             </div>
-                            <!-- Modal body -->
                             <div class="modal-body">
-                                Xác nhận thêm tài khoản?
+                                <form name="form-detail-add" id=" " method="post">
+                                    <div class="row">
+                                        <div class="form-group row col-6">
+                                            <label for="object" class="col-sm-4 col-form-label">Đối tượng:</label>
+                                            <div class="col-8">
+                                                <select class="form-control" name="object" id="object">
+                                                    <option value='-1'>Chưa xác định</option>
+                                                    <option value='0'>F0</option>
+                                                    <option value='1'>F1</option>
+                                                    <option value='2'>F2</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row col-6">
+                                            <label for="source" class="col-sm-4 col-form-label">Nguồn lây:</label>
+                                            <div class="col-8">
+                                                <select class="form-control" name="source" id="source">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row col-6">
+                                            <label for="phone_number" class="col-sm-4 col-form-label">Địa điểm:</label>
+                                            <div class="col-8">
+                                                <select class="form-control" name="local" id="local">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
                             </div>
-                            <!-- Modal footer -->
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-info" id="btn-add-user" data-bs-dismiss="modal">OK</button>
+                                <button class="btn btn-primary ml-1">
+                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Thêm</span>
+                                </button>
                             </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- MODAL ADD HO SO -->
+                <div class="modal fade text-left" id="update-dtcl-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Thêm Hồ Sơ</h4>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <i data-feather="x"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form name="form-detail-add" id=" " method="post">
+                                    <div class="row">
+                                        <div class="form-group row col-6">
+                                            <label for="object" class="col-sm-4 col-form-label">Đối tượng:</label>
+                                            <div class="col-8">
+                                                <select class="form-control" name="update_object" id="update_object">
+                                                    <option value='-1'>Chưa xác định</option>
+                                                    <option value='0'>F0</option>
+                                                    <option value='1'>F1</option>
+                                                    <option value='2'>F2</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row col-6">
+                                            <label for="source" class="col-sm-4 col-form-label">Nguồn lây:</label>
+                                            <div class="col-8">
+                                                <select class="form-control" name="update_object" id="update_source">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row col-6">
+                                            <label for="phone_number" class="col-sm-4 col-form-label">Địa điểm:</label>
+                                            <div class="col-8">
+                                                <select class="form-control" name="update_object" id="update_local">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary ml-1">
+                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Thêm</span>
+                                </button>
+                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -289,218 +369,194 @@ View::$activeItem = 'user';
                         </div>
                     </div>
                 </div>
-                <!-- The Modal Detail -->
-                <div class="modal" id="modal-detail">
-                    <div class="modal-dialog modal-dialog  modal-dialog-centered modal-dialog-scrollable">
-                        <div class='modal-content'>
-                            <!-- Modal Header -->
-                            <div class="modal-header bg-info">
-                                <h4 class="modal-title text-light">Thông tin chi tiết</h4>
+                <!-- MODAL VIEW -->
+                <div class="modal fade text-left" id="view-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary">
+                                <h4 class="modal-title text-light">Xem thông tin người dùng</h4>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <i data-feather="x"></i>
+                                </button>
                             </div>
-                            <!-- Modal body -->
-                            <div class="modal-body" id="modal-content">
-
-                                <div class="row">
-                                    <div class="form-group row col-6">
-                                        <label for="lastname" class="col-sm-4 col-form-label">Họ lót:</label>
-                                        <div class="col-sm-8 col-form-label text-danger" id="detail-lastname" style="font-weight:bold">
-                                            Phan Thanh
-                                        </div>
-                                    </div>
-                                    <div class="form-group row col-6">
-                                        <label for="firstname" class="col-sm-4 col-form-label">Tên:</label>
-                                        <div class="col-sm-8 col-form-label text-danger" id="detail-firstname" style="font-weight:bold">
-                                            Thắng
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group row col-6">
-                                        <label for="cmnd" class="col-sm-4 col-form-label">CMND:</label>
-                                        <div class="col-sm-8 col-form-label text-danger" id="detail-cmnd" style="font-weight:bold">
-                                            123456789
-                                        </div>
-                                    </div>
-                                    <div class="form-group row col-6">
-                                        <label for="firstname" class="col-sm-4 col-form-label">Ngày sinh:</label>
-                                        <div class="col-sm-8 col-form-label text-danger" id="detail-date" style="font-weight:bold">
-                                            20/05/2001
-                                        </div>
-                                    </div>
-                                    <div class="form-group row col-6">
-                                        <label for="sex" class="col-sm-4 col-form-label">Giới tính:</label>
-
-                                        <div class="col-sm-8 col-form-label text-danger" id="detail-sex" style="font-weight:bold">
-                                            Nam
-                                        </div>
-                                    </div>
-                                    <div class="form-group row col-6">
-                                        <label for="phone_number" class="col-sm-4 col-form-label">SĐT:</label>
-                                        <div class="col-sm-8 col-form-label text-danger" id="detail-number" style="font-weight:bold">
-                                            20/05/2001
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class=" from-group row" style="padding-right: 1.5em; padding-left:0em" ;>
-                                    <label for="address" class="col-2 col-form-label ">Địa chỉ:</label>
-                                    <div class="col-sm-8 col-form-label text-danger" id="detail-address" style="font-weight:bold">
-                                        20/05/2001
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <label for="email" class="col-2 col-form-label"> Email</label>
-                                    <div class="col-sm-8 col-form-label text-danger" id="detail-email" style="font-weight:bold">
-                                        20/05/2001
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <label for="email" class="col-2 col-form-label"> Vai trò</label>
-                                    <div class="col-sm-8 col-form-label text-danger" id="detail-role" style="font-weight:bold">
-                                        20/05/2001
-                                    </div>
-                                </div>
+                            <div class="modal-body">
+                                <table class="table-file">
+                                    <tr>
+                                        <td class="title">
+                                            Mã người dùng
+                                        </td>
+                                        <td id="view-id">
+                                            01
+                                        </td>
+                                        <td class="title">
+                                            Họ và tên
+                                        </td>
+                                        <td id="view-hoten">
+                                            30
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">Số CMND</td>
+                                        <td id="view-cmnd"></td>
+                                        <td class="title">Ngày sinh</td>
+                                        <td id="view-ngaysinh"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">Giới tính</td>
+                                        <td id="view-gioitinh"></td>
+                                        <td class="title">Vai trò</td>
+                                        <td id="view-vaitro"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">Số điện thoại</td>
+                                        <td id="view-sdt"></td>
+                                        <td class="title">Email</td>
+                                        <td id="view-email"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">Địa chỉ</td>
+                                        <td colspan="3" id="diachi"></td>
+                                    </tr>
+                                </table>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
                                     <i class="bx bx-x d-block d-sm-none"></i>
                                     <span class="d-none d-sm-block">Đóng</span>
                                 </button>
-                                <button class="btn btn-primary ml-1" id="btn-update-user">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- MODAL UPDATE -->
+                <div class="modal fade text-left" id="modal-update-user" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bg-info">
+                                <h4 class="modal-title">Sửa thông tin</h4>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <i data-feather="x"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form name="update-form" method="post">
+                                    <div class="row">
+                                        <div class="form-group row col-6">
+                                            <label for="lastname" class="col-sm-4 col-form-label">Họ lót:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="update_lastname" name="update_lastname" placeholder="Họ lót">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row col-6">
+                                            <label for="firstname" class="col-sm-4 col-form-label">Tên:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="update_firstname" name="update_firstname" placeholder="Tên">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group row col-6">
+                                            <label for="cmnd" class="col-sm-4 col-form-label">CMND:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="update_cmnd" name="update_cmnd" placeholder="CMND">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row col-6">
+                                            <label for="firstname" class="col-sm-4 col-form-label">Ngày sinh:</label>
+                                            <div class="col-sm-8">
+                                                <input type="date" class="form-control" id="update_date" name="update_date" placeholder="Tên">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row col-6">
+                                            <label for="sex" class="col-sm-4 col-form-label">Giới tính:</label>
+                                            <div class="col-sm-8 row">
+                                                <div class="col-6">
+                                                    <input type="radio" name="update_sex" id="male" value="Nam" checked=checked>
+                                                    <label class="form-check-label col-form-label" for="male"> Nam
+                                                    </label>
+                                                </div>
+                                                <div class="col-6">
+                                                    <input class="" type="radio" name="update_sex" value="Nữ" id="female">
+                                                    <label class="form-check-label col-form-label" for="female"> Nữ
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row col-6">
+                                            <label for="phone_number" class="col-sm-4 col-form-label">SĐT:</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" id="update_phone_number" name="update_phone_number" placeholder="Số điện thoại">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" from-group row" style="padding-right: 1.5em; padding-left:0em" ;>
+                                        <label for="address" class="col-2 col-form-label ">Địa chỉ:</label>
+                                        <div class="col-10 row form-group">
+                                            <div class="col-4">
+                                                <select class="form-control" name="update_province" id="update_tinh">
+                                                    <option value='-1'> Chọn Tỉnh/Thành Phố</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-4">
+                                                <select class="form-control" name="update_district" id="update_huyen">
+                                                    <option value='-1'> Chọn Quận/Huyện</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-4">
+                                                <select class="form-control" name="update_ward" id="update_xa">
+                                                    <option value='-1'> Chọn Phường/Xã</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group" ;>
+                                        <label for="" class="col-2 col-form-label"> </label>
+                                        <div class="col-10 row">
+                                            <div class="col-6 row">
+                                                <input type="text" class="form-control" id="update_village" name="update_village" placeholder="Thôn/ấp">
+                                            </div>
+                                            <div class="col-6">
+                                                <input type="text" class="form-control" id="update_home" name="update_home" placeholder="Số nhà">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group row col-6">
+                                            <label for="email" class="col-4 col-form-label"> Email:</label>
+                                            <div class="col-8">
+                                                <input type="text" class="form-control" id="update_email" name="update_email" placeholder="Email">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row col-6">
+                                            <label for="role" class="col-4 col-form-label"> Vai trò:</label>
+                                            <div class="col-8">
+                                                <select class="form-control" name="update_role" id="update_role">
+                                                    <option value='-1'>Chọn vai trò</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                    <span class="d-none d-sm-block">Đóng</span>
+                                </button>
+                                <button type="submit" class="btn btn-primary ml-1" id="btn-update">
                                     <i class="bx bx-check d-block d-sm-none"></i>
                                     <span class="d-none d-sm-block">Sửa</span>
                                 </button>
                             </div>
-
+                            </form>
                         </div>
                     </div>
                 </div>
+                <!-- FOOTER -->
+                <?php View::partial('footer')  ?>
             </div>
-            <!-- MODAL UPDATE -->
-            <div class="modal fade text-left" id="modal-update-user" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header bg-info">
-                            <h4 class="modal-title">Sửa thông tin</h4>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <i data-feather="x"></i>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form name="update-form" method="post">
-                                <div class="row">
-                                    <div class="form-group row col-6">
-                                        <label for="lastname" class="col-sm-4 col-form-label">Họ lót:</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="update_lastname" name="update_lastname" placeholder="Họ lót">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row col-6">
-                                        <label for="firstname" class="col-sm-4 col-form-label">Tên:</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="update_firstname" name="update_firstname" placeholder="Tên">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group row col-6">
-                                        <label for="cmnd" class="col-sm-4 col-form-label">CMND:</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="update_cmnd" name="update_cmnd" placeholder="CMND">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row col-6">
-                                        <label for="firstname" class="col-sm-4 col-form-label">Ngày sinh:</label>
-                                        <div class="col-sm-8">
-                                            <input type="date" class="form-control" id="update_date" name="update_date" placeholder="Tên">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row col-6">
-                                        <label for="sex" class="col-sm-4 col-form-label">Giới tính:</label>
-                                        <div class="col-sm-8 row">
-                                            <div class="col-6">
-                                                <input type="radio" name="update_sex" id="male" value="Nam" checked=checked>
-                                                <label class="form-check-label col-form-label" for="male"> Nam
-                                                </label>
-                                            </div>
-                                            <div class="col-6">
-                                                <input class="" type="radio" name="update_sex" valune="Nữ" id="female">
-                                                <label class="form-check-label col-form-label" for="female"> Nữ
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row col-6">
-                                        <label for="phone_number" class="col-sm-4 col-form-label">SĐT:</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" id="update_phone_number" name="update_phone_number" placeholder="Số điện thoại">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class=" from-group row" style="padding-right: 1.5em; padding-left:0em" ;>
-                                    <label for="address" class="col-2 col-form-label ">Địa chỉ:</label>
-                                    <div class="col-10 row form-group">
-                                        <div class="col-4">
-                                            <select class="form-control" name="update_province" id="update_tinh">
-                                            </select>
-                                        </div>
-                                        <div class="col-4">
-                                            <select class="form-control" name="update_district" id="update_huyen">
-                                            </select>
-                                        </div>
-                                        <div class="col-4">
-                                            <select class="form-control" name="update_ward" id="update_xa">
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row form-group" ;>
-                                    <label for="" class="col-2 col-form-label"> </label>
-                                    <div class="col-10 row">
-                                        <div class="col-6 row">
-                                            <input type="text" class="form-control" id="update_village" name="update_village" placeholder="Thôn/ấp">
-                                        </div>
-                                        <div class="col-6">
-                                            <input type="text" class="form-control" id="update_home" name="update_home" placeholder="Số nhà">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                </div>
-                                <div class="row">
-                                    <div class="form-group row col-6">
-                                        <label for="email" class="col-4 col-form-label"> Email:</label>
-                                        <div class="col-8">
-                                            <input type="text" class="form-control" id="update_email" name="update_email" placeholder="Email">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row col-6">
-                                        <label for="role" class="col-4 col-form-label"> Vai trò:</label>
-                                        <div class="col-8">
-                                            <select class="form-control" name="update_role" id="update_role">
-                                                <option value='-1'>Chọn vai trò</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                                <i class="bx bx-x d-block d-sm-none"></i>
-                                <span class="d-none d-sm-block">Đóng</span>
-                            </button>
-                            <button type="submit" class="btn btn-primary ml-1" id="btn-update">
-                                <i class="bx bx-check d-block d-sm-none"></i>
-                                <span class="d-none d-sm-block">Sửa</span>
-                            </button>
-                        </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- FOOTER -->
-            <?php View::partial('footer')  ?>
         </div>
-    </div>
     </div>
     <script src="<?= View::assets('vendors/toastify/toastify.js') ?>"></script>
     <script src="<?= View::assets('vendors/perfect-scrollbar/perfect-scrollbar.min.js') ?>"></script>
@@ -526,75 +582,326 @@ View::$activeItem = 'user';
             $('#cars-search').change(function() {
                 getListAdvantage(1, $('#search-user-text').val(), $('#cars-search').val())
             })
-        })
-
-        /**Xóa tài khoản
-         * 
-         */
-        $('#btn-delete-user').click(function() {
-            $('.check').toggleClass('d-none');
-            var str = "";
-            $('input.del-check:checked').each(function(index, element) {
-                str += $(this).val() + '-';
+            $('#role').change(function() {
+                if ($('#role').val() == 5) {
+                    $('#add-dtcl-modal').modal('show');
+                    $('#add-user-modal').modal('hide');
+                    getAdd();
+                }
             })
-            str = str.slice(0, str.length - 1);
-            if (str != "") {
-                $('#modal-confirm-delete').modal('show');
-                $('#btn-delete-user-confirm').click(function() {
-                    $.ajax({
-                        url: 'http://localhost/emss/nguoidung/delete',
-                        data: {
-                            list_user: str
-                        },
-                        type: 'POST',
-                    }).done(function(data) {
-                        if (data) {
+            $('#add-dtcl-modal').validate({
+                submitHandler: function(form, event) {
+                    event.preventDefault();
+                    $('#add-dtcl-modal').modal('hide');
+                    $('#add-user-modal').modal('show');
+                }
+            })
+            $('#update_role').change(function() {
+                if ($('#update_role').val() == 5) {
+                    $('#update-dtcl-modal').modal('show');
+                    $('#modal-update-user').modal('hide');
+                    getUpdate();
+                }
+            })
+            $('#update-dtcl-modal').validate({
+                submitHandler: function(form, event) {
+                    event.preventDefault();
+                    $('#update-dtcl-modal').modal('hide');
+                    $('#modal-update-user').modal('show');
+                }
+            })
+            $('#btn-delete-user').click(function() {
+                $('.check').toggleClass('d-none');
+                var str = "";
+                $('input.del-check:checked').each(function(index, element) {
+                    str += $(this).val() + '-';
+                })
+                str = str.slice(0, str.length - 1);
+                if (str != "") {
+                    del(str);
+                }
+            });
+        })
+        /**SỬA */
+        function update(idUser) {
+            $('#modal-update-user').modal('show');
+            updatePerson(idUser);
+
+        }
+        //Đổ dữ liệu vào modal sửa
+        function updatePerson(idUser) {
+            getAddress('update_');
+            $.ajax({
+                url: 'http://localhost/emss/phanquyen/getListRole',
+                type: 'POST'
+            }).done(function(response) {
+                $('#update_role').empty();
+                $('#update_role').append(' <option value=-1> Chọn  </option>');
+                response.forEach(function(element, index) {
+                    var code = ' <option value=' + element['ma_vai_tro'] + ' class="role">' +
+                        element['ten_vai_tro'] + '</option>';
+                    $('#update_role').append(code);
+                });
+                $.ajax({
+                    url: 'http://localhost/emss/nguoidung/getOneByID',
+                    data: {
+                        ma_nguoi_dung: idUser
+                    },
+                    type: 'POST'
+                }).done(function(response) {
+                    $('#update_lastname').val(response[0].ho_lot);
+                    $('#update_firstname').val(response[0].ten);
+                    $('#update_cmnd').val(response[0].cmnd);
+                    $('#update_date').val(response[0].ngay_sinh);
+                    $('#update_sex').val(response[0].phai);
+                    $('#update_phone_number').val(response[0].so_dien_thoai);
+                    $('#update_email').val(response[0].email);
+                    $('#update_role').val(response[0].ma_vai_tro);
+                    doUpdate(idUser);
+                })
+            })
+        }
+        /**Đổ dữ liệu vào modal hồ sơ */
+        function getUpdate() {
+
+            var patient = $.ajax({
+                url: 'http://localhost/emss/benhnhan/getAll',
+                type: 'POST',
+            });
+            var location = $.ajax({
+                url: 'http://localhost/emss/diadiem/getList',
+                type: 'POST',
+            });
+            $.when(patient, location).done(function(l_patient, l_location) {
+                const source = $('#update_source');
+                source.empty();
+                const local = $('#update_local');
+                local.empty();
+                l_patient[0].forEach(function(element) {
+                    source.append(
+                        `<option value='${element['ma_benh_nhan']}'>${element['ma_benh_nhan']} - ${element['ho_lot']} ${element['ten']}</option>`
+                    );
+                });
+                l_location[0].forEach(function(element) {
+                    if (element['phan_loai'] == 1) local.append(
+                        `<option value='${element['ma_dia_diem']}'>${element['ten_dia_diem']}</option>`);
+                });
+            })
+        }
+
+        function doUpdate(idUser) {
+            $("form[name='update-form']").validate({
+                // Định nghĩa rule validate
+                rules: {
+                    update_lastname: {
+                        required: true,
+                    },
+                    update_firstname: {
+                        required: true,
+                    },
+                    update_cmnd: {
+                        required: true,
+                        minlength: 9,
+                    },
+                    update_date: {
+                        required: true,
+                    },
+                    update_phone_number: {
+                        required: true,
+                        number: true,
+                    },
+                    update_province: {
+                        min: 0
+                    },
+                    update_district: {
+                        min: 0
+                    },
+                    update_ward: {
+                        min: 0
+                    },
+                    update_email: {
+                        email: true,
+                        required: true
+                    },
+                },
+                //Tạo massages:
+                messages: {
+                    update_lastname: "Vui lòng nhập họ lót",
+                    update_firstname: "Vui lòng nhập tên",
+                    update_cmnd: {
+                        required: "Vui lòng nhập số chứng minh nhân dân",
+                        minlength: "Định dạng CMND không hợp lệ",
+                    },
+                    update_date: "Vui lòng chọn ngày sinh",
+                    update_phone_number: {
+                        required: "Vui lòng nhập số điện thoại",
+                        number: "Vui lòng nhập đúng định dạng"
+                    },
+                    update_rovince: "Vui lòng chọn tỉnh/thành phố",
+                    update_district: "Vui lòng chọn huyện/quận",
+                    update_ward: "Vui lòng chọn xã/phường",
+                    update_email: {
+                        email: "Vui lòng nhập đúng định dạng",
+                        required: "Vui lòng nhập email"
+                    },
+                },
+                submitHandler: function(form, event) {
+                    event.preventDefault();
+                    $.post(
+                        'http://localhost/emss/nguoidung/update', {
+                            idUser: idUser,
+                            lastname: $('#update_lastname').val(),
+                            firstname: $('#update_firstname').val(),
+                            cmnd: $('#update_cmnd').val(),
+                            birthday: $('#update_date').val(),
+                            sex: $('input[name="update_sex"]').val(),
+                            phone_number: $('#update_phone_number').val(),
+                            province: $('.update_tinh:selected').text(),
+                            district: $('.update_huyen:selected').text(),
+                            ward: $('.update_xa:selected').text(),
+                            village: $('#update_village').val(),
+                            home: $('#update_home').val(),
+                            email: $('#updaye_email').val(),
+                            password: $('#update_cmnd').val(),
+                            role: $('.role:selected').val(),
+                            object: $('#update_object').val(),
+                            source: $('#update_source').val(),
+                            local: $('#update_local').val()
+                        }).done(function(data) {
+                        if (data == true) {
                             Toastify({
-                                text: "Xóa thành công",
+                                text: "Cập Nhật Thành Công",
                                 duration: 1000,
                                 close: true,
                                 gravity: "top",
                                 position: "center",
-                                backgroundColor: "#00CC33",
+                                backgroundColor: "#4fbe87",
                             }).showToast();
-                            getList(1);
+                            $(form).trigger("reset");
+                            $('#modal-update-user').modal('hide');
+                            getListAdvantage(1, "", "");
                         } else {
                             Toastify({
-                                text: "Xóa thành công",
+                                text: "Thất bại",
                                 duration: 1000,
                                 close: true,
                                 gravity: "top",
                                 position: "center",
-                                backgroundColor: "#00CC33",
+                                backgroundColor: "#FF6600",
                             }).showToast();
-                            getList(1);
+                            $('#modal-update-user').modal('show');
                         }
                     })
+                }
+            });
+        }
+
+        /**XEM */
+        function getView(idUser) {
+            $('#view-user-modal').modal('show');
+            $.ajax({
+                url: 'http://localhost/emss/nguoidung/getOneByID',
+                data: {
+                    ma_nguoi_dung: idUser
+                },
+                type: 'POST'
+            }).done(function(response) {
+                $('#view-id').text(response[0].ma_nguoi_dung);
+                $('#view-hoten').text(response[0].ho_lot + ' ' + response[0].ten);
+                $('#view-cmnd').text(response[0].cmnd);
+                $('#view-ngaysinh').text(response[0].ngay_sinh);
+                $('#view-gioitinh').text(response[0].phai);
+                $('#view-vaitro').text(response[0].ten_vai_tro);
+                $('#view-sdt').text(response[0].so_dien_thoai);
+                $('#view-email').text(response[0].email);
+                $('#diachi').text(response[0].dia_chi);
+            })
+        }
+        /**Đổ dữ liệu vào modal hồ sơ */
+        function getAdd() {
+
+            var patient = $.ajax({
+                url: 'http://localhost/emss/benhnhan/getAll',
+                type: 'POST',
+            });
+            var location = $.ajax({
+                url: 'http://localhost/emss/diadiem/getList',
+                type: 'POST',
+            });
+            $.when(patient, location).done(function(l_patient, l_location) {
+                const source = $('#source');
+                source.empty();
+                const local = $('#local');
+                local.empty();
+                l_patient[0].forEach(function(element) {
+                    source.append(
+                        `<option value='${element['ma_benh_nhan']}'>${element['ma_benh_nhan']} - ${element['ho_lot']} ${element['ten']}</option>`
+                    );
+                });
+                l_location[0].forEach(function(element) {
+                    if (element['phan_loai'] == 1) local.append(
+                        `<option value='${element['ma_dia_diem']}'>${element['ten_dia_diem']}</option>`);
+                });
+            })
+        }
+        /**XÓA TÀI KHOẢN
+         * 
+         */
+        function del(str) {
+            $('#modal-confirm-delete').modal('show');
+            $('#btn-delete-user-confirm').click(function() {
+                $.ajax({
+                    url: 'http://localhost/emss/nguoidung/delete',
+                    data: {
+                        list_user: str
+                    },
+                    type: 'POST',
+                }).done(function(data) {
+                    if (!data) {
+                        Toastify({
+                            text: "Xóa thành công",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#00CC33",
+                        }).showToast();
+                        getListAdvantage(1, "", "");
+                    } else {
+                        Toastify({
+                            text: "Xóa thất bại",
+                            duration: 1000,
+                            close: true,
+                            gravity: "top",
+                            position: "center",
+                            backgroundColor: "#00CC33",
+                        }).showToast();
+                    }
                 })
-            }
-        });
+            })
+        }
 
         /**Lấy danh sách tỉnh huyện xã */
         function getAddress(text) {
             var address = $.xResponse();
             address.forEach(function(element, index) {
-                $(`${text}#tinh`).append('<option class="tinh" value="' + index + '">' + element['name'] + '</option>');
+                $(`#${text}tinh`).append(`<option class="${text}tinh" value="${index}">${element['name']}</option>`);
             })
-            $(`${text}#tinh`).change(function() {
-                $(`${text}#huyen`).empty();
-                $(`${text}#huyen`).append('<option value="-1"> Chọn Quận/Huyện</option>')
-                $(`${text}#xa`).empty();
-                $(`${text}#xa`).append('<option value="-1"> Chọn Phường/Xã </option>')
-                var districs = address[$('#tinh').val()]['districts'];
+            $(`#${text}tinh`).change(function() {
+                $(`#${text}huyen`).empty();
+                $(`#${text}huyen`).append('<option value="-1"> Chọn Quận/Huyện</option>')
+                $(`#${text}xa`).empty();
+                $(`#${text}xa`).append('<option value="-1"> Chọn Phường/Xã </option>')
+                var districs = address[$(`#${text}tinh`).val()]['districts'];
                 districs.forEach(function(element, index) {
-                    $(`${text}#huyen`).append('<option class="huyen" value="' + index + '">' + element['name'] + '</option>')
+                    $(`#${text}huyen`).append(`<option class="${text}huyen" value="${index}">${element['name']}</option>`)
                 })
-                $(`${text}#huyen`).change(function() {
-                    $(`${text}#xa`).empty();
-                    $(`${text}#xa`).append('<option value="-1"> Chọn Phường/Xã </option>')
-                    var wards = districs[$('#huyen').val()]['wards'];
+                $(`#${text}huyen`).change(function() {
+                    $(`#${text}xa`).empty();
+                    $(`#${text}xa`).append('<option value="-1"> Chọn Phường/Xã </option>')
+                    var wards = districs[$(`#${text}huyen`).val()]['wards'];
                     wards.forEach(function(element, index) {
-                        $(`${text}#xa`).append('<option  class="xa" value="' + index + '">' + element['name'] + '</option>')
+                        $(`#${text}xa`).append(`<option  class="${text}xa" value="${index}">${element['name']}</option>`)
                     })
                 })
             });
@@ -612,7 +919,6 @@ View::$activeItem = 'user';
                     var code = ' <option value=' + element['ma_vai_tro'] + ' class="role">' +
                         element['ten_vai_tro'] + '</option>';
                     $('#role').append(code);
-                    $('#update-role').append(code);
                 });
                 doAdd();
             })
@@ -692,6 +998,9 @@ View::$activeItem = 'user';
                             email: $('#email').val(),
                             password: $('#cmnd').val(),
                             role: $('.role:selected').val(),
+                            object: $('#object').val(),
+                            source: $('#source').val(),
+                            local: $('#local').val()
                         }).done(function(data) {
                         if (data.thanhcong == true) {
                             Toastify({
@@ -704,7 +1013,7 @@ View::$activeItem = 'user';
                             }).showToast();
                             $(form).trigger("reset");
                             $('#add-user-modal').modal('hide');
-                            getListAdvantage(1,"","");
+                            getListAdvantage(1, "", "");
                         } else {
                             Toastify({
                                 text: data.error,
@@ -722,10 +1031,11 @@ View::$activeItem = 'user';
         }
 
         /** Các hàm */
+        //Hàm đổi page
         function changePage(newPage) {
             getListAdvantage(newPage, $('#search-user-text').val(), $('#cars-search').val());
         }
-
+        //Hàm lấy dữ liệu
         function getListAdvantage(current_page, text, column) {
             $.ajax({
                 url: `http://localhost/emss/nguoidung/getList?current_page=${current_page}&row_per_page=5&keyword=${text}&column=${column}`,
@@ -748,8 +1058,13 @@ View::$activeItem = 'user';
                             <td>${element.so_dien_thoai}</td>
                             <td>${element.cmnd}</td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;"><i class="bi bi-eye"></i></button>
-                                <button type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
+                                <button onclick="getView(${element.ma_nguoi_dung})"type="button" class="btn btn-sm btn-outline-primary" style="padding-top: 3px; padding-bottom: 4px;">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                                <button onclick="update(${element.ma_nguoi_dung})" type="button" class="btn btn-sm btn-outline-success" style="padding-top: 7px; padding-bottom: 0px;">
+                                    <i class="bi bi-gear"></i>
+                                </button>
+                                <button onclick="del(${element.ma_nguoi_dung})" type="button" class="btn btn-sm btn-outline-danger" style="padding-top: 7px; padding-bottom: 0px;">
                                     <i class="bi bi-trash-fill"></i>
                                 </button>
                             </td>
