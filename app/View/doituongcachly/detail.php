@@ -322,13 +322,7 @@ View::$activeItem = 'object';
                         </div>
                         <div class="modal-body">
                             <form name="form-detail-update" method="post">
-                                <div class="row">
-                                    <div class="form-group row col-6">
-                                        <label for="begindate" class="col-sm-4 col-form-label">Ngày bắt đầu</label>
-                                        <div class="col-sm-8">
-                                            <input type="date" class="form-control" value="2000-01-01" id="update_beginday" name="update_beginday">
-                                        </div>
-                                    </div>
+                                <div class="row">   
                                     <div class="form-group row col-6">
                                         <label for="object" class="col-sm-4 col-form-label">Đối tượng:</label>
                                         <div class="col-8">
@@ -425,7 +419,8 @@ View::$activeItem = 'object';
         //Format thời gian:
         function formatDateTime(datetime) {
             let temp = datetime.split('-');
-            return temp[2] + '-' + temp[1] + '-' + temp[0];
+            temp_2 = temp[2].split(" ");
+            return temp_2[0] + '-' + temp[1] + '-' + temp[0];
         }
         //Cắt url lấy id:
         function getID() {
@@ -749,7 +744,6 @@ View::$activeItem = 'object';
                     );
                 });
                 l_location[0].forEach(function(element) {
-
                     if (element['phan_loai'] == 0) local.append(
                         `<option value='${element['ma_dia_diem']}'>${element['ten_dia_diem']}</option>`);
                 });

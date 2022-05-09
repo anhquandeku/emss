@@ -7,7 +7,7 @@ use App\Core\Controller;
 use App\Core\Request;
 use App\Model\NguoiDungModel;
 use App\Model\DTCLModel;
-use LDAP\Result;
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 class NguoiDungController extends Controller
 {
@@ -52,9 +52,9 @@ class NguoiDungController extends Controller
         $home = Request::post('home');
         $email = Request::post('email');
         $password = Request::post('password');
-        $address = $province . "-" . $district . "-" . $ward;
-        if ($home != '') $address = $address . "-" . $home;
-        if ($village != '') $address = $address . "-" . $village;
+        $address = $province . " - " . $district . " - " . $ward;
+        if ($home != '') $address = $address . " - " . $home;
+        if ($village != '') $address = $address . " - " . $village;
         $role = Request::post('role');
         $result = NguoiDungModel::add($phone_number, $password, $role, $lastname, $firstname, $cmnd, $birthday, $sex, $address, $email, $phone_number);
         if ($result['thanhcong']) {
@@ -74,7 +74,7 @@ class NguoiDungController extends Controller
                 $local = Request::post('local');
                 $result['thanhcong'] = DTCLModel::add_2($person['ma_nguoi_dung'], $local, $f, $source);
                 if ($result['thanhcong']) {
-                    $date = date('Y-m-d');
+                    $date = date('Y-m-d H:i:s');
                     $result['thanhcong'] = DTCLModel::add($person['ma_nguoi_dung'], $local, $date, '0000-00-00', $f, $source);
                 }
             }
@@ -107,9 +107,9 @@ class NguoiDungController extends Controller
         $village = Request::post('village');
         $home = Request::post('home');
         $email = Request::post('email');
-        $address = $province . "-" . $district . "-" . $ward;
-        if ($home != '') $address = $address . "-" . $home;
-        if ($village != '') $address = $address . "-" . $village;
+        $address = $province . " - " . $district . " - " . $ward;
+        if ($home != '') $address = $address . " - " . $home;
+        if ($village != '') $address = $address . " - " . $village;
         $role = Request::post('role');
         $data = NguoiDungModel::update($idUser,$phone_number, $role, $lastname, $firstname, $cmnd, $birthday, $sex, $address, $email, $phone_number);
         if ($data == true) {
@@ -129,7 +129,7 @@ class NguoiDungController extends Controller
                 $local = Request::post('local');
                 $data= DTCLModel::add_2($person->ma_nguoi_dung , $local, $f, $source);
                 if ($data) {
-                    $date = date('Y-m-d');
+                    $date = date('Y-m-d H:i:S');
                     $data = DTCLModel::add($person->ma_nguoi_dung, $local, $date, '0000-00-00', $f, $source);
                 }
             }

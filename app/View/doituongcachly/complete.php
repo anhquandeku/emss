@@ -2,7 +2,6 @@
 
 use App\Core\View;
 
-View::$activeItem = 'object';
 
 ?>
 
@@ -62,7 +61,7 @@ View::$activeItem = 'object';
 
         #person {
             line-height: 2em;
-            width: 100%;
+            width: 100%;    
         }
 
         #person td {
@@ -70,6 +69,7 @@ View::$activeItem = 'object';
         }
 
         #person .table-title {
+            font-weight: bold;
             width: 20%;
         }
     </style>
@@ -96,33 +96,33 @@ View::$activeItem = 'object';
                 <table id="person">
                     <tr>
                         <td class="table-title">Ông/Bà:</td>
-                        <td id="name" class="personal">Phan Thanh Thắng</td>
+                        <td id="name" class="personal"></td>
                         <td class="table-title"> Giới tính:</td>
-                        <td id="sex" class="personal">Nam</td>
+                        <td id="sex" class="personal"></td>
                     </tr>
                     <tr>
                         <td class="table-title">Ngày sinh:</td>
-                        <td id="birthday" class="personal">20/05/2001</td>
+                        <td id="birthday" class="personal"></td>
                         <td class="table-title"> Số điện thoại:</td>
-                        <td id="phone" class="personal">0355082545</td>
+                        <td id="phone" class="personal"></td>
                     </tr>
                     <tr>
                         <td class="table-title">Số CMND:</td>
-                        <td id="CMND" class="personal">20/05/2001</td>
+                        <td id="CMND" class="personal"></td>
                         <td class="table-title"> Quốc tịch:</td>
                         <td id="quoctich" class="personal">Việt Nam</td>
                     </tr>
                     <tr>
                         <td class="table-title">Địa chỉ lưu trú:</td>
-                        <td id="address" class="personal" colspan="3"> Mỹ Thủy - Hải An - Hải Lăng - Quảng Trị</td>
+                        <td id="address" class="personal" colspan="3"></td>
                     </tr>
                     <tr>
                         <td class="table-title">Địa chỉ cách ly:</td>
-                        <td id="address2" class="personal" colspan="3"> Mỹ Thủy - Hải An - Hải Lăng - Quảng Trị</td>
+                        <td id="address2" class="personal" colspan="3"></td>
                     </tr>
                     <tr>
                         <td class="table-title">Lý do cách ly: </td>
-                        <td id="reason" class="personal" colspan="3"> Mỹ Thủy - Hải An - Hải Lăng - Quảng Trị</td>
+                        <td id="reason" class="personal" colspan="3"> Liên quan đến yếu tố dịch tễ</td>
                     </tr>
                 </table>
             </div>
@@ -136,7 +136,8 @@ View::$activeItem = 'object';
                 <div id="title" style="text-align:right">
                     <p> BAN CHỈ ĐẠO PHÒNG CHỐNG DỊCH</p>
                 </div>
-                
+                <div id="qr">
+                </div>
             </div>
         </div>
     </div>
@@ -151,8 +152,115 @@ View::$activeItem = 'object';
     <script src="<?= View::assets('js/api.js') ?>"></script>
     <script src="<?= View::assets('js/address.js') ?>"></script>
     <script>
-        window.print();
-        //location.href = "http://localhost/emss/doituongcachly/index";
+        $(document).ready(function() {
+            //Lấy thời gian 
+            $('#date').text(getDateTime());
+            getPerson();
+            createQR();
+        })
+        //Format tg bắt đầu
+        function formatDateTime(datetime) {
+            let temp = datetime.split('-');
+            temp_2 = temp[2].split(" ");
+            return temp_2[0] + '-' + temp[1] + '-' + temp[0];
+        }
+        //Format tg kết thúc
+        function formatDateTime_2(datetime) {
+            let temp = datetime.split('-');
+            return temp[2] + '-' + temp[1] + '-' + temp[0];
+        }
+        //Lấy thời gian
+        function getDateTime() {
+            var d = new Date();
+            var yyyy = d.getFullYear();
+            var mm = d.getMonth() + 1;
+            var dd = d.getDate();
+            return "Ngày " + (dd < 10 ? '0' + mm.toString() : dd) + " tháng " + (mm < 10 ? '0' + mm.toString() : mm) + " năm " + yyyy;
+        }
+        //Lấy id đối tượng
+        function getID() {
+            var url = location.href;
+            var index1 = url.indexOf('id=');
+            var index2 = url.indexOf('&');
+            var str = url;
+            if (index2 != -1) {
+                str.slice(index1, index2);
+            } else str.slice(index1);
+            var str2 = "";
+            for (var i = 0; i < str.length; i++)
+                if (str[i] < '9' && str[i] > '0') str2 += str[i];
+            return parseInt(str2, 10);
+        }
+        //Đổ thông tin vào đơn
+        function getPerson() {
+            $.ajax({
+                url: `http://localhost/emss/nguoidung/getOneByID`,
+                data: {
+                    ma_nguoi_dung: getID()
+                },
+                type: 'POST'
+            }).done(function(response) {
+                $('#name').text(response[0].ho_lot + " " + response[0].ten);
+                $('#sex').text(response[0].phai);
+                $('#CMND').text(response[0].cmnd);
+                $('#address').text(response[0].dia_chi);
+                $('#phone').text(response[0].so_dien_thoai);
+                $('#birthday').text(response[0].ngay_sinh)
+                $.ajax({
+                    url: `http://localhost/emss/doituongcachly/getFile`,
+                    data: {
+                        ma_doi_tuong: getID()
+                    },
+                    type: 'POST'
+                }).done(function(response_2) {
+                    $('#time').text(`Từ ngày ${formatDateTime(response_2[0].tg_bat_dau)} đến hết ngày ${formatDateTime_2(response_2[0].tg_ket_thuc)}`)
+                    $.ajax({
+                        url: 'http://localhost/emss/diadiem/getOneByID',
+                        data: {
+                            id: response_2[0]['ma_dia_diem']
+                        },
+                        type: 'POST',
+                    }).done(function(data_3) {
+                        var address = "";
+                        if (data_3[0].so_nha != '') address += data_3[0].so_nha + ' - ';
+                        if (data_3[0].ap_thon != '') address += data_3[0].ap_thon + ' - ';
+                        address += `${data_3[0].phuong_xa} - ${data_3[0].quan_huyen} - ${data_3[0].tp_tinh}`;
+                        $('#address2').text(data_3[0].ten_dia_diem + " (" + address + ")");
+                    })
+                })
+            })
+        }
+        //Tạo qrcode
+        function createQR() {
+            $.ajax({
+                url: `http://localhost/emss/auth/getUser`,
+            }).done(function(IDuser) {
+                var admin = $.ajax({
+                    url: 'http://localhost/emss/nguoidung/getOneByID',
+                    data: {
+                        ma_nguoi_dung: IDuser,
+                    },
+                    type: 'POST'
+                });
+                var user = $.ajax({
+                    url: 'http://localhost/emss/nguoidung/getOneByID',
+                    data: {
+                        ma_nguoi_dung: getID()
+                    },
+                    type: 'POST'
+                })
+                $.when(admin, user).done(function(data_1, data_2) {
+                    var name = data_2[0][0].ho_lot + " " + data_2[0][0].ten;
+                    name = name.toLocaleLowerCase();
+                    var text_create = name.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a").replace(/\ /g, '').replace(/đ/g, "d").replace(/đ/g, "d").replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y").replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u").replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ.+/g, "o").replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ.+/g, "e").replace(/ì|í|ị|ỉ|ĩ/g, "i");
+                    name = text_create.toUpperCase();
+                    var time = $('#time').text().match(/\d/g);
+                    var number = time.join("");
+                    var text = `${data_1[0][0].cmnd}|${data_2[0][0].cmnd}|${name}|${data_2[0][0].ngay_sinh}|${data_2[0][0].so_dien_thoai}|${number} `
+                    $('#qr').html(`<img src="https://huynhtanmao.com/barcode-master/barcode.php?f=jpg&s=qr&d=${text}" />`);
+                })
+            })
+        }
     </script>
 </body>
 
