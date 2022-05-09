@@ -131,12 +131,6 @@ View::$activeItem = 'object';
                                 <form name="form-detail-add" id=" " method="post">
                                     <div class="row">
                                         <div class="form-group row col-6">
-                                            <label for="begindate" class="col-sm-4 col-form-label">Ngày bắt đầu</label>
-                                            <div class="col-sm-8">
-                                                <input type="date" class="form-control" value="2000-01-01" id="beginday" name="beginday">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row col-6">
                                             <label for="object" class="col-sm-4 col-form-label">Đối tượng:</label>
                                             <div class="col-8">
                                                 <select class="form-control" name="object" id="object">
@@ -244,22 +238,11 @@ View::$activeItem = 'object';
         //Hàm thêm mới hồ sơ cho đối tượng
         function addDetail(idUser) {
             $("form[name='form-detail-add']").validate({
-                rules: {
-                    beginday: {
-                        min: getDateTime(),
-                    },
-                },
-                messages: {
-                    beginday: {
-                        min: "Ngày bắt đầu phải lớn hơn hoặc bằng ngày hiện tại",
-                    },
-                },
                 submitHandler: function(form, event) {
                     event.preventDefault();
                     $.post('http://localhost/emss/doituongcachly/add', {
                         ma_doi_tuong: idUser,
                         ma_dia_diem: $('#local').val(),
-                        tg_bat_dau: $('#beginday').val(),
                         tg_ket_thuc: '0000-00-00',
                         f: $('#object').val(),
                         nguon_lay: $('#source').val()
@@ -327,7 +310,7 @@ View::$activeItem = 'object';
                     );
                 });
                 l_location[0].forEach(function(element) {
-                    if (element['phan_loai'] == 1) local.append(
+                    if (element['phan_loai'] == 0) local.append(
                         `<option value='${element['ma_dia_diem']}'>${element['ten_dia_diem']}</option>`);
                 });
                 addDetail(idUser);

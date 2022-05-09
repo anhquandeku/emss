@@ -6,11 +6,12 @@ use App\Core\Auth;
 use App\Core\Controller;
 use App\Core\Request;
 use App\Model\DTCLModel;
-use LDAP\Result;
 use App\Model\DiaDIemModel;
 use App\Model\NguoiDungModel;
-date_default_timezone_set('Asia/Ho_Chi_Minh');
+use App\Core\barcode_generator;
+use barcode_generator as GlobalBarcode_generator;
 
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 class DoiTuongCachLyController extends Controller
 {
     public function __construct()
@@ -19,11 +20,11 @@ class DoiTuongCachLyController extends Controller
         Auth::checkAuthentication();
     }
 
-    //Dieuhuongden benhnhan/index
     public function index()
     {
         $this->View->render('doituongcachly/index');
     }
+
     public function complete()
     {
         $this->View->render('doituongcachly/complete');
@@ -95,12 +96,11 @@ class DoiTuongCachLyController extends Controller
         Auth::checkAuthentication();
         $ma_ho_so = Request::post('ma_ho_so');
         $ma_dia_diem = Request::post('ma_dia_diem');
-        $tg_bat_dau = Request::post('tg_bat_dau');
         $f = Request::post('f');
         $nguon_lay = Request::post('nguon_lay');
         $row = Request::post('row');
         $id = Request::post('id');
-        $data = DTCLModel::update($ma_ho_so, $ma_dia_diem, $tg_bat_dau, $f, $nguon_lay);
+        $data = DTCLModel::update($ma_ho_so, $ma_dia_diem, $f, $nguon_lay);
         if ($row == 0) {
             $data = DTCLModel::update_2($ma_dia_diem, $nguon_lay, $f, $id);
         }
@@ -135,7 +135,7 @@ class DoiTuongCachLyController extends Controller
         $list_id = explode('-', $list);
         foreach ($list_id as $value) {
             $data = DTCLModel::delete_2($value);
-            $data = NguoiDungModel::updateRole($value,6);
+            $data = NguoiDungModel::updateRole($value, 6);
             if ($data = false) {
                 $data = [
                     'thanhcong' => false,
@@ -149,21 +149,30 @@ class DoiTuongCachLyController extends Controller
         $this->View->renderJSON($data);
     }
 
-    public function addPerson(){
+    public function addPerson()
+    {
         Auth::checkAuthentication();
         $ma_doi_tuong = Request::post('ma_doi_tuong');
         $ma_dia_diem = Request::post('ma_dia_diem');
         $f = Request::post('f');
         $nguon_lay = Request::post('nguon_lay');
-        $data = DTCLModel::add_2($ma_doi_tuong,$ma_dia_diem,$f,$nguon_lay);
+        $data = DTCLModel::add_2($ma_doi_tuong, $ma_dia_diem, $f, $nguon_lay);
         $this->View->renderJSON($data);
     }
-    public function updateFinishTime(){
+    public function updateFinishTime()
+    {
         Auth::checkAuthentication();
         $ma_doi_tuong = Request::post('ma_doi_tuong');
-        $tg_ket_thuc =   date('Y-m-d');
-        $file = DTCLModel::getCurrentFile($ma_doi_tuong);
+        $tg_ket_thuc =  date('Y:m:d');
+        $file = DTCLModel::getCurrentFile(44);
         $response = DTCLModel::updateFinishTime($tg_ket_thuc, $file[0]->ma_ho_so);
         $this->View->renderJSON($response);
+    }
+    public function getFile()
+    {
+        Auth::checkAuthentication();
+        $ma_doi_tuong = Request::post('ma_doi_tuong');
+        $file = DTCLModel::getCurrentFile($ma_doi_tuong);
+        $this->View->renderJSON($file);
     }
 }

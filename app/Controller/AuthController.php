@@ -100,4 +100,9 @@ class AuthController extends Controller
         Cookie::destroy();
         Redirect::home();
     }
+    public function getUser(){
+        Auth::checkAuthentication();
+        $data = Cookie::get('user_id');
+        return $this->View->renderJSON($data);
+    }
 }

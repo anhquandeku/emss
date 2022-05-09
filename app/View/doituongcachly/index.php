@@ -317,7 +317,6 @@ View::$activeItem = 'object';
                 },
                 type: 'POST'
             }).done(function(response) {
-                alert(response);
                 if (response) {
                     $.ajax({
                         url: 'http://localhost/emss/doituongcachly/delete_dtcl',
@@ -326,7 +325,6 @@ View::$activeItem = 'object';
                         },
                         type: 'POST',
                     }).done(function(data) {
-                        alert("OK");
                         if (data.thanhcong == true) {
                             Toastify({
                                 text: "Thành Công",
@@ -337,7 +335,7 @@ View::$activeItem = 'object';
                                 backgroundColor: "#4fbe87",
                             }).showToast();
                             getList(1, "", "");
-                            //location.href = "http://localhost/emss/doituongcachly/complete?id="+idUser;
+                            window.open("http://localhost/emss/doituongcachly/complete?id="+idUser,'_blank')
                         } else {
                             Toastify({
                                 text: "Thất Bại",
