@@ -112,17 +112,13 @@ class NguoiDungModel
 
         $sql = "";
         if ($column == "") {
-            $sql = 'SELECT * FROM nguoi_dung, vai_tro WHERE (ho_lot LIKE :keyword OR ten LIKE :keyword OR cmnd LIKE :keyword OR so_dien_thoai LIKE :keyword OR ten_vai_tro LIKE :keyword) AND nguoi_dung.ma_vai_tro = vai_tro.ma_vai_tro AND nguoi_dung.trang_thai =1';
+            $sql = 'SELECT * FROM nguoi_dung, vai_tro WHERE (ho_lot LIKE :keyword OR ten LIKE :keyword OR ten_vai_tro LIKE :keyword) AND nguoi_dung.ma_vai_tro = vai_tro.ma_vai_tro AND nguoi_dung.trang_thai =1';
         } else if ($column == "ho") {
             $sql = 'SELECT * FROM nguoi_dung, vai_tro WHERE (ho_lot LIKE :keyword) AND nguoi_dung.ma_vai_tro = vai_tro.ma_vai_tro AND nguoi_dung.trang_thai =1';
         } else if ($column == "ten") {
             $sql = 'SELECT * FROM nguoi_dung, vai_tro WHERE ten LIKE :keyword AND nguoi_dung.ma_vai_tro = vai_tro.ma_vai_tro AND nguoi_dung.trang_thai =1';
         } else if ($column == "vaitro") {
             $sql = 'SELECT * FROM nguoi_dung, vai_tro WHERE ten_vai_tro LIKE :keyword AND nguoi_dung.ma_vai_tro = vai_tro.ma_vai_tro AND nguoi_dung.trang_thai =1';
-        } else if ($column == "cmnd") {
-            $sql = 'SELECT * FROM nguoi_dung, vai_tro WHERE cmnd LIKE :keyword AND nguoi_dung.ma_vai_tro = vai_tro.ma_vai_tro AND nguoi_dung.trang_thai =1';
-        } else if ($column == "sdt") {
-            $sql = 'SELECT * FROM nguoi_dung, vai_tro WHERE so_dien_thoai LIKE :keyword AND nguoi_dung.ma_vai_tro = vai_tro.ma_vai_tro AND nguoi_dung.trang_thai =1';
         }
         $sql .= ' ORDER BY ma_nguoi_dung ASC LIMIT :limit OFFSET :offset';
         $query = $database->prepare($sql);
@@ -133,17 +129,13 @@ class NguoiDungModel
         $data = $query->fetchAll();
 
         if ($column == "") {
-            $sql_ = 'SELECT COUNT(*) FROM nguoi_dung, vai_tro WHERE (ho_lot LIKE :keyword OR ten LIKE :keyword OR cmnd LIKE :keyword OR so_dien_thoai LIKE :keyword OR ten_vai_tro LIKE :keyword) AND nguoi_dung.ma_vai_tro = vai_tro.ma_vai_tro AND nguoi_dung.trang_thai = 1';
+            $sql_ = 'SELECT COUNT(*) FROM nguoi_dung, vai_tro WHERE (ho_lot LIKE :keyword OR ten LIKE :keyword OR ten_vai_tro LIKE :keyword) AND nguoi_dung.ma_vai_tro = vai_tro.ma_vai_tro AND nguoi_dung.trang_thai = 1';
         } else if ($column == "ho") {
             $sql_ = 'SELECT COUNT(*) FROM nguoi_dung, vai_tro WHERE ho_lot LIKE :keyword AND nguoi_dung.ma_vai_tro = vai_tro.ma_vai_tro AND  nguoi_dung.trang_thai = 1';
         } else if ($column == "ten") {
             $sql_ = 'SELECT COUNT(*) FROM nguoi_dung, vai_tro WHERE ten LIKE :keyword AND nguoi_dung.ma_vai_tro = vai_tro.ma_vai_tro AND  nguoi_dung.trang_thai = 1';
         } else if ($column == "vaitro") {
             $sql_ = 'SELECT COUNT(*) FROM nguoi_dung, vai_tro WHERE ten_vai_tro LIKE :keyword AND nguoi_dung.ma_vai_tro = vai_tro.ma_vai_tro AND  nguoi_dung.trang_thai = 1';
-        } else if ($column == "cmnd") {
-            $sql_ = 'SELECT COUNT(*) FROM nguoi_dung, vai_tro WHERE cmnd LIKE :keyword AND nguoi_dung.ma_vai_tro = vai_tro.ma_vai_tro AND  nguoi_dung.trang_thai = 1';
-        } else if ($column == "sdt") {
-            $sql_ = 'SELECT COUNT(*) FROM nguoi_dung, vai_tro WHERE so_dien_thoai LIKE :keyword AND nguoi_dung.ma_vai_tro = vai_tro.ma_vai_tro AND  nguoi_dung.trang_thai = 1';
         }
         $countQuery = $database->prepare($sql_);
         $countQuery->bindValue(':keyword', $keyword, PDO::PARAM_STR);

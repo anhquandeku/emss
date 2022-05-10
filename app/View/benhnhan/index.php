@@ -61,8 +61,6 @@ View::$activeItem = 'patient';
                                     <option value="ho">Họ Lót</option>
                                     <option value="ten">Tên</option>
                                     <option value="phai">Phái</option>
-                                    <option value="cmnd">CMND</option>
-                                    <option value="sdt">Số điện thoại</option>
                                 </select>
                             </div>
                             <div class="col-12 col-md-5 order-md-2 order-first">
