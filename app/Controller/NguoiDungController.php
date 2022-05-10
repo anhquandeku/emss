@@ -33,10 +33,10 @@ class NguoiDungController extends Controller
         Auth::checkAuthentication();
         $ma_nguoi_dung = Request::post('ma_nguoi_dung');
         $data = NguoiDungModel::getOneByID($ma_nguoi_dung);
-        $data['password'] = RSA::decryptRSA(AES::decryptAES($data['password']));
-        $data['user_name'] = AES::decryptAES($data['user_name']);
-        $data['cmnd'] = AES::decryptAES($data['cmnd']);
-        $data['so_dien_thoai'] = AES::decryptAES($data['so_dien_thoai']);
+        $data[0]->password = RSA::decryptRSA(AES::decryptAES($data[0]->password));
+        $data[0]->user_name = AES::decryptAES($data[0]->user_name);
+        $data[0]->cmnd = AES::decryptAES($data[0]->cmnd);
+        $data[0]->so_dien_thoai = AES::decryptAES($data[0]->so_dien_thoai);
         return $this->View->renderJSON($data);
     }
     public function add()
@@ -96,7 +96,7 @@ class NguoiDungController extends Controller
         $column = Request::get('column');
         $data = NguoiDungModel::getListAdvanted($current_page, $row_per_page, $keyword, $column);
         foreach ($data['data'] as $value ){
-            $value->password=RSA::decryptRSA(AES::decryptAES($value->password));
+            //$value->password=RSA::decryptRSA(AES::decryptAES($value->password));
             $value->user_name=AES::decryptAES($value->user_name);
             $value->cmnd=AES::decryptAES($value->cmnd);
             $value->so_dien_thoai=AES::decryptAES($value->so_dien_thoai);
@@ -165,8 +165,10 @@ class NguoiDungController extends Controller
     {
         Auth::checkAuthentication();
         $data = NguoiDungModel::getAll();
+        //print AES::encryptAES(RSA::encryptRSA('12345678'));
+        //print AES::encryptAES('29292293372');
         foreach ($data as $value ){
-            $value['password']=RSA::decryptRSA(AES::decryptAES($value['password']));
+            //$value['password']=RSA::decryptRSA(AES::decryptAES($value['password']));
             $value['user_name']=AES::decryptAES($value['user_name']);
             $value['cmnd']=AES::decryptAES($value['cmnd']);
             $value['so_dien_thoai']=AES::decryptAES($value['so_dien_thoai']);

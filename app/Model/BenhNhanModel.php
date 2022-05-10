@@ -15,17 +15,13 @@ class BenhNhanModel{
         $search = '%' . $search . '%';
 
         if ($search2 == "") {
-            $sql = 'SELECT * FROM nguoi_dung WHERE (ho_lot LIKE :search OR ten LIKE :search OR phai LIKE :search OR cmnd LIKE :search OR so_dien_thoai LIKE :search) AND ma_vai_tro=4 AND trang_thai=1';
+            $sql = 'SELECT * FROM nguoi_dung WHERE (ho_lot LIKE :search OR ten LIKE :search OR phai LIKE :search) AND ma_vai_tro=4 AND trang_thai=1';
         } else if ($search2 == "ho") {
             $sql = 'SELECT * FROM nguoi_dung WHERE (ho_lot LIKE :search) AND ma_vai_tro=4 AND trang_thai=1';
         } else if ($search2 == "ten") {
             $sql = 'SELECT * FROM nguoi_dung WHERE (ten LIKE :search) AND ma_vai_tro=4 AND trang_thai=1';
         } else if ($search2 == "phai") {
             $sql = 'SELECT * FROM nguoi_dung WHERE (phai LIKE :search) AND ma_vai_tro=4 AND trang_thai=1';
-        }else  if ($search2 == "cmnd") {
-            $sql = 'SELECT * FROM nguoi_dung WHERE (cmnd LIKE :search) AND ma_vai_tro=4 AND trang_thai=1';
-        }else if ($search2 == "sdt") {
-            $sql = 'SELECT * FROM nguoi_dung WHERE (so_dien_thoai LIKE :search) AND ma_vai_tro=4 AND trang_thai=1';
         }
 
         $sql .= ' ORDER BY ma_nguoi_dung ASC LIMIT :limit OFFSET :offset';
@@ -39,17 +35,13 @@ class BenhNhanModel{
 
         $count = "";
         if ($search2 == "") {
-            $count = 'SELECT COUNT(*) FROM nguoi_dung WHERE (ho_lot LIKE :search OR ten LIKE :search OR phai LIKE :search OR cmnd LIKE :search OR so_dien_thoai LIKE :search) AND ma_vai_tro=4 AND trang_thai=1';
+            $count = 'SELECT COUNT(*) FROM nguoi_dung WHERE (ho_lot LIKE :search OR ten LIKE :search OR phai LIKE :search) AND ma_vai_tro=4 AND trang_thai=1';
         } else if ($search2 == "ho") {
             $count = 'SELECT COUNT(*) nguoi_dung WHERE (ho_lot LIKE :search) AND ma_vai_tro=4 AND  trang_thai=1';
         } else if ($search2 == "ten") {
             $count = 'SELECT COUNT(*) FROM nguoi_dung WHERE (ten LIKE :search) AND ma_vai_tro=4 AND trang_thai=1';
         } else if ($search2 == "phai") {
             $count = 'SELECT COUNT(*) FROM nguoi_dung WHERE (phai LIKE :search) AND ma_vai_tro=4 AND trang_thai=1';
-        }else  if ($search2 == "cmnd") {
-            $count = 'SELECT COUNT(*) FROM nguoi_dung WHERE (cmnd LIKE :search) AND ma_vai_tro=4 AND trang_thai=1';
-        }else if ($search2 == "sdt") {
-            $count = 'SELECT COUNT(*) FROM nguoi_dung WHERE (so_dien_thoai LIKE :search) AND ma_vai_tro=4 AND trang_thai=1';
         }
 
         $countQuery = $database->prepare($count);
