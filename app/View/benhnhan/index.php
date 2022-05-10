@@ -1,8 +1,6 @@
 <?php
 
 use App\Core\View;
-use App\Core\RSA;
-use App\Core\AES;
 
 View::$activeItem = 'patient';
 
@@ -35,19 +33,6 @@ View::$activeItem = 'patient';
             <!-- HEADER -->
             <?php View::partial('header')  ?>
             <?php View::partial('changepass')  ?>
-            <?php 
-                //$encrypted =AES::encrypt('Plaintext string.', 'password');
-               // echo strlen(RSA::EncryptionRSA('anhquananhasdhahjsjdksjhauznzzckjzxkhcxhbxczbhzhh4444cz2hjdsjahahjhjsahdhgadhjahkdghkakdk'));
-                //echo RSA::DecryptionRSA('C0G1se9zasusrMr9rMI9YZ5vTQI4pa9sZeCOu8sxpODH BIaU3 gbiYSkOfgHFWJ2ReEVeaaFyOJ 5PVNUU9qr8Fh2ygi5S46SNKswpeQnecuMTsBxYwTTLe CM9R6qYsnD6RswszOKgwstDvwClqqAr0dEGeXsKXBt2IGJQcRgNCVVmCQwRihPZCh08Pa');
-                //echo bcsub(bcpow('2', '107'),'1');
-                //echo $encrypted;
-               /* $ren= RSA::EncryptionRSA('anhquan');
-                $aen=AES::encrypt($ren,'password');
-                $ade=AES::decrypt($aen,'password');
-                $rde=RSA::DecryptionRSA($ade);
-                //echo $de1."</br>";
-                echo $rde;*/
-            ?>
             <div id="main-content">
                 <div class="page-heading">
                     <div class="col-sm-6">

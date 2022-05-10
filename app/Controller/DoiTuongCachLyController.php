@@ -9,6 +9,8 @@ use App\Model\DTCLModel;
 use App\Model\DiaDIemModel;
 use App\Model\NguoiDungModel;
 use App\Core\Cookie;
+use App\Core\AES;
+use App\Core\RSA;
 
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 class DoiTuongCachLyController extends Controller
@@ -87,6 +89,12 @@ class DoiTuongCachLyController extends Controller
         $row_per_page = Request::get('row_per_page');
         $column = Request::get('column');
         $data = DTCLModel::getAllPagination($keyword, $column, $current_page, $row_per_page);
+        foreach ($data['data'] as $value ){
+            $value->password=RSA::decryptRSA(AES::decryptAES($value->password));
+            $value->user_name=AES::decryptAES($value->user_name);
+            $value->cmnd=AES::decryptAES($value->cmnd);
+            $value->so_dien_thoai=AES::decryptAES($value->so_dien_thoai);
+        }
         $this->View->renderJSON($data);
     }
 

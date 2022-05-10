@@ -7,6 +7,8 @@ use App\Core\Controller;
 use App\Core\Request;
 use App\Model\NguoiDungModel;
 use App\Model\DTCLModel;
+use App\Core\AES;
+use App\Core\RSA;
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 class NguoiDungController extends Controller
@@ -31,10 +33,11 @@ class NguoiDungController extends Controller
         Auth::checkAuthentication();
         $ma_nguoi_dung = Request::post('ma_nguoi_dung');
         $data = NguoiDungModel::getOneByID($ma_nguoi_dung);
+        $data['password'] = RSA::decryptRSA(AES::decryptAES($data['password']));
+        $data['user_name'] = AES::decryptAES($data['user_name']);
+        $data['cmnd'] = AES::decryptAES($data['cmnd']);
+        $data['so_dien_thoai'] = AES::decryptAES($data['so_dien_thoai']);
         return $this->View->renderJSON($data);
-    }
-    public function  text()
-    {
     }
     public function add()
     {
@@ -42,9 +45,11 @@ class NguoiDungController extends Controller
         $lastname = Request::post('lastname');
         $firstname = Request::post('firstname');
         $cmnd = Request::post('cmnd');
+        $cmnd = AES::encryptAES($cmnd);
         $birthday = Request::post('birthday');
         $sex = Request::post('sex');
         $phone_number = Request::post('phone_number');
+        $phone_number = AES::encryptAES($phone_number);
         $province = Request::post('province');
         $district = Request::post('district');
         $ward = Request::post('ward');
@@ -52,6 +57,7 @@ class NguoiDungController extends Controller
         $home = Request::post('home');
         $email = Request::post('email');
         $password = Request::post('password');
+        $password = AES::encryptAES(RSA::encryptRSA($password));
         $address = $province . " - " . $district . " - " . $ward;
         if ($home != '') $address = $address . " - " . $home;
         if ($village != '') $address = $address . " - " . $village;
@@ -89,6 +95,12 @@ class NguoiDungController extends Controller
         $row_per_page = Request::get('row_per_page');
         $column = Request::get('column');
         $data = NguoiDungModel::getListAdvanted($current_page, $row_per_page, $keyword, $column);
+        foreach ($data['data'] as $value ){
+            $value->password=RSA::decryptRSA(AES::decryptAES($value->password));
+            $value->user_name=AES::decryptAES($value->user_name);
+            $value->cmnd=AES::decryptAES($value->cmnd);
+            $value->so_dien_thoai=AES::decryptAES($value->so_dien_thoai);
+        }
         $this->View->renderJSON($data);
     }
     public function update()
@@ -98,9 +110,11 @@ class NguoiDungController extends Controller
         $lastname = Request::post('lastname');
         $firstname = Request::post('firstname');
         $cmnd = Request::post('cmnd');
+        $cmnd = AES::encryptAES($cmnd);
         $birthday = Request::post('birthday');
         $sex = Request::post('sex');
         $phone_number = Request::post('phone_number');
+        $phone_number = AES::encryptAES($phone_number);
         $province = Request::post('province');
         $district = Request::post('district');
         $ward = Request::post('ward');
@@ -151,6 +165,12 @@ class NguoiDungController extends Controller
     {
         Auth::checkAuthentication();
         $data = NguoiDungModel::getAll();
+        foreach ($data as $value ){
+            $value['password']=RSA::decryptRSA(AES::decryptAES($value['password']));
+            $value['user_name']=AES::decryptAES($value['user_name']);
+            $value['cmnd']=AES::decryptAES($value['cmnd']);
+            $value['so_dien_thoai']=AES::decryptAES($value['so_dien_thoai']);
+        }
         foreach ($data as $value) {
             $data["ma_" . $value['ma_nguoi_dung']] = $value;
         }
@@ -165,4 +185,3 @@ class NguoiDungController extends Controller
         return $this->View->renderJSON($data);
     }
 }
-

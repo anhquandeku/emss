@@ -56,11 +56,8 @@ class NguoiDungModel
             return $data;
         }
 
-        // Mã hóa password bằng thuật toán bcrypt
-        $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-
         $sql_ = "INSERT INTO nguoi_dung (user_name, password, ma_vai_tro, ho_lot, ten, cmnd, ngay_sinh, phai, dia_chi, email, so_dien_thoai, trang_thai)
-                VALUES ('" . $username . "','" . $hashed_password . "'," . $vaitro . ", '" . $holot . "', '" . $ten . "', '" . $cmnd . "', '" . $ngaysinh . "','" . $phai . "', '" . $diachi . "', '" . $email . "', '" . $sdt . "', 1)";
+                VALUES ('" . $username . "','" . $password . "'," . $vaitro . ", '" . $holot . "', '" . $ten . "', '" . $cmnd . "', '" . $ngaysinh . "','" . $phai . "', '" . $diachi . "', '" . $email . "', '" . $sdt . "', 1)";
         $query = $database->prepare($sql_);
         //$query->execute([':user_name' => $username, ':hashed_password' => $hashed_password, ':role' => $vaitro, ':holot'=> $holot, ':ten'=> $ten, ':cmnd'=> $cmnd, ':ngay_sinh'=> $ngaysinh, ':phai'=> $phai, ':dia_chi'=>$diachi, ':email'=>$email, ':so_dien_thoai'=>$sdt]);
         $query->execute();
