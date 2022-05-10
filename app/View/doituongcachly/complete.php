@@ -155,7 +155,7 @@ use App\Core\View;
         $(document).ready(function() {
             //Lấy thời gian 
             $('#date').text(getDateTime());
-          
+
             $.ajax({
                 url: 'http://localhost/emss/auth/getUser',
             }).done(function(response) {
@@ -278,7 +278,17 @@ use App\Core\View;
                 var time = $('#time').text().match(/\d/g);
                 var number = time.join("");
                 var text = `${data_1[0][0].cmnd}|${data_2[0][0].cmnd}|${name}|${data_2[0][0].ngay_sinh}|${data_2[0][0].so_dien_thoai}|${number} `;
-                $('#qr').html(`<img src="https://huynhtanmao.com/barcode-master/barcode.php?f=jpg&s=qr&d=${text}"/>`);
+                //var text = `${data_1[0][0].cmnd}>${data_2[0][0].cmnd}>${name}>${data_2[0][0].ngay_sinh}>${data_2[0][0].so_dien_thoai}>${number} `;
+                $.ajax({
+                    url: 'http://localhost/emss/decode/encryptRSA',
+                    data: {
+                        text: text,
+                    },
+                    type: 'POST'
+                }).done(function(response) {
+                    $('#qr').html(`<img src="https://huynhtanmao.com/barcode-master/barcode.php?f=jpg&s=qr&d=${response}"/>`);
+                })
+                
             })
 
         }

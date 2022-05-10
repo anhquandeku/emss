@@ -8,7 +8,7 @@ class RSA
     protected static $q = '6864797660130609714981900799081393217269435300143305409394463459185543183397656052122559640661454554977296311391480858037121987999716643812574028291115057151'; //bcsub(bcpow('2', '521'),'1');
     protected static $b = '170141183460469231731687303715884105727';//bcsub(bcpow('2', '127'),'1'); 
     public static $base10='0123456789';
-    public static $baseText='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghiklmnopqrstuvwxyz0123456789 ';
+    public static $baseText='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghiklmnopqrstuvwxyz0123456789| ';
     
     public static function encryptRSA($text){
         $n=bcmul(self::$p, self::$q);
