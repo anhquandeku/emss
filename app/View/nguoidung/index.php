@@ -87,7 +87,7 @@ View::$activeItem = 'user';
                                         <i class="bi bi-trash-fill icon-mid"></i> Xóa người dùng
                                     </button>
                                     <button id='open-add-user-btn' class="btn btn-primary">
-                                        <i class="bi bi-person-plus-fill"></i> Thêm người dùng
+                                        <i class="bi bi-person-plus-fill icon-mid"></i> Thêm người dùng
                                     </button>
                                 </div>
                             </div>
@@ -906,7 +906,7 @@ View::$activeItem = 'user';
         var address = $.xResponse();
         address.forEach(function(element, index) {
             $(`#${text}tinh`).append(
-            `<option class="${text}tinh" value="${index}">${element['name']}</option>`);
+                `<option class="${text}tinh" value="${index}">${element['name']}</option>`);
         })
         $(`#${text}tinh`).change(function() {
             $(`#${text}huyen`).empty();
@@ -925,7 +925,7 @@ View::$activeItem = 'user';
                 wards.forEach(function(element, index) {
                     $(`#${text}xa`).append(
                         `<option  class="${text}xa" value="${index}">${element['name']}</option>`
-                        )
+                    )
                 })
             })
         });

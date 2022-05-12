@@ -90,7 +90,7 @@ class DoiTuongCachLyController extends Controller
         $column = Request::get('column');
         $data = DTCLModel::getAllPagination($keyword, $column, $current_page, $row_per_page);
         foreach ($data['data'] as $value ){
-            $value->password=RSA::decryptRSA(AES::decryptAES($value->password));
+            //$value->password=RSA::decryptRSA(AES::decryptAES($value->password));
             $value->user_name=AES::decryptAES($value->user_name);
             $value->cmnd=AES::decryptAES($value->cmnd);
             $value->so_dien_thoai=AES::decryptAES($value->so_dien_thoai);
@@ -182,6 +182,7 @@ class DoiTuongCachLyController extends Controller
         Auth::checkAuthentication();
         $ma_doi_tuong = Request::post('ma_doi_tuong');
         $file = DTCLModel::getCurrentFile($ma_doi_tuong);
+        $file[0]->cmnd=AES::decryptAES($file[0]->cmnd);
         $this->View->renderJSON($file);
     }
 }

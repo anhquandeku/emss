@@ -31,7 +31,7 @@ class BenhNhanController extends Controller
         $row_per_page = Request::get('row_per_page');
         $data = BenhNhanModel::getAllPagination($search, $search2, $current_page, $row_per_page);
         foreach ($data['data'] as $value ){
-            $value->password=RSA::decryptRSA(AES::decryptAES($value->password));
+            //$value->password=RSA::decryptRSA(AES::decryptAES($value->password));
             $value->user_name=AES::decryptAES($value->user_name);
             $value->cmnd=AES::decryptAES($value->cmnd);
             $value->so_dien_thoai=AES::decryptAES($value->so_dien_thoai);

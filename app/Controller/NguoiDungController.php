@@ -33,7 +33,7 @@ class NguoiDungController extends Controller
         Auth::checkAuthentication();
         $ma_nguoi_dung = Request::post('ma_nguoi_dung');
         $data = NguoiDungModel::getOneByID($ma_nguoi_dung);
-        $data[0]->password = RSA::decryptRSA(AES::decryptAES($data[0]->password));
+        //$data[0]->password = RSA::decryptRSA(AES::decryptAES($data[0]->password));
         $data[0]->user_name = AES::decryptAES($data[0]->user_name);
         $data[0]->cmnd = AES::decryptAES($data[0]->cmnd);
         $data[0]->so_dien_thoai = AES::decryptAES($data[0]->so_dien_thoai);
@@ -165,8 +165,6 @@ class NguoiDungController extends Controller
     {
         Auth::checkAuthentication();
         $data = NguoiDungModel::getAll();
-        //print AES::encryptAES(RSA::encryptRSA('12345678'));
-        //print AES::encryptAES('29292293372');
         foreach ($data as $value ){
             //$value['password']=RSA::decryptRSA(AES::decryptAES($value['password']));
             $value['user_name']=AES::decryptAES($value['user_name']);

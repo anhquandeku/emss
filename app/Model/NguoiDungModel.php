@@ -136,7 +136,7 @@ class NguoiDungModel
             $sql_ = 'SELECT COUNT(*) FROM nguoi_dung, vai_tro WHERE ten LIKE :keyword AND nguoi_dung.ma_vai_tro = vai_tro.ma_vai_tro AND  nguoi_dung.trang_thai = 1';
         } else if ($column == "vaitro") {
             $sql_ = 'SELECT COUNT(*) FROM nguoi_dung, vai_tro WHERE ten_vai_tro LIKE :keyword AND nguoi_dung.ma_vai_tro = vai_tro.ma_vai_tro AND  nguoi_dung.trang_thai = 1';
-        }
+        }   
         $countQuery = $database->prepare($sql_);
         $countQuery->bindValue(':keyword', $keyword, PDO::PARAM_STR);
         $countQuery->execute();
